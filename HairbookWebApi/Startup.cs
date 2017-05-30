@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HairbookWebApi.Controllers;
 using HairbookWebApi.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -45,12 +46,6 @@ namespace HairbookWebApi
             });
             // Add framework services.
             services.AddMvc();
-            
-            services.AddApiVersioning(o =>
-            {
-                //                o.AssumeDefaultVersionWhenUnspecified = true;
-                //                o.DefaultApiVersion = new ApiVersion(new DateTime(2016, 7, 1));
-            });
 
             // cors
             var corsBuilder = new CorsPolicyBuilder();
@@ -64,8 +59,14 @@ namespace HairbookWebApi
                 options.AddPolicy("AllowAll", corsBuilder.Build());
             });
 
-            services.AddSwaggerGen();
+            services.AddApiVersioning(o =>
+            {
+                //                o.AssumeDefaultVersionWhenUnspecified = true;
+                //                o.DefaultApiVersion = new ApiVersion(new DateTime(2016, 7, 1));
+            });
 
+            services.AddSwaggerGen();
+            
             services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
@@ -74,9 +75,7 @@ namespace HairbookWebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseCors("AllowAll");
-
+            
             DbInitializer.Initialize(context);
             
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -102,8 +101,15 @@ namespace HairbookWebApi
             };
             app.UseJwtBearerAuthentication(options);
 
+            app.UseCors("AllowAll");
+
             // It should be after JwtBearerAuth
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

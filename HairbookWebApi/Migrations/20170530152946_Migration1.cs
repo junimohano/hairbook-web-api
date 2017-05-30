@@ -16,12 +16,12 @@ namespace HairbookWebApi.Migrations
                     MemoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccessTypeId = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     SalonId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,14 +35,14 @@ namespace HairbookWebApi.Migrations
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccessTypeId = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     CustomerName = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     SalonId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,12 +55,12 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoEvaluationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     EvaluationTypeId = table.Column<int>(nullable: false),
                     MemoId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -81,12 +81,12 @@ namespace HairbookWebApi.Migrations
                 {
                     PostEvaluationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     EvaluationTypeId = table.Column<int>(nullable: false),
                     PostId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -107,12 +107,12 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoTagId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     MemoId = table.Column<int>(nullable: false),
                     TagName = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -133,13 +133,13 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoUploadId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     MemoId = table.Column<int>(nullable: false),
                     Path = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UploadTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -159,12 +159,12 @@ namespace HairbookWebApi.Migrations
                 {
                     PostTagId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     PostId = table.Column<int>(nullable: false),
                     TagName = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -185,13 +185,13 @@ namespace HairbookWebApi.Migrations
                 {
                     PostUploadId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Path = table.Column<string>(nullable: true),
                     PostId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UploadTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -211,11 +211,11 @@ namespace HairbookWebApi.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     SalonId = table.Column<int>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserKey = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -242,11 +242,11 @@ namespace HairbookWebApi.Migrations
                 {
                     AccessTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -271,11 +271,11 @@ namespace HairbookWebApi.Migrations
                 {
                     EvaluationTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -301,12 +301,12 @@ namespace HairbookWebApi.Migrations
                     SalonId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -332,11 +332,11 @@ namespace HairbookWebApi.Migrations
                 {
                     UploadTypeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -361,12 +361,12 @@ namespace HairbookWebApi.Migrations
                 {
                     UserFriendId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CreatedUserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CreatedUserId = table.Column<int>(nullable: true),
                     FriendId = table.Column<int>(nullable: false),
                     IsPending = table.Column<bool>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: false),
+                    UpdatedUserId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

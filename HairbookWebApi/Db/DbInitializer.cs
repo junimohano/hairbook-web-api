@@ -11,7 +11,7 @@ namespace HairbookWebApi.Db
     {
         public static void Initialize(HairbookContext context)
         {
-            context.Database.EnsureDeleted();
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             // Look for any students.
@@ -22,8 +22,12 @@ namespace HairbookWebApi.Db
 
             var boards = new User[]
             {
-                new User{UserKey= "11111111", CreatedDate= DateTime.Now},
-                new User{UserKey= "222222222", CreatedDate= DateTime.Now},
+                new User{UserKey= "11111111", CreatedDate= DateTime.Now, },
+                new User{UserKey= "222222222", CreatedDate= DateTime.Now, },
+                new User{UserKey= "333333333", CreatedDate= DateTime.Now, },
+                new User{UserKey= "4444444", CreatedDate= DateTime.Now, },
+                new User{UserKey= "5555555", CreatedDate= DateTime.Now, },
+                new User{UserKey= "666666", CreatedDate= DateTime.Now, }
             };
             foreach (var b in boards)
             {

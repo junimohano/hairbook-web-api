@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HairbookWebApi.Controllers
 {
-    //[Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ValuesController : Controller

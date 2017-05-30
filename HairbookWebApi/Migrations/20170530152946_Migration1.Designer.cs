@@ -8,7 +8,7 @@ using HairbookWebApi.Db;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    [Migration("20170530010903_Migration1")]
+    [Migration("20170530152946_Migration1")]
     partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,15 +22,15 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("AccessTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Name");
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.HasKey("AccessTypeId");
 
@@ -46,15 +46,15 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("EvaluationTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Type");
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.HasKey("EvaluationTypeId");
 
@@ -72,9 +72,9 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int>("AccessTypeId");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("SalonId");
 
@@ -82,7 +82,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.HasKey("MemoId");
 
@@ -102,9 +102,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("MemoEvaluationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("EvaluationTypeId");
 
@@ -112,7 +112,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UserId");
 
@@ -136,9 +136,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("MemoTagId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("MemoId");
 
@@ -146,7 +146,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UserId");
 
@@ -168,9 +168,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("MemoUploadId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Description");
 
@@ -180,7 +180,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UploadTypeId");
 
@@ -204,9 +204,9 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int>("AccessTypeId");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("CustomerName");
 
@@ -218,7 +218,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.HasKey("PostId");
 
@@ -238,9 +238,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("PostEvaluationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("EvaluationTypeId");
 
@@ -248,7 +248,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UserId");
 
@@ -272,9 +272,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("PostTagId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("PostId");
 
@@ -282,7 +282,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UserId");
 
@@ -304,9 +304,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("PostUploadId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Description");
 
@@ -316,7 +316,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UploadTypeId");
 
@@ -340,9 +340,9 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Name");
 
@@ -350,7 +350,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<string>("Url");
 
@@ -368,15 +368,15 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("UploadTypeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<string>("Name");
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.HasKey("UploadTypeId");
 
@@ -392,15 +392,15 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int?>("SalonId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<string>("UserKey")
                         .IsRequired();
@@ -423,9 +423,9 @@ namespace HairbookWebApi.Migrations
                     b.Property<int>("UserFriendId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedDate");
+                    b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int>("CreatedUserId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("FriendId");
 
@@ -433,7 +433,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("UpdatedDate");
 
-                    b.Property<int>("UpdatedUserId");
+                    b.Property<int?>("UpdatedUserId");
 
                     b.Property<int>("UserId");
 

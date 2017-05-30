@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairbookWebApi", "HairbookWebApi\HairbookWebApi.csproj", "{87579940-DC4B-4FE0-9239-6C92AB5C511A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairbookWebApi.Test", "HairbookWebApi.Test\HairbookWebApi.Test.csproj", "{5959C53C-69DB-4A9D-AC34-794151269686}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{87579940-DC4B-4FE0-9239-6C92AB5C511A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87579940-DC4B-4FE0-9239-6C92AB5C511A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87579940-DC4B-4FE0-9239-6C92AB5C511A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5959C53C-69DB-4A9D-AC34-794151269686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5959C53C-69DB-4A9D-AC34-794151269686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5959C53C-69DB-4A9D-AC34-794151269686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5959C53C-69DB-4A9D-AC34-794151269686}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
