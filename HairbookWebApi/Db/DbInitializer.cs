@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using HairbookWebApi.Models;
 
@@ -10,23 +11,23 @@ namespace HairbookWebApi.Db
     {
         public static void Initialize(HairbookContext context)
         {
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Boards.Any())
+            if (context.Users.Any())
             {
                 return;   // DB has been seeded
             }
 
             var boards = new User[]
             {
-                new User{FirstName= "11111111",LastName= "test1",CreatedDate= DateTime.Now},
-                new User{FirstName= "222222222",LastName= "test2",CreatedDate= DateTime.Now},
+                new User{UserKey= "11111111", CreatedDate= DateTime.Now},
+                new User{UserKey= "222222222", CreatedDate= DateTime.Now},
             };
-            foreach (User b in boards)
+            foreach (var b in boards)
             {
-                context.Boards.Add(b);
+                context.Users.Add(b);
             }
             context.SaveChanges();
 

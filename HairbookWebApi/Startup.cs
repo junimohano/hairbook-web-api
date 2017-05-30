@@ -45,7 +45,7 @@ namespace HairbookWebApi
             });
             // Add framework services.
             services.AddMvc();
-
+            
             services.AddApiVersioning(o =>
             {
                 //                o.AssumeDefaultVersionWhenUnspecified = true;
@@ -78,7 +78,7 @@ namespace HairbookWebApi
             app.UseCors("AllowAll");
 
             DbInitializer.Initialize(context);
-
+            
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
             // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
