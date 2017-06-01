@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HairbookWebApi.Database;
+using HairbookWebApi.Models;
 
 namespace HairbookWebApi.Repositories
 {
@@ -10,7 +11,7 @@ namespace HairbookWebApi.Repositories
     {
         private readonly HairbookContext _context;
         public IUserRepository Users { get; private set; }
-
+        
         public UnitOfWork(HairbookContext context)
         {
             _context = context;

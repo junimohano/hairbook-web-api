@@ -1,4 +1,5 @@
 ﻿using System;
+using HairbookWebApi.Models;
 
 namespace HairbookWebApi.Dtos
 {
@@ -6,6 +7,8 @@ namespace HairbookWebApi.Dtos
     {
         public int? CreatedUserId { get; set; }
         public int? UpdatedUserId { get; set; }
+        public UserDto CreatedUser { get; set; }
+        public UserDto UpdatedUser { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }

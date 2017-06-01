@@ -7,82 +7,53 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HairbookWebApi.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly DbContext _context;
+        private readonly DbSet<T> _entity;
 
         public Repository(DbContext context)
         {
             _context = context;
+            _entity = context.Set<T>();
         }
 
-        public async Task<IEnumerable<TEntity>> GetRangeAsync(int index = 0, int count = 10, Expression<Func<TEntity, bool>> predicate = null, Expression<Func<TEntity, object>> orderBy = null)
-        {
+        public async Task<T> GetAsync(int id) 
+            => await _entity.FindAsync(id);
 
-            var result = _context.Set<TEntity>()
-                            .Skip(index)
-                            .Take(count);
+        public async Task<IEnumerable<T>> GetAllAsync(bool isReadonly = true)
+            => isReadonly ? await _entity.AsNoTracking().ToListAsync() : await _entity.ToListAsync();
 
-            if (predicate != null)
-                result = result.Where(predicate);
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true)
+            => isReadonly ? await _entity.AsNoTracking().Where(predicate).ToListAsync() : await _entity.Where(predicate).ToListAsync();
 
-            if (orderBy != null)
-                result = result.OrderBy(orderBy);
+        public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true)
+            => isReadonly ? await _entity.AsNoTracking().SingleOrDefaultAsync(predicate) : await _entity.SingleOrDefaultAsync(predicate);
 
-            return await result.ToListAsync();
-        }
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+            => await _entity.AsNoTracking().AnyAsync(predicate);
 
-        public async Task<TEntity> GetAsync(int id)
-        {
-            // Here we are working with a DbContext, not PlutoContext. So we don't have DbSets 
-            // such as Courses or Authors, and we need to use the generic Set() method to access them.
-            return await _context.Set<TEntity>().FindAsync(id);
-        }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            // Note that here I've repeated Context.Set<TEntity>() in every method and this is causing
-            // too much noise. I could get a reference to the DbSet returned from this method in the 
-            // constructor and store it in a private field like _entities. This way, the implementation
-            // of our methods would be cleaner:
-            // 
-            // _entities.ToList();
-            // _entities.Where();
-            // _entities.SingleOrDefault();
-            // 
-            // I didn't change it because I wanted the code to look like the videos. But feel free to change
-            // this on your own.
-            return await _context.Set<TEntity>().ToListAsync();
-        }
+        public async void Add(T entity) 
+            => await _entity.AddAsync(entity);
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
-        {
-            return _context.Set<TEntity>().Where(predicate);
-        }
+        public async void AddRange(IEnumerable<T> entities)
+            => await _entity.AddRangeAsync(entities);
 
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await _context.Set<TEntity>().SingleOrDefaultAsync(predicate);
-        }
 
-        public async void Add(TEntity entity)
-        {
-            await _context.Set<TEntity>().AddAsync(entity);
-        }
+        public void Update(T entity)
+            => _context.Entry(entity).State = EntityState.Modified;
 
-        public async void AddRange(IEnumerable<TEntity> entities)
-        {
-            await _context.Set<TEntity>().AddRangeAsync(entities);
-        }
+        public void UpdateRange(IEnumerable<T> entities)
+            => _context.Entry(entities).State = EntityState.Modified;
+        //=> _entity.UpdateRange(entities);
 
-        public void Remove(TEntity entity)
-        {
-            _context.Set<TEntity>().Remove(entity);
-        }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            _context.Set<TEntity>().RemoveRange(entities);
-        }
+        public void Delete(T entity) 
+            => _entity.Remove(entity);
+
+        public void DeleteRange(IEnumerable<T> entities) 
+            => _entity.RemoveRange(entities);
+
     }
 }
