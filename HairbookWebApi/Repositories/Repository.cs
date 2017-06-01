@@ -18,13 +18,13 @@ namespace HairbookWebApi.Repositories
             _entity = context.Set<T>();
         }
 
-        public async Task<T> GetAsync(int id) 
+        public async Task<T> FindAsync(int id) 
             => await _entity.FindAsync(id);
 
         public async Task<IEnumerable<T>> GetAllAsync(bool isReadonly = true)
             => isReadonly ? await _entity.AsNoTracking().ToListAsync() : await _entity.ToListAsync();
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true)
+        public async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true)
             => isReadonly ? await _entity.AsNoTracking().Where(predicate).ToListAsync() : await _entity.Where(predicate).ToListAsync();
 
         public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true)
@@ -46,7 +46,6 @@ namespace HairbookWebApi.Repositories
 
         public void UpdateRange(IEnumerable<T> entities)
             => _context.Entry(entities).State = EntityState.Modified;
-        //=> _entity.UpdateRange(entities);
 
 
         public void Delete(T entity) 

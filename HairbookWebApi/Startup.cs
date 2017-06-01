@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HairbookWebApi.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.Swagger.Model;
 
 namespace HairbookWebApi
 {
@@ -67,7 +69,7 @@ namespace HairbookWebApi
             services.AddSwaggerGen();
 
             services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-  
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
