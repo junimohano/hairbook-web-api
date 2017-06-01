@@ -1,12 +1,14 @@
-using System;
+using HairbookWebApi.Database;
+using HairbookWebApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HairbookWebApi.Db;
-using HairbookWebApi.Models;
+using AutoMapper;
+using AutoMapper.XpressionMapper.Extensions;
+using HairbookWebApi.Dtos;
+using HairbookWebApi.Repositories;
 
 namespace HairbookWebApi.Controllers
 {
@@ -16,72 +18,61 @@ namespace HairbookWebApi.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : Controller
     {
-        private readonly HairbookContext _context;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public UsersController(HairbookContext context)
+        public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<IEnumerable<User>> GetUsers([FromQuery] int skip = 0, int top = 10)
+        public async Task<IEnumerable<UserDto>> GetUsers([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
-            return await _context.Users
-                    .Skip(skip)
-                    .Take(top)
-                    .ToListAsync();
+            var result = await _unitOfWork.Users.GetRangeAsync(index, count);
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(result);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute] int id, [FromBody] string userKey)
+        public async Task<IActionResult> GetUser([FromRoute] int id, [FromQuery] string userKey)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.UserId == id);
+            var user = await _unitOfWork.Users.SingleOrDefaultAsync(x => id == 0 ? x.UserKey == userKey : x.UserId == id);
 
             if (user == null)
-            {
                 return NotFound();
-            }
 
-            return Ok(user);
+            return Ok(_mapper.Map<User, UserDto>(user));
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
+        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] UserDto user)
         {
+            var data = _mapper.Map<UserDto, User>(user);
+
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            if (id != user.UserId)
-            {
+            if (id != data.UserId)
                 return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Complete();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
-                {
+                if (_unitOfWork.Users.GetAsync(id) == null)
                     return NotFound();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
@@ -89,17 +80,17 @@ namespace HairbookWebApi.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public async Task<IActionResult> PostUser([FromBody] UserDto user)
         {
+            var data = _mapper.Map<UserDto, User>(user);
+
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Users.Add(data);
+            await _unitOfWork.Complete();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetUser", new { id = data.UserId }, _mapper.Map<User, UserDto>(data));
         }
 
         // DELETE: api/Users/5
@@ -107,49 +98,17 @@ namespace HairbookWebApi.Controllers
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.UserId == id);
+            var user = await _unitOfWork.Users.GetAsync(id);
             if (user == null)
-            {
                 return NotFound();
-            }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            _unitOfWork.Users.Remove(user);
+            await _unitOfWork.Complete();
 
-            return Ok(user);
+            return Ok(_mapper.Map<User, UserDto>(user));
         }
 
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
     }
-
-    //public interface IPaginationInfo
-    //{
-    //    int PageNumber { get; }
-    //    int PageSize { get; }
-    //}
-
-    //public abstract class QueryArgsBase : IPaginationInfo
-    //{
-    //    public int PageNumber { get; set; } = 1;
-    //    public int PageSize { get; set; } = 20;
-    //}
-
-    //public static class QueryableExtensions
-    //{
-    //    public static IQueryable<T> Paginate<T>(
-    //        this IQueryable<T> source,
-    //        IPaginationInfo pagination)
-    //    {
-    //        return source
-    //            .Skip((pagination.PageNumber - 1) * pagination.PageSize)
-    //            .Take(pagination.PageSize);
-    //    }
-    //}
 }

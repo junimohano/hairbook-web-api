@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HairbookWebApi.Models;
+using System;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
-using HairbookWebApi.Models;
 
-namespace HairbookWebApi.Db
+namespace HairbookWebApi.Database
 {
     public class DbInitializer
     {

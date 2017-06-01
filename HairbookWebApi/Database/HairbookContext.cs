@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HairbookWebApi.Models;
+﻿using HairbookWebApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Swashbuckle.Swagger.Model;
+using System;
 
-namespace HairbookWebApi.Db
+namespace HairbookWebApi.Database
 {
     public class HairbookContext : DbContext
     {
         public HairbookContext(DbContextOptions<HairbookContext> options) : base(options) { }
-
-        public DbSet<AccessType> AccessTypes { get; set; }
+        
         public DbSet<PostEvaluation> PostEvaluations { get; set; }
         public DbSet<MemoEvaluation> MemoEvaluations { get; set; }
-        public DbSet<EvaluationType> EvaluationTypes { get; set; }
         public DbSet<Memo> Memos { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Salon> Salons { get; set; }
@@ -24,7 +18,6 @@ namespace HairbookWebApi.Db
         public DbSet<MemoTag> MemoTags { get; set; }
         public DbSet<PostUpload> PostUploads { get; set; }
         public DbSet<MemoUpload> MemoUploads { get; set; }
-        public DbSet<UploadType> UploadTypes { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
 
@@ -41,17 +34,11 @@ namespace HairbookWebApi.Db
             modelBuilder.Entity<MemoTag>().HasAlternateKey(x => new { x.UserId, x.MemoId });
 
             // one to many
-            modelBuilder.Entity<AccessType>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<AccessType>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<EvaluationType>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<EvaluationType>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Memo>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Memo>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -73,9 +60,6 @@ namespace HairbookWebApi.Db
 
             modelBuilder.Entity<MemoUpload>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<MemoUpload>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<UploadType>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<UploadType>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -100,8 +84,6 @@ namespace HairbookWebApi.Db
             modelBuilder.Entity<MemoTag>().HasOne(x => x.Memo).WithMany(y => y.Tags).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
 
             // default value
-            modelBuilder.Entity<AccessType>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            modelBuilder.Entity<EvaluationType>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<MemoEvaluation>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<MemoTag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
@@ -111,7 +93,6 @@ namespace HairbookWebApi.Db
             modelBuilder.Entity<PostTag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<PostUpload>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Salon>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            modelBuilder.Entity<UploadType>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<User>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<UserFriend>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
         }

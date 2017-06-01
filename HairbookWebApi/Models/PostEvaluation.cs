@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HairbookWebApi.Models
 {
@@ -14,8 +10,7 @@ namespace HairbookWebApi.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostEvaluationId { get; set; }
-
-        public int EvaluationTypeId { get; set; }
+        
         public EvaluationType EvaluationType { get; set; }
 
         public int UserId { get; set; }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HairbookWebApi.Models
 {
@@ -18,8 +15,7 @@ namespace HairbookWebApi.Models
 
         public int SalonId { get; set; }
         public Salon Salon { get; set; }
-
-        public int AccessTypeId { get; set; }
+        
         public AccessType AccessType { get; set; }
         
         public IEnumerable<MemoEvaluation> Evaluations { get; set; }
