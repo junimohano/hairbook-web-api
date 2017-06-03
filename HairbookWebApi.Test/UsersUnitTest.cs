@@ -38,7 +38,7 @@ namespace HairbookWebApi.Test
         [InlineData(UserKey1)]
         [InlineData(UserKey2)]
         [InlineData(UserKey3)]
-        public async Task AddUser(string userKey)
+        public async Task Add(string userKey)
         {
             var data = new UserDto()
             {
@@ -47,8 +47,8 @@ namespace HairbookWebApi.Test
 
             var response = await _client.PostAsync(Address, new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json"));
             response.StatusCode.Should().Be(HttpStatusCode.Created);
-
             var result = JsonConvert.DeserializeObject<UserDto>(await response.Content.ReadAsStringAsync());
+
             Assert.Equal(userKey, result.UserKey);
         }
 
@@ -56,7 +56,7 @@ namespace HairbookWebApi.Test
         [InlineData(UserKey1)]
         [InlineData(UserKey2)]
         [InlineData(UserKey3)]
-        public async Task UpdateUser(string userKey)
+        public async Task Update(string userKey)
         {
             var response = await _client.GetAsync($"{Address}/0?userKey={userKey}");
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -77,7 +77,7 @@ namespace HairbookWebApi.Test
         [InlineData(UserKey1)]
         [InlineData(UserKey2)]
         [InlineData(UserKey3)]
-        public async Task DeleteUser(string userKey)
+        public async Task Delete(string userKey)
         {
             var response = await _client.GetAsync($"{Address}/0?userKey={userKey}");
             response.StatusCode.Should().Be(HttpStatusCode.OK);
