@@ -7,6 +7,12 @@ namespace HairbookWebApi.Models
     [Table(nameof(Memo))]
     public class Memo : Base
     {
+        public Memo()
+        {
+            Evaluations = new List<MemoEvaluation>();
+            Tags = new List<MemoTag>();
+            Uploads = new List<MemoUpload>();
+        }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MemoId { get; set; }

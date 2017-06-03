@@ -10,12 +10,16 @@ namespace HairbookWebApi.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly HairbookContext _context;
-        public IUserRepository Users { get; private set; }
+        public IUsersRepository Users { get; private set; }
+        public ISalonsRepository Salons { get; private set; }
+        public IPostsRepository Posts { get; private set; }
         
         public UnitOfWork(HairbookContext context)
         {
             _context = context;
-            Users = new UserRepository(_context);
+            Users = new UsersRepository(_context);
+            Salons = new SalonsRepository(_context);
+            Posts = new PostsRepository(_context);
         }
         
         public async Task<int> Complete()

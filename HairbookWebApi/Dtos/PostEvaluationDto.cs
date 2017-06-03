@@ -7,10 +7,7 @@ namespace HairbookWebApi.Dtos
         public int PostEvaluationId { get; set; }
         
         public EvaluationType EvaluationType { get; set; }
-
-        public int UserId { get; set; }
-        public UserDto User { get; set; }
-
+        
         public int PostId { get; set; }
         public PostDto Post { get; set; }
     }

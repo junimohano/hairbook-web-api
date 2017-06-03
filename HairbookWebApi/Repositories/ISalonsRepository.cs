@@ -7,7 +7,7 @@ using HairbookWebApi.Models;
 
 namespace HairbookWebApi.Repositories
 {
-    public interface ISalonRepository : IRepository<Salon>
+    public interface ISalonsRepository : IRepository<Salon>
     {
         Task<IEnumerable<Salon>> GetSalonsAsync(int index, int count, Expression<Func<Salon, bool>> predicate = null, Expression<Func<Salon, object>> orderBy = null, bool isReadonly = true);
     }

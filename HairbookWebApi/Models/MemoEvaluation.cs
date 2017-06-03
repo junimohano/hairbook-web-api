@@ -13,9 +13,6 @@ namespace HairbookWebApi.Models
         
         public EvaluationType EvaluationType { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-
         public int MemoId { get; set; }
         public Memo Memo { get; set; }
     }

@@ -15,10 +15,5 @@ namespace HairbookWebApi.Models
 
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
-
-        public IEnumerable<PostEvaluation> PostEvaluations { get; set; }
-        public IEnumerable<MemoEvaluation> MemoEvaluations { get; set; }
-        public IEnumerable<PostTag> PostTags { get; set; }
-        public IEnumerable<MemoTag> MemoTags { get; set; }
     }
 }

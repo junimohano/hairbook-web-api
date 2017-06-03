@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HairbookWebApi.Database;
 using HairbookWebApi.Mappers;
+using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -10,9 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HairbookWebApi.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.Swagger.Model;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HairbookWebApi
 {
@@ -68,7 +67,14 @@ namespace HairbookWebApi
 
             services.AddSwaggerGen();
 
+
+            //services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
             services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //#if DEBUG
+            //#else
+            //#endif
+
+
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }

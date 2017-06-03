@@ -8,8 +8,9 @@ namespace HairbookWebApi.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository Users { get; }
-        ISalonRepository Salons { get; }
+        IUsersRepository Users { get; }
+        ISalonsRepository Salons { get; }
+        IPostsRepository Posts { get; }
         Task<int> Complete();
     }
 }

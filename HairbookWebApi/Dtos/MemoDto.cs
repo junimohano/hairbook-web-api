@@ -5,6 +5,13 @@ namespace HairbookWebApi.Dtos
 {
     public class MemoDto : BaseDto
     {
+        public MemoDto()
+        {
+            Evaluations = new List<MemoEvaluationDto>();
+            Tags = new List<MemoTagDto>();
+            Uploads = new List<MemoUploadDto>();
+        }
+
         public int MemoId { get; set; }
 
         public string Title { get; set; }

@@ -26,7 +26,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 965, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 916, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -56,7 +56,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -68,11 +68,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("MemoEvaluationId");
-
-                    b.HasAlternateKey("UserId", "MemoId");
 
                     b.HasIndex("CreatedUserId");
 
@@ -90,27 +86,23 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("MemoId");
 
-                    b.Property<string>("TagName");
+                    b.Property<int>("TagId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("MemoTagId");
 
-                    b.HasAlternateKey("UserId", "MemoId");
+                    b.HasAlternateKey("MemoId", "TagId");
 
                     b.HasIndex("CreatedUserId");
-
-                    b.HasIndex("MemoId");
 
                     b.HasIndex("UpdatedUserId");
 
@@ -124,7 +116,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -160,7 +152,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -194,7 +186,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -206,11 +198,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("PostEvaluationId");
-
-                    b.HasAlternateKey("UserId", "PostId");
 
                     b.HasIndex("CreatedUserId");
 
@@ -228,27 +216,25 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("PostId");
 
-                    b.Property<string>("TagName");
+                    b.Property<int>("TagId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("PostTagId");
 
-                    b.HasAlternateKey("UserId", "PostId");
+                    b.HasAlternateKey("PostId", "TagId");
 
                     b.HasIndex("CreatedUserId");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("TagId");
 
                     b.HasIndex("UpdatedUserId");
 
@@ -262,7 +248,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -298,7 +284,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -321,6 +307,32 @@ namespace HairbookWebApi.Migrations
                     b.ToTable("Salon");
                 });
 
+            modelBuilder.Entity("HairbookWebApi.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
+
+                    b.Property<int?>("CreatedUserId");
+
+                    b.Property<string>("TagName");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.Property<int?>("UpdatedUserId");
+
+                    b.HasKey("TagId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("Tag");
+                });
+
             modelBuilder.Entity("HairbookWebApi.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -328,7 +340,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -361,7 +373,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local));
+                        .HasDefaultValue(new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local));
 
                     b.Property<int?>("CreatedUserId");
 
@@ -418,11 +430,6 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
-
-                    b.HasOne("HairbookWebApi.Models.User", "User")
-                        .WithMany("MemoEvaluations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.MemoTag", b =>
@@ -436,14 +443,14 @@ namespace HairbookWebApi.Migrations
                         .HasForeignKey("MemoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HairbookWebApi.Models.Tag", "Tag")
+                        .WithMany("MemoTags")
+                        .HasForeignKey("MemoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
-
-                    b.HasOne("HairbookWebApi.Models.User", "User")
-                        .WithMany("MemoTags")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.MemoUpload", b =>
@@ -492,11 +499,6 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
-
-                    b.HasOne("HairbookWebApi.Models.User", "User")
-                        .WithMany("PostEvaluations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostTag", b =>
@@ -510,14 +512,14 @@ namespace HairbookWebApi.Migrations
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HairbookWebApi.Models.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
-
-                    b.HasOne("HairbookWebApi.Models.User", "User")
-                        .WithMany("PostTags")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostUpload", b =>
@@ -537,6 +539,17 @@ namespace HairbookWebApi.Migrations
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.Salon", b =>
+                {
+                    b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+                });
+
+            modelBuilder.Entity("HairbookWebApi.Models.Tag", b =>
                 {
                     b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
                         .WithMany()

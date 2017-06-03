@@ -9,16 +9,14 @@ namespace HairbookWebApi.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;
         private readonly DbSet<T> _entity;
 
         public Repository(DbContext context)
         {
-            _context = context;
             _entity = context.Set<T>();
         }
 
-        public async Task<T> FindAsync(int id) 
+        public async Task<T> FindAsync(int id)
             => await _entity.FindAsync(id);
 
         public async Task<IEnumerable<T>> GetAllAsync(bool isReadonly = true)
@@ -34,7 +32,7 @@ namespace HairbookWebApi.Repositories
             => await _entity.AsNoTracking().AnyAsync(predicate);
 
 
-        public async void Add(T entity) 
+        public async void Add(T entity)
             => await _entity.AddAsync(entity);
 
         public async void AddRange(IEnumerable<T> entities)
@@ -42,16 +40,16 @@ namespace HairbookWebApi.Repositories
 
 
         public void Update(T entity)
-            => _context.Entry(entity).State = EntityState.Modified;
-
+            => _entity.Update(entity);
+        
         public void UpdateRange(IEnumerable<T> entities)
-            => _context.Entry(entities).State = EntityState.Modified;
+            => _entity.UpdateRange(entities);
 
 
-        public void Delete(T entity) 
+        public void Delete(T entity)
             => _entity.Remove(entity);
 
-        public void DeleteRange(IEnumerable<T> entities) 
+        public void DeleteRange(IEnumerable<T> entities)
             => _entity.RemoveRange(entities);
 
     }

@@ -8,6 +8,13 @@ namespace HairbookWebApi.Models
     [Table(nameof(Post))]
     public class Post : Base
     {
+        public Post()
+        {
+            Evaluations = new List<PostEvaluation>();
+            Tags = new List<PostTag>();
+            Uploads = new List<PostUpload>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }

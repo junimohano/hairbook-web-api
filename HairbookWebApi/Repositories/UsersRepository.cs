@@ -9,22 +9,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HairbookWebApi.Repositories
 {
-    public class SalonRepository : Repository<Salon>, ISalonRepository
+    public class UsersRepository : Repository<User>, IUsersRepository
     {
         private readonly HairbookContext _context;
 
-        public SalonRepository(HairbookContext context) : base(context)
+        public UsersRepository(HairbookContext context) : base(context)
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<Salon>> GetSalonsAsync(int index, int count, Expression<Func<Salon, bool>> predicate = null, Expression<Func<Salon, object>> orderBy = null, bool isReadonly = true)
+        
+        public async Task<IEnumerable<User>> GetUsersAsync(int index, int count, Expression<Func<User, bool>> predicate = null, Expression<Func<User, object>> orderBy = null, bool isReadonly = true)
         {
-            IQueryable<Salon> result = _context.Salons;
+            IQueryable<User> result = _context.Users
+                                .Include(x => x.Salon)
+                                .Include(x=>x.CreatedUser)
+                                .Include(x => x.UpdatedUser);
 
             if (count != 0)
-                result = result.Skip(index)
-                             .Take(count);
+               result = result.Skip(index)
+                            .Take(count);
 
             if (isReadonly)
                 result = result.AsNoTracking();
@@ -37,5 +40,6 @@ namespace HairbookWebApi.Repositories
 
             return await result.ToListAsync();
         }
+        
     }
 }

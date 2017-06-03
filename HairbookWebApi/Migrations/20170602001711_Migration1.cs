@@ -15,18 +15,16 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoEvaluationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     EvaluationType = table.Column<int>(nullable: false),
                     MemoId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MemoEvaluation", x => x.MemoEvaluationId);
-                    table.UniqueConstraint("AK_MemoEvaluation_UserId_MemoId", x => new { x.UserId, x.MemoId });
                 });
 
             migrationBuilder.CreateTable(
@@ -35,18 +33,17 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoTagId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     MemoId = table.Column<int>(nullable: false),
-                    TagName = table.Column<string>(nullable: true),
+                    TagId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MemoTag", x => x.MemoTagId);
-                    table.UniqueConstraint("AK_MemoTag_UserId_MemoId", x => new { x.UserId, x.MemoId });
+                    table.UniqueConstraint("AK_MemoTag_MemoId_TagId", x => new { x.MemoId, x.TagId });
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +52,7 @@ namespace HairbookWebApi.Migrations
                 {
                     MemoUploadId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     MemoId = table.Column<int>(nullable: false),
@@ -75,18 +72,16 @@ namespace HairbookWebApi.Migrations
                 {
                     PostEvaluationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     EvaluationType = table.Column<int>(nullable: false),
                     PostId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostEvaluation", x => x.PostEvaluationId);
-                    table.UniqueConstraint("AK_PostEvaluation_UserId_PostId", x => new { x.UserId, x.PostId });
                 });
 
             migrationBuilder.CreateTable(
@@ -95,18 +90,17 @@ namespace HairbookWebApi.Migrations
                 {
                     PostTagId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     PostId = table.Column<int>(nullable: false),
-                    TagName = table.Column<string>(nullable: true),
+                    TagId = table.Column<int>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
-                    UpdatedUserId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UpdatedUserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostTag", x => x.PostTagId);
-                    table.UniqueConstraint("AK_PostTag_UserId_PostId", x => new { x.UserId, x.PostId });
+                    table.UniqueConstraint("AK_PostTag_PostId_TagId", x => new { x.PostId, x.TagId });
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +109,7 @@ namespace HairbookWebApi.Migrations
                 {
                     PostUploadId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Path = table.Column<string>(nullable: true),
@@ -136,7 +130,7 @@ namespace HairbookWebApi.Migrations
                     MemoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccessType = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 965, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 916, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     SalonId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
@@ -155,7 +149,7 @@ namespace HairbookWebApi.Migrations
                     PostId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccessType = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 974, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 924, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     CustomerName = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
@@ -175,7 +169,7 @@ namespace HairbookWebApi.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     SalonId = table.Column<int>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
@@ -207,7 +201,7 @@ namespace HairbookWebApi.Migrations
                     SalonId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
@@ -233,12 +227,41 @@ namespace HairbookWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    TagId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
+                    CreatedUserId = table.Column<int>(nullable: true),
+                    TagName = table.Column<string>(nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: true),
+                    UpdatedUserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.TagId);
+                    table.ForeignKey(
+                        name: "FK_Tag_User_CreatedUserId",
+                        column: x => x.CreatedUserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tag_User_UpdatedUserId",
+                        column: x => x.UpdatedUserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserFriend",
                 columns: table => new
                 {
                     UserFriendId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 5, 31, 23, 1, 46, 975, DateTimeKind.Local)),
+                    CreatedDate = table.Column<DateTime>(nullable: true, defaultValue: new DateTime(2017, 6, 1, 20, 17, 10, 925, DateTimeKind.Local)),
                     CreatedUserId = table.Column<int>(nullable: true),
                     FriendId = table.Column<int>(nullable: false),
                     IsPending = table.Column<bool>(nullable: false),
@@ -312,11 +335,6 @@ namespace HairbookWebApi.Migrations
                 column: "CreatedUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MemoTag_MemoId",
-                table: "MemoTag",
-                column: "MemoId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MemoTag_UpdatedUserId",
                 table: "MemoTag",
                 column: "UpdatedUserId");
@@ -372,9 +390,9 @@ namespace HairbookWebApi.Migrations
                 column: "CreatedUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostTag_PostId",
+                name: "IX_PostTag_TagId",
                 table: "PostTag",
-                column: "PostId");
+                column: "TagId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostTag_UpdatedUserId",
@@ -404,6 +422,16 @@ namespace HairbookWebApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Salon_UpdatedUserId",
                 table: "Salon",
+                column: "UpdatedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tag_CreatedUserId",
+                table: "Tag",
+                column: "CreatedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tag_UpdatedUserId",
+                table: "Tag",
                 column: "UpdatedUserId");
 
             migrationBuilder.CreateIndex(
@@ -453,14 +481,6 @@ namespace HairbookWebApi.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MemoEvaluation_User_UserId",
-                table: "MemoEvaluation",
-                column: "UserId",
-                principalTable: "User",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_MemoEvaluation_Memo_MemoId",
                 table: "MemoEvaluation",
                 column: "MemoId",
@@ -485,19 +505,19 @@ namespace HairbookWebApi.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MemoTag_User_UserId",
-                table: "MemoTag",
-                column: "UserId",
-                principalTable: "User",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_MemoTag_Memo_MemoId",
                 table: "MemoTag",
                 column: "MemoId",
                 principalTable: "Memo",
                 principalColumn: "MemoId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_MemoTag_Tag_MemoId",
+                table: "MemoTag",
+                column: "MemoId",
+                principalTable: "Tag",
+                principalColumn: "TagId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -541,14 +561,6 @@ namespace HairbookWebApi.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_PostEvaluation_User_UserId",
-                table: "PostEvaluation",
-                column: "UserId",
-                principalTable: "User",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_PostEvaluation_Post_PostId",
                 table: "PostEvaluation",
                 column: "PostId",
@@ -573,11 +585,11 @@ namespace HairbookWebApi.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_PostTag_User_UserId",
+                name: "FK_PostTag_Tag_TagId",
                 table: "PostTag",
-                column: "UserId",
-                principalTable: "User",
-                principalColumn: "UserId",
+                column: "TagId",
+                principalTable: "Tag",
+                principalColumn: "TagId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -702,6 +714,9 @@ namespace HairbookWebApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Memo");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "Post");

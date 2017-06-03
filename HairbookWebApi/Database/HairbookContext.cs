@@ -14,6 +14,7 @@ namespace HairbookWebApi.Database
         public DbSet<Memo> Memos { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Salon> Salons { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<MemoTag> MemoTags { get; set; }
         public DbSet<PostUpload> PostUploads { get; set; }
@@ -28,10 +29,8 @@ namespace HairbookWebApi.Database
             //unique
             modelBuilder.Entity<User>().HasAlternateKey(c => c.UserKey);
             modelBuilder.Entity<UserFriend>().HasAlternateKey(x => new { x.UserId, x.FriendId });
-            modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.UserId, x.PostId });
-            modelBuilder.Entity<MemoEvaluation>().HasAlternateKey(x => new { x.UserId, x.MemoId });
-            modelBuilder.Entity<PostTag>().HasAlternateKey(x => new { x.UserId, x.PostId });
-            modelBuilder.Entity<MemoTag>().HasAlternateKey(x => new { x.UserId, x.MemoId });
+            modelBuilder.Entity<PostTag>().HasAlternateKey(x => new { x.PostId, x.TagId });
+            modelBuilder.Entity<MemoTag>().HasAlternateKey(x => new { x.MemoId, x.TagId });
 
             // one to many
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -48,6 +47,9 @@ namespace HairbookWebApi.Database
 
             modelBuilder.Entity<Salon>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Salon>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Tag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Tag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PostTag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostTag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -71,16 +73,13 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             // many to many
-            modelBuilder.Entity<PostEvaluation>().HasOne(x => x.User).WithMany(y => y.PostEvaluations).HasForeignKey(z => z.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.Post).WithMany(y => y.Evaluations).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.User).WithMany(y => y.MemoEvaluations).HasForeignKey(z => z.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.Memo).WithMany(y => y.Evaluations).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<PostTag>().HasOne(x => x.User).WithMany(y => y.PostTags).HasForeignKey(z => z.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PostTag>().HasOne(x => x.Tag).WithMany(y => y.PostTags).HasForeignKey(z => z.TagId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostTag>().HasOne(x => x.Post).WithMany(y => y.Tags).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<MemoTag>().HasOne(x => x.User).WithMany(y => y.MemoTags).HasForeignKey(z => z.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<MemoTag>().HasOne(x => x.Tag).WithMany(y => y.MemoTags).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<MemoTag>().HasOne(x => x.Memo).WithMany(y => y.Tags).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
 
             // default value
@@ -93,6 +92,7 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostTag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<PostUpload>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Salon>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<Tag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<User>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<UserFriend>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
         }
