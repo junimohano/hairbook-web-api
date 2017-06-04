@@ -69,8 +69,7 @@ namespace HairbookWebApi
                 //                o.DefaultApiVersion = new ApiVersion(new DateTime(2016, 7, 1));
             });
 
-            services.AddSwaggerGen();
-            services.ConfigureSwaggerGen(options =>
+            services.AddSwaggerGen(options =>
             {
                 options.SingleApiVersion(new Info
                 {
@@ -90,8 +89,6 @@ namespace HairbookWebApi
             //#if DEBUG
             //#else
             //#endif
-
-
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
