@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using HairbookWebApi.Database;
 using HairbookWebApi.Mappers;
 using HairbookWebApi.Repositories;
@@ -12,6 +13,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Caching.Memory;
+using Swashbuckle.Swagger.Model;
+using Swashbuckle.SwaggerGen.Generator;
+using HairbookWebApi.Swaggers;
 
 namespace HairbookWebApi
 {
@@ -66,7 +70,20 @@ namespace HairbookWebApi
             });
 
             services.AddSwaggerGen();
-
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "Hairbook API",
+                    Description = "restful api for an application of hairbook",
+                    TermsOfService = "None",
+                    Contact = new Contact() { Name = "Jun An", Email = "junimohano@gmail.com", Url = "http://junan.ca" }
+                });
+                //options.IncludeXmlComments(GetXmlCommentsPath());
+                options.DescribeAllEnumsAsStrings();
+                options.OperationFilter<FileUploadOperation>(); //Register File Upload Operation Filter
+            });
 
             //services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
             services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

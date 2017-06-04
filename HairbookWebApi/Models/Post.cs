@@ -23,7 +23,7 @@ namespace HairbookWebApi.Models
         public DateTime Date { get; set; }
         public string Description { get; set; }
 
-        public int SalonId { get; set; }
+        public int? SalonId { get; set; }
         public Salon Salon { get; set; }
         
         public AccessType AccessType { get; set; }

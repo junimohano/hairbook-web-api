@@ -9,9 +9,10 @@ using HairbookWebApi.Models;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170604190449_Migration4")]
+    partial class Migration4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -355,7 +356,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int>("FriendId");
 
-                    b.Property<bool>("IsFriend");
+                    b.Property<bool>("IsPending");
 
                     b.Property<DateTime?>("UpdatedDate");
 

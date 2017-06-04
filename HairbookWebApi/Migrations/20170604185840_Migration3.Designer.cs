@@ -9,9 +9,10 @@ using HairbookWebApi.Models;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170604185840_Migration3")]
+    partial class Migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -152,7 +153,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("SalonId");
+                    b.Property<int>("SalonId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
@@ -355,7 +356,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int>("FriendId");
 
-                    b.Property<bool>("IsFriend");
+                    b.Property<bool>("IsPending");
 
                     b.Property<DateTime?>("UpdatedDate");
 
@@ -452,7 +453,8 @@ namespace HairbookWebApi.Migrations
 
                     b.HasOne("HairbookWebApi.Models.Salon", "Salon")
                         .WithMany()
-                        .HasForeignKey("SalonId");
+                        .HasForeignKey("SalonId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()

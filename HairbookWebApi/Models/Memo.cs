@@ -19,7 +19,7 @@ namespace HairbookWebApi.Models
 
         public string Title { get; set; }
 
-        public int SalonId { get; set; }
+        public int? SalonId { get; set; }
         public Salon Salon { get; set; }
         
         public AccessType AccessType { get; set; }

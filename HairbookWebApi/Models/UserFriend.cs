@@ -16,7 +16,7 @@ namespace HairbookWebApi.Models
         public int FriendId { get; set; }
         public User Friend { get; set; }
 
-        public bool IsPending { get; set; }
+        public bool IsFriend { get; set; }
 
     }
 }

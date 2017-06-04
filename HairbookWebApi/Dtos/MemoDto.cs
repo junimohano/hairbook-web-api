@@ -16,7 +16,7 @@ namespace HairbookWebApi.Dtos
 
         public string Title { get; set; }
 
-        public int SalonId { get; set; }
+        public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
         
         public AccessType AccessType { get; set; }

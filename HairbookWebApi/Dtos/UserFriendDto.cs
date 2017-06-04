@@ -10,6 +10,6 @@
         public int FriendId { get; set; }
         public UserDto Friend { get; set; }
 
-        public bool IsPending { get; set; }
+        public bool IsFriend { get; set; }
     }
 }

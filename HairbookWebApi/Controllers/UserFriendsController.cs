@@ -1,34 +1,34 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
 using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HairbookWebApi.Controllers
 {
     //[Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostController : Controller
+    public class UserFriendsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public PostController(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserFriendsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
+        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
-            var models = await _unitOfWork.Posts.GetPostsAsync(index, count);
+            var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(index, count);
 
-            return _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
+            return _mapper.Map<IEnumerable<UserFriend>, IEnumerable<UserFriendDto>>(models);
         }
 
         [HttpGet("{id}")]
@@ -37,30 +37,31 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Posts.FindAsync(id);
+            var model = await _unitOfWork.UserFriends.SingleOrDefaultAsync(x => x.UserId == id);
 
             if (model == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<Post, PostDto>(model));
+            return Ok(_mapper.Map<UserFriend, UserFriendDto>(model));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] PostDto dto)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UserFriendDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (id != dto.PostId)
+            if (id != dto.UserId)
                 return BadRequest();
 
-            var model = _mapper.Map<PostDto, Post>(dto);
+            var model = _mapper.Map<UserFriendDto, UserFriend>(dto);
 
             try
             {
                 model.UpdatedDate = new DateTime();
 
-                _unitOfWork.Posts.UpdatePost(model);
+                _unitOfWork.UserFriends.Update(model);
+
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -72,18 +73,18 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostDto dto)
+        public async Task<IActionResult> Post([FromBody] UserFriendDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = _mapper.Map<PostDto, Post>(dto);
+            var model = _mapper.Map<UserFriendDto, UserFriend>(dto);
 
             try
             {
                 model.CreatedDate = new DateTime();
 
-                _unitOfWork.Posts.AddPost(model);
+                _unitOfWork.UserFriends.Add(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -91,7 +92,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<Post, PostDto>(model));
+            return CreatedAtAction("Get", new { id = model.UserFriendId }, _mapper.Map<UserFriend, UserFriendDto>(model));
         }
 
         [HttpDelete("{id}")]
@@ -100,13 +101,13 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Posts.FindAsync(id);
+            var model = await _unitOfWork.UserFriends.FindAsync(id);
             if (model == null)
                 return NotFound();
 
             try
             {
-                _unitOfWork.Posts.DeletePost(model);
+                _unitOfWork.UserFriends.Delete(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -114,7 +115,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return Ok(_mapper.Map<Post, PostDto>(model));
+            return Ok(_mapper.Map<UserFriend, UserFriendDto>(model));
         }
 
         protected override void Dispose(bool disposing)

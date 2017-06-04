@@ -12,23 +12,23 @@ namespace HairbookWebApi.Controllers
     //[Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostController : Controller
+    public class MemoController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public PostController(IUnitOfWork unitOfWork, IMapper mapper)
+        public MemoController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
+        public async Task<IEnumerable<MemoDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
-            var models = await _unitOfWork.Posts.GetPostsAsync(index, count);
+            var models = await _unitOfWork.Memos.GetMemosAsync(index, count);
 
-            return _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
+            return _mapper.Map<IEnumerable<Memo>, IEnumerable<MemoDto>>(models);
         }
 
         [HttpGet("{id}")]
@@ -37,30 +37,30 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Posts.FindAsync(id);
+            var model = await _unitOfWork.Memos.FindAsync(id);
 
             if (model == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<Post, PostDto>(model));
+            return Ok(_mapper.Map<Memo, MemoDto>(model));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] PostDto dto)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] MemoDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (id != dto.PostId)
+            if (id != dto.MemoId)
                 return BadRequest();
 
-            var model = _mapper.Map<PostDto, Post>(dto);
+            var model = _mapper.Map<MemoDto, Memo>(dto);
 
             try
             {
                 model.UpdatedDate = new DateTime();
 
-                _unitOfWork.Posts.UpdatePost(model);
+                _unitOfWork.Memos.UpdateMemo(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -72,18 +72,18 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostDto dto)
+        public async Task<IActionResult> Post([FromBody] MemoDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = _mapper.Map<PostDto, Post>(dto);
+            var model = _mapper.Map<MemoDto, Memo>(dto);
 
             try
             {
                 model.CreatedDate = new DateTime();
 
-                _unitOfWork.Posts.AddPost(model);
+                _unitOfWork.Memos.AddMemo(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -91,7 +91,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<Post, PostDto>(model));
+            return CreatedAtAction("Get", new { id = model.MemoId }, _mapper.Map<Memo, MemoDto>(model));
         }
 
         [HttpDelete("{id}")]
@@ -100,13 +100,13 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Posts.FindAsync(id);
+            var model = await _unitOfWork.Memos.FindAsync(id);
             if (model == null)
                 return NotFound();
 
             try
             {
-                _unitOfWork.Posts.DeletePost(model);
+                _unitOfWork.Memos.DeleteMemo(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -114,7 +114,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return Ok(_mapper.Map<Post, PostDto>(model));
+            return Ok(_mapper.Map<Memo, MemoDto>(model));
         }
 
         protected override void Dispose(bool disposing)

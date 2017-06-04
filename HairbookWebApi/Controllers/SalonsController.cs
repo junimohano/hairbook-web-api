@@ -58,6 +58,8 @@ namespace HairbookWebApi.Controllers
 
             try
             {
+                model.UpdatedDate = new DateTime();
+
                 _unitOfWork.Salons.Update(model);
                 await _unitOfWork.Complete();
             }
@@ -79,6 +81,8 @@ namespace HairbookWebApi.Controllers
 
             try
             {
+                model.CreatedDate = new DateTime();
+
                 _unitOfWork.Salons.Add(model);
                 await _unitOfWork.Complete();
             }
