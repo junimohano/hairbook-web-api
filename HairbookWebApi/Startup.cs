@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using HairbookWebApi.Database;
 using HairbookWebApi.Mappers;
 using HairbookWebApi.Repositories;
+using HairbookWebApi.Swaggers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -11,11 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.Caching.Memory;
 using Swashbuckle.Swagger.Model;
-using Swashbuckle.SwaggerGen.Generator;
-using HairbookWebApi.Swaggers;
+using System.Text;
 
 namespace HairbookWebApi
 {
@@ -43,11 +40,7 @@ namespace HairbookWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting(x =>
-            {
-                x.LowercaseUrls = true;
-            });
-            // Add framework services.
+            services.AddRouting(x => { x.LowercaseUrls = true; });
             services.AddMvc();
             services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 
@@ -57,11 +50,7 @@ namespace HairbookWebApi
             corsBuilder.AllowAnyMethod();
             corsBuilder.AllowAnyOrigin();
             corsBuilder.AllowCredentials();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", corsBuilder.Build());
-            });
+            services.AddCors(options => { options.AddPolicy("AllowAll", corsBuilder.Build()); });
 
             services.AddApiVersioning(o =>
             {
