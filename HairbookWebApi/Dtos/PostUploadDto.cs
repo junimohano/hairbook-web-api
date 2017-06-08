@@ -8,7 +8,7 @@ namespace HairbookWebApi.Dtos
 
         public string Path { get; set; }
         public string Description { get; set; }
-        
+
         public UploadType UploadType { get; set; }
 
         public int PostId { get; set; }

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.Swagger.Model;
 using System.Text;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HairbookWebApi
 {
@@ -80,6 +82,7 @@ namespace HairbookWebApi
             //#endif
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +117,8 @@ namespace HairbookWebApi
             app.UseJwtBearerAuthentication(options);
 
             app.UseCors("AllowAll");
+
+            app.UseStaticFiles();
 
             // It should be after JwtBearerAuth
             app.UseMvc(routes =>

@@ -11,7 +11,6 @@ namespace HairbookWebApi.Dtos
         public TagDto()
         {
             PostTags = new List<PostTagDto>();
-            MemoTags = new List<MemoTagDto>();
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,6 +18,5 @@ namespace HairbookWebApi.Dtos
         public string TagName { get; set; }
         
         public IEnumerable<PostTagDto> PostTags { get; set; }
-        public IEnumerable<MemoTagDto> MemoTags { get; set; }
     }
 }

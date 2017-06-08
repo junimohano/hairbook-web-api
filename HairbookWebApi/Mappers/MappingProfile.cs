@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
 
@@ -8,34 +9,29 @@ namespace HairbookWebApi.Mappers
     {
         public MappingProfile()
         {
+
             CreateMap<Base, BaseDto>();
             CreateMap<BaseDto, Base>();
             //.ForMember(dest => dest.CreatedUserId, opt => opt.MapFrom(src => src.CreatedUserId));
-
-            CreateMap<Memo, MemoDto>();
-            CreateMap<MemoDto, Memo>();
-
-            CreateMap<MemoEvaluation, MemoEvaluationDto>();
-            CreateMap<MemoEvaluationDto, MemoEvaluation>();
-
-            CreateMap<MemoTag, MemoTagDto>();
-            CreateMap<MemoTagDto, MemoTag>();
-
+            
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
 
-            CreateMap<PostEvaluation, PostEvaluationDto>();
+            CreateMap<PostEvaluation, PostEvaluationDto>()
+                .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostEvaluationDto, PostEvaluation>();
 
-            CreateMap<PostTag, PostTagDto>();
+            CreateMap<PostTag, PostTagDto>()
+                .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostTagDto, PostTag>();
 
-            CreateMap<PostUpload, PostUploadDto>();
+            CreateMap<PostUpload, PostUploadDto>()
+                .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostUploadDto, PostUpload>();
 
             CreateMap<Salon, SalonDto>();
             CreateMap<SalonDto, Salon>();
-            
+
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
 

@@ -10,15 +10,11 @@ namespace HairbookWebApi.Database
         public HairbookContext(DbContextOptions<HairbookContext> options) : base(options) { }
         
         public DbSet<PostEvaluation> PostEvaluations { get; set; }
-        public DbSet<MemoEvaluation> MemoEvaluations { get; set; }
-        public DbSet<Memo> Memos { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Salon> Salons { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
-        public DbSet<MemoTag> MemoTags { get; set; }
         public DbSet<PostUpload> PostUploads { get; set; }
-        public DbSet<MemoUpload> MemoUploads { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
 
@@ -30,17 +26,10 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<User>().HasAlternateKey(c => c.UserKey);
             modelBuilder.Entity<UserFriend>().HasAlternateKey(x => new { x.UserId, x.FriendId });
             modelBuilder.Entity<PostTag>().HasAlternateKey(x => new { x.PostId, x.TagId });
-            modelBuilder.Entity<MemoTag>().HasAlternateKey(x => new { x.MemoId, x.TagId });
 
             // one to many
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Memo>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Memo>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Post>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Post>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -54,14 +43,8 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostTag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostTag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<MemoTag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<MemoTag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<PostUpload>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostUpload>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<MemoUpload>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<MemoUpload>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -74,13 +57,9 @@ namespace HairbookWebApi.Database
 
             // many to many
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.Post).WithMany(y => y.Evaluations).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<MemoEvaluation>().HasOne(x => x.Memo).WithMany(y => y.Evaluations).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<PostTag>().HasOne(x => x.Tag).WithMany(y => y.PostTags).HasForeignKey(z => z.TagId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostTag>().HasOne(x => x.Post).WithMany(y => y.Tags).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<MemoTag>().HasOne(x => x.Tag).WithMany(y => y.MemoTags).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<MemoTag>().HasOne(x => x.Memo).WithMany(y => y.Tags).HasForeignKey(z => z.MemoId).OnDelete(DeleteBehavior.Cascade);
 
             // default value
             //modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);

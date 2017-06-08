@@ -27,6 +27,7 @@ namespace HairbookWebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
+            var aa = Request.Path;
             var models = await _unitOfWork.Posts.GetPostsAsync(index, count);
 
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);

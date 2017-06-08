@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PostUploadsController : Controller

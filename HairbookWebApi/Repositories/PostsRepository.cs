@@ -1,11 +1,11 @@
-﻿using System;
+﻿using HairbookWebApi.Database;
+using HairbookWebApi.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using HairbookWebApi.Database;
-using HairbookWebApi.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace HairbookWebApi.Repositories
 {
@@ -18,13 +18,13 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
+        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<Post> result = _context.Posts
-                                            .Include(x => x.Salon)
-                                            .Include(x => x.Evaluations)
-                                            .Include(x => x.Tags)
-                                            .Include(x => x.Uploads);
+                .Include(x => x.Salon)
+                .Include(x => x.Evaluations)
+                .Include(x => x.Tags)
+                .Include(x => x.Uploads);
 
             if (count != 0)
                 result = result.Skip(index)

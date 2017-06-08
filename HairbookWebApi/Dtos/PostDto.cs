@@ -6,12 +6,6 @@ namespace HairbookWebApi.Dtos
 {
     public class PostDto : BaseDto
     {
-        public PostDto()
-        {
-            Evaluations = new List<PostEvaluationDto>();
-            Tags = new List<PostTagDto>();
-            Uploads = new List<PostUploadDto>();
-        }
         public int PostId { get; set; }
 
         public string CustomerName { get; set; }

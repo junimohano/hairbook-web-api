@@ -15,10 +15,7 @@ namespace HairbookWebApi.Repositories
         IPostsRepository Posts { get; }
         IPostEvaluationsRepository PostEvaluations { get; }
         IPostUploadsRepository PostUploads { get; }
-
-        IMemosRepository Memos { get; }
-        IMemoEvaluationsRepository MemoEvaluations { get; }
-        IMemoUploadsRepository MemoUploads { get; }
+        
 
         Task<int> Complete();
     }

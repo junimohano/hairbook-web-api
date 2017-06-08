@@ -14,11 +14,7 @@ namespace HairbookWebApi.Repositories
         public IPostsRepository Posts { get; }
         public IPostEvaluationsRepository PostEvaluations { get; }
         public IPostUploadsRepository PostUploads { get; }
-
-        public IMemosRepository Memos { get; }
-        public IMemoEvaluationsRepository MemoEvaluations { get; }
-        public IMemoUploadsRepository MemoUploads { get; }
-
+        
         public UnitOfWork(HairbookContext context)
         {
             _context = context;
@@ -28,9 +24,6 @@ namespace HairbookWebApi.Repositories
             Posts = new PostsRepository(_context);
             PostEvaluations = new PostEvaluationsRepository(_context);
             PostUploads = new PostUploadsRepository(_context);
-            Memos = new MemosRepository(_context);
-            MemoEvaluations = new MemoEvaluationsRepository(_context);
-            MemoUploads = new MemoUploadsRepository(_context);
         }
 
         public async Task<int> Complete()
