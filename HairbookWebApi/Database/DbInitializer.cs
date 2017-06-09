@@ -8,7 +8,7 @@ namespace HairbookWebApi.Database
     {
         public static void Initialize(HairbookContext context)
         {
-            //context.Database.EnsureDeleted();
+         //  context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             // Look for any students.

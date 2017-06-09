@@ -1,6 +1,8 @@
-﻿using HairbookWebApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Dtos
 {
@@ -8,18 +10,26 @@ namespace HairbookWebApi.Dtos
     {
         public int PostId { get; set; }
 
-        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
+        public CustomerDto Customer { get; set; }
+
         public DateTime Date { get; set; }
-        public string Description { get; set; }
+        public string Memo { get; set; }
 
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
         
+        public int? HairTypeId { get; set; }
+        public HairTypeDto HairType { get; set; }
+        public string HairMemo { get; set; }
+
         public AccessType AccessType { get; set; }
 
-        public IEnumerable<PostEvaluationDto> Evaluations { get; set; }
-        public IEnumerable<PostTagDto> Tags { get; set; }
-        public IEnumerable<PostUploadDto> Uploads { get; set; }
+        public IEnumerable<PostHairMenuDto> PostHairMenus { get; set; }
+        public IEnumerable<PostHairTypeDto> PostHairTypes { get; set; }
+        public IEnumerable<PostEvaluationDto> PostEvaluations { get; set; }
+        public IEnumerable<PostTagDto> PostTags { get; set; }
+        public IEnumerable<PostUploadDto> PostUploads { get; set; }
 
         // todo: draw functions
     }

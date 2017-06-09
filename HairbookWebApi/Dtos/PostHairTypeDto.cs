@@ -1,17 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HairbookWebApi.Models;
 using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Dtos
 {
-    public class PostEvaluationDto : BaseDto
+    public class PostHairTypeDto : BaseDto
     {
-        public int PostEvaluationId { get; set; }
+        public int PostHairTypeId { get; set; }
 
         public int PostId { get; set; }
         public PostDto Post { get; set; }
 
-        public EvaluationType EvaluationType { get; set; }
+        public int HairTypeId { get; set; }
+        public HairTypeDto HairType { get; set; }
     }
 }

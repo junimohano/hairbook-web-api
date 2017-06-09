@@ -22,9 +22,9 @@ namespace HairbookWebApi.Repositories
         {
             IQueryable<Post> result = _context.Posts
                 .Include(x => x.Salon)
-                .Include(x => x.Evaluations)
-                .Include(x => x.Tags)
-                .Include(x => x.Uploads);
+                .Include(x => x.PostEvaluations)
+                .Include(x => x.PostTags)
+                .Include(x => x.PostUploads);
 
             if (count != 0)
                 result = result.Skip(index)
@@ -46,12 +46,12 @@ namespace HairbookWebApi.Repositories
         {
             var model = await _context.Posts.AddAsync(post);
 
-            if (post.Tags.Any())
+            if (post.PostTags.Any())
             {
-                foreach (var tag in post.Tags)
+                foreach (var tag in post.PostTags)
                     tag.PostId = model.Entity.PostId;
 
-                await _context.PostTags.AddRangeAsync(post.Tags);
+                await _context.PostTags.AddRangeAsync(post.PostTags);
             }
         }
 
@@ -59,13 +59,13 @@ namespace HairbookWebApi.Repositories
         {
             var model = _context.Posts.Update(post);
 
-            if (post.Tags.Any())
+            if (post.PostTags.Any())
             {
-                var updateTags = post.Tags.Where(x => x.PostTagId != 0).ToList();
+                var updateTags = post.PostTags.Where(x => x.PostTagId != 0).ToList();
                 if (updateTags.Any())
                     _context.PostTags.UpdateRange(updateTags);
 
-                var newTags = post.Tags.Where(x => x.PostTagId == 0).ToList();
+                var newTags = post.PostTags.Where(x => x.PostTagId == 0).ToList();
                 foreach (var tag in newTags)
                     tag.PostId = model.Entity.PostId;
                 if (newTags.Any())
@@ -75,14 +75,14 @@ namespace HairbookWebApi.Repositories
 
         public void DeletePost(Post post)
         {
-            if (post.Tags.Any())
-                _context.PostTags.RemoveRange(post.Tags);
+            if (post.PostTags.Any())
+                _context.PostTags.RemoveRange(post.PostTags);
 
-            if (post.Evaluations.Any())
-                _context.PostEvaluations.RemoveRange(post.Evaluations);
+            if (post.PostEvaluations.Any())
+                _context.PostEvaluations.RemoveRange(post.PostEvaluations);
 
-            if (post.Uploads.Any())
-                _context.PostUploads.RemoveRange(post.Uploads);
+            if (post.PostUploads.Any())
+                _context.PostUploads.RemoveRange(post.PostUploads);
 
             _context.Posts.Remove(post);
         }

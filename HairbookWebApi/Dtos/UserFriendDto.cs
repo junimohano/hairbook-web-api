@@ -1,4 +1,7 @@
-﻿namespace HairbookWebApi.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HairbookWebApi.Dtos
 {
     public class UserFriendDto : BaseDto
     {
@@ -11,5 +14,6 @@
         public UserDto Friend { get; set; }
 
         public bool IsFriend { get; set; }
+
     }
 }

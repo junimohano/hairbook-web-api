@@ -5,19 +5,17 @@ using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Models
 {
-    [Table(nameof(PostEvaluation))]
-    public class PostEvaluation : Base
+    [Table(nameof(PostHairType))]
+    public class PostHairType : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PostEvaluationId { get; set; }
+        public int PostHairTypeId { get; set; }
 
         public int PostId { get; set; }
         public Post Post { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-
-        public EvaluationType EvaluationType { get; set; }
+        public int HairTypeId { get; set; }
+        public HairType HairType { get; set; }
     }
 }

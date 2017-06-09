@@ -5,16 +5,16 @@ using Swashbuckle.Swagger.Model;
 namespace HairbookWebApi.Models
 {
     [Table(nameof(PostTag))]
-    public class PostTag : Base
+    public class PostTag
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostTagId { get; set; }
 
-        public int TagId { get; set; }
-        public Tag Tag { get; set; }
-        
         public int PostId { get; set; }
         public Post Post { get; set; }
+
+        public int TagId { get; set; }
+        public Tag Tag { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using HairbookWebApi.Models;
 
 namespace HairbookWebApi.Dtos
 {
