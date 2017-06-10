@@ -28,7 +28,7 @@ namespace HairbookWebApi.Dtos
         public IEnumerable<PostHairMenuDto> PostHairMenus { get; set; }
         public IEnumerable<PostHairTypeDto> PostHairTypes { get; set; }
         public IEnumerable<PostEvaluationDto> PostEvaluations { get; set; }
-        public IEnumerable<PostTagDto> PostTags { get; set; }
+        public IEnumerable<PostCommentDto> PostComments { get; set; }
         public IEnumerable<PostUploadDto> PostUploads { get; set; }
 
         // todo: draw functions

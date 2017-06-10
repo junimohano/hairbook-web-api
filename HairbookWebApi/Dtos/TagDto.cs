@@ -8,7 +8,5 @@ namespace HairbookWebApi.Dtos
     {
         public int TagId { get; set; }
         public string TagName { get; set; }
-        
-        public IEnumerable<PostTagDto> PostTags { get; set; }
     }
 }

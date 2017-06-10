@@ -21,9 +21,9 @@ namespace HairbookWebApi.Mappers
                 .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostEvaluationDto, PostEvaluation>();
 
-            CreateMap<PostTag, PostTagDto>()
+            CreateMap<PostComment, PostCommentDto>()
                 .ForMember(x => x.Post, opt => opt.Ignore());
-            CreateMap<PostTagDto, PostTag>();
+            CreateMap<PostCommentDto, PostComment>();
 
             CreateMap<PostUpload, PostUploadDto>()
                 .ForMember(x => x.Post, opt => opt.Ignore());

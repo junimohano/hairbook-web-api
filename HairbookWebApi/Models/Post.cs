@@ -14,7 +14,7 @@ namespace HairbookWebApi.Models
             PostHairMenus = new List<PostHairMenu>();
             PostHairTypes = new List<PostHairType>();
             PostEvaluations = new List<PostEvaluation>();
-            PostTags = new List<PostTag>();
+            PostComments = new List<PostComment>();
             PostUploads = new List<PostUpload>();
         }
 
@@ -40,7 +40,7 @@ namespace HairbookWebApi.Models
         public IEnumerable<PostHairMenu> PostHairMenus { get; set; }
         public IEnumerable<PostHairType> PostHairTypes { get; set; }
         public IEnumerable<PostEvaluation> PostEvaluations { get; set; }
-        public IEnumerable<PostTag> PostTags { get; set; }
+        public IEnumerable<PostComment> PostComments { get; set; }
         public IEnumerable<PostUpload> PostUploads { get; set; }
 
         // todo: draw functions

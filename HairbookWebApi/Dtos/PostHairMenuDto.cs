@@ -13,8 +13,8 @@ namespace HairbookWebApi.Dtos
 
         public int HairMenuId { get; set; }
         public HairMenuDto HairMenu { get; set; }
-        
-        public int HairSubMenuId { get; set; }
+
+        public int? HairSubMenuId { get; set; }
         public HairSubMenuDto HairSubMenu { get; set; }
 
         public string Memo { get; set; }

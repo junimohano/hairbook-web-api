@@ -23,7 +23,7 @@ namespace HairbookWebApi.Repositories
             IQueryable<Post> result = _context.Posts
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
-                .Include(x => x.PostTags)
+                //.Include(x => x.PostTags)
                 .Include(x => x.PostUploads);
 
             if (count != 0)
@@ -46,37 +46,37 @@ namespace HairbookWebApi.Repositories
         {
             var model = await _context.Posts.AddAsync(post);
 
-            if (post.PostTags.Any())
-            {
-                foreach (var tag in post.PostTags)
-                    tag.PostId = model.Entity.PostId;
+            //if (post.PostTags.Any())
+            //{
+            //    foreach (var tag in post.PostTags)
+            //        tag.PostId = model.Entity.PostId;
 
-                await _context.PostTags.AddRangeAsync(post.PostTags);
-            }
+            //    await _context.PostTags.AddRangeAsync(post.PostTags);
+            //}
         }
 
         public void UpdatePost(Post post)
         {
             var model = _context.Posts.Update(post);
 
-            if (post.PostTags.Any())
-            {
-                var updateTags = post.PostTags.Where(x => x.PostTagId != 0).ToList();
-                if (updateTags.Any())
-                    _context.PostTags.UpdateRange(updateTags);
+            //if (post.PostTags.Any())
+            //{
+            //    var updateTags = post.PostTags.Where(x => x.PostTagId != 0).ToList();
+            //    if (updateTags.Any())
+            //        _context.PostTags.UpdateRange(updateTags);
 
-                var newTags = post.PostTags.Where(x => x.PostTagId == 0).ToList();
-                foreach (var tag in newTags)
-                    tag.PostId = model.Entity.PostId;
-                if (newTags.Any())
-                    _context.PostTags.AddRange(newTags);
-            }
+            //    var newTags = post.PostTags.Where(x => x.PostTagId == 0).ToList();
+            //    foreach (var tag in newTags)
+            //        tag.PostId = model.Entity.PostId;
+            //    if (newTags.Any())
+            //        _context.PostTags.AddRange(newTags);
+            //}
         }
 
         public void DeletePost(Post post)
         {
-            if (post.PostTags.Any())
-                _context.PostTags.RemoveRange(post.PostTags);
+            //if (post.PostTags.Any())
+            //    _context.PostTags.RemoveRange(post.PostTags);
 
             if (post.PostEvaluations.Any())
                 _context.PostEvaluations.RemoveRange(post.PostEvaluations);

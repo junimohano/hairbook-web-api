@@ -8,7 +8,7 @@ namespace HairbookWebApi.Database
     {
         public static void Initialize(HairbookContext context)
         {
-         //  context.Database.EnsureDeleted();
+            // context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             // Look for any students.
@@ -17,7 +17,7 @@ namespace HairbookWebApi.Database
                 return;   // DB has been seeded
             }
 
-            var boards = new User[]
+            var users = new User[]
             {
                 new User{UserKey= "11111111", CreatedDate= DateTime.Now, },
                 new User{UserKey= "222222222", CreatedDate= DateTime.Now, },
@@ -26,48 +26,37 @@ namespace HairbookWebApi.Database
                 new User{UserKey= "5555555", CreatedDate= DateTime.Now, },
                 new User{UserKey= "666666", CreatedDate= DateTime.Now, }
             };
-            foreach (var b in boards)
-            {
-                context.Users.Add(b);
-            }
+
+            context.Users.AddRange(users);
             context.SaveChanges();
 
-            //var courses = new Course[]
-            //{
-            //new Course{CourseId=1050,Title="Chemistry",Credits=3,},
-            //new Course{CourseId=4022,Title="Microeconomics",Credits=3,},
-            //new Course{CourseId=4041,Title="Macroeconomics",Credits=3,},
-            //new Course{CourseId=1045,Title="Calculus",Credits=4,},
-            //new Course{CourseId=3141,Title="Trigonometry",Credits=4,},
-            //new Course{CourseId=2021,Title="Composition",Credits=3,},
-            //new Course{CourseId=2042,Title="Literature",Credits=4,}
-            //};
-            //foreach (Course c in courses)
-            //{
-            //    context.Courses.Add(c);
-            //}
-            //context.SaveChanges();
+            var hairMenus = new HairMenu[]
+            {
+                new HairMenu(){ Name = "Cut" },
+                new HairMenu(){ Name = "Color" },
+                new HairMenu(){ Name = "Parm" },
+                new HairMenu(){ Name = "Wb" },
+                new HairMenu(){ Name = "Updo" }
+            };
 
-            //var enrollments = new Enrollment[]
-            //{
-            //new Enrollment{StudentId=1,CourseId=1050,Grade=Grade.A},
-            //new Enrollment{StudentId=1,CourseId=4022,Grade=Grade.C},
-            //new Enrollment{StudentId=1,CourseId=4041,Grade=Grade.B},
-            //new Enrollment{StudentId=2,CourseId=1045,Grade=Grade.B},
-            //new Enrollment{StudentId=2,CourseId=3141,Grade=Grade.F},
-            //new Enrollment{StudentId=2,CourseId=2021,Grade=Grade.F},
-            //new Enrollment{StudentId=3,CourseId=1050},
-            //new Enrollment{StudentId=4,CourseId=1050,},
-            //new Enrollment{StudentId=4,CourseId=4022,Grade=Grade.F},
-            //new Enrollment{StudentId=5,CourseId=4041,Grade=Grade.C},
-            //new Enrollment{StudentId=6,CourseId=1045},
-            //new Enrollment{StudentId=7,CourseId=3141,Grade=Grade.A},
-            //};
-            //foreach (Enrollment e in enrollments)
-            //{
-            //    context.Enrollments.Add(e);
-            //}
-            //context.SaveChanges();
+            context.HairMenus.AddRange(hairMenus);
+            context.SaveChanges();
+
+            var hairTypes = new HairType[]
+          {
+                new HairType(){ Name = "Thin" },
+                new HairType(){ Name = "Thick" },
+                new HairType(){ Name = "Colored" },
+                new HairType(){ Name = "Bleached" },
+                new HairType(){ Name = "Parmed" },
+                new HairType(){ Name = "Straight" },
+                new HairType(){ Name = "Wavy" },
+                new HairType(){ Name = "Fleezy" }
+          };
+
+            context.HairTypes.AddRange(hairTypes);
+            context.SaveChanges();
+          
         }
     }
 }

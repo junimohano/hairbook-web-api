@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HairbookWebApi.Models
 {
-    [Table(nameof(Post))]
+    [Table(nameof(PostHairMenu))]
     public class PostHairMenu : Base
     {
 
@@ -18,7 +18,7 @@ namespace HairbookWebApi.Models
         public int HairMenuId { get; set; }
         public HairMenu HairMenu { get; set; }
         
-        public int HairSubMenuId { get; set; }
+        public int? HairSubMenuId { get; set; }
         public HairSubMenu HairSubMenu { get; set; }
 
         public string Memo { get; set; }
