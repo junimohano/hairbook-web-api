@@ -63,7 +63,7 @@ namespace HairbookWebApi.Repositories
 
                 await _context.PostHairMenus.AddRangeAsync(post.PostHairMenus);
             }
-            
+
         }
 
         public void UpdatePost(Post post)
@@ -113,6 +113,16 @@ namespace HairbookWebApi.Repositories
                 _context.PostUploads.RemoveRange(post.PostUploads);
 
             _context.Posts.Remove(post);
+        }
+
+        public async Task<IEnumerable<HairMenu>> GetMenusAsync()
+        {
+            return await _context.HairMenus.ToListAsync();
+        }
+
+        public async Task<IEnumerable<HairType>> GetHairTypesAsync()
+        {
+            return await _context.HairTypes.ToListAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.CodeAnalysis;
 
 namespace HairbookWebApi.Dtos
@@ -10,7 +11,9 @@ namespace HairbookWebApi.Dtos
 
         public string Name { get; set; }
         public string Address { get; set; }
-        public Location Location { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
+
         public string Url { get; set; }
         [Phone]
         public string Phone { get; set; }

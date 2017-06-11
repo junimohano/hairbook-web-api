@@ -41,7 +41,7 @@ namespace HairbookWebApi.Controllers
 
             try
             {
-                var uplaodPath = Path.Combine("uploads", "posts", $"{DateTime.Now.Ticks}_{new FileInfo(uploadedFile.FileName).Name}");
+                var uplaodPath = Path.Combine("uploads", $"{DateTime.Now.Ticks}_{new FileInfo(uploadedFile.FileName).Name}");
 
                 if (uploadedFile.Length > 0)
                 {

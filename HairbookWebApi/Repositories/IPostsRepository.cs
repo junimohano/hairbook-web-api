@@ -13,5 +13,8 @@ namespace HairbookWebApi.Repositories
         void AddPost(Post post);
         void UpdatePost(Post post);
         void DeletePost(Post post);
+
+        Task<IEnumerable<HairMenu>> GetMenusAsync();
+        Task<IEnumerable<HairType>> GetHairTypesAsync();
     }
 }

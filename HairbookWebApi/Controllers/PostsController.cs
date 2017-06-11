@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
 using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HairbookWebApi.Controllers
 {
@@ -117,6 +117,30 @@ namespace HairbookWebApi.Controllers
             }
 
             return Ok(_mapper.Map<Post, PostDto>(model));
+        }
+
+        [HttpGet]
+        [Route("Menus")]
+        public async Task<IActionResult> GetMenus()
+        {
+            var model = await _unitOfWork.Posts.GetMenusAsync();
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<IEnumerable<HairMenu>, IEnumerable<HairMenuDto>>(model));
+        }
+
+        [HttpGet]
+        [Route("HairTypes")]
+        public async Task<IActionResult> GetHairTypes()
+        {
+            var model = await _unitOfWork.Posts.GetHairTypesAsync();
+
+            if (model == null)
+                return NotFound();
+            
+            return Ok(_mapper.Map<IEnumerable<HairType>, IEnumerable<HairTypeDto>>(model));
         }
 
         protected override void Dispose(bool disposing)
