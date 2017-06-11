@@ -34,8 +34,6 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.PostId, x.UserId });
             modelBuilder.Entity<PostHairMenu>().HasAlternateKey(x => new { x.PostId, x.PostHairMenuId });
             modelBuilder.Entity<PostHairType>().HasAlternateKey(x => new { x.PostId, x.PostHairTypeId });
-            modelBuilder.Entity<PostComment>().HasAlternateKey(x => new { x.PostId, x.UserId });
-            modelBuilder.Entity<PostCommentTag>().HasAlternateKey(x => new { x.PostCommentId, x.UserId, x.TagId });
 
             // one to many
             modelBuilder.Entity<Customer>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);

@@ -141,8 +141,8 @@ namespace HairbookWebApi.Database
             var postEvaluations = new[]
             {
                 new PostEvaluation(){ PostId = 1, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 1, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 1, UserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 1, UserId = 2, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 1, UserId = 3, EvaluationType= EvaluationType.Like },
                 new PostEvaluation(){ PostId = 2, UserId = 1, EvaluationType= EvaluationType.Like },
                 new PostEvaluation(){ PostId = 3, UserId = 1, EvaluationType= EvaluationType.Like },
                 new PostEvaluation(){ PostId = 4, UserId = 1, EvaluationType= EvaluationType.Like },
