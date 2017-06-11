@@ -23,7 +23,9 @@ namespace HairbookWebApi.Repositories
             IQueryable<Post> result = _context.Posts
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
-                //.Include(x => x.PostTags)
+                .Include(x => x.PostComments)
+                .Include(x => x.PostHairTypes)
+                .Include(x => x.PostHairMenus)
                 .Include(x => x.PostUploads);
 
             if (count != 0)
@@ -46,37 +48,63 @@ namespace HairbookWebApi.Repositories
         {
             var model = await _context.Posts.AddAsync(post);
 
-            //if (post.PostTags.Any())
-            //{
-            //    foreach (var tag in post.PostTags)
-            //        tag.PostId = model.Entity.PostId;
+            if (post.PostHairTypes.Any())
+            {
+                foreach (var hairType in post.PostHairTypes)
+                    hairType.PostId = model.Entity.PostId;
 
-            //    await _context.PostTags.AddRangeAsync(post.PostTags);
-            //}
+                await _context.PostHairTypes.AddRangeAsync(post.PostHairTypes);
+            }
+
+            if (post.PostHairMenus.Any())
+            {
+                foreach (var hairMenu in post.PostHairMenus)
+                    hairMenu.PostId = model.Entity.PostId;
+
+                await _context.PostHairMenus.AddRangeAsync(post.PostHairMenus);
+            }
+            
         }
 
         public void UpdatePost(Post post)
         {
             var model = _context.Posts.Update(post);
 
-            //if (post.PostTags.Any())
-            //{
-            //    var updateTags = post.PostTags.Where(x => x.PostTagId != 0).ToList();
-            //    if (updateTags.Any())
-            //        _context.PostTags.UpdateRange(updateTags);
+            if (post.PostHairTypes.Any())
+            {
+                var updateHairTypes = post.PostHairTypes.Where(x => x.PostHairTypeId != 0).ToList();
+                if (updateHairTypes.Any())
+                    _context.PostHairTypes.UpdateRange(updateHairTypes);
 
-            //    var newTags = post.PostTags.Where(x => x.PostTagId == 0).ToList();
-            //    foreach (var tag in newTags)
-            //        tag.PostId = model.Entity.PostId;
-            //    if (newTags.Any())
-            //        _context.PostTags.AddRange(newTags);
-            //}
+                var newHairTypes = post.PostHairTypes.Where(x => x.PostHairTypeId == 0).ToList();
+                foreach (var hairType in newHairTypes)
+                    hairType.PostId = model.Entity.PostId;
+                if (newHairTypes.Any())
+                    _context.PostHairTypes.AddRange(newHairTypes);
+            }
+
+
+            if (post.PostHairMenus.Any())
+            {
+                var updateHairMenus = post.PostHairMenus.Where(x => x.PostHairMenuId != 0).ToList();
+                if (updateHairMenus.Any())
+                    _context.PostHairMenus.UpdateRange(updateHairMenus);
+
+                var newHairMenus = post.PostHairMenus.Where(x => x.PostHairMenuId == 0).ToList();
+                foreach (var hairMenu in newHairMenus)
+                    hairMenu.PostId = model.Entity.PostId;
+                if (newHairMenus.Any())
+                    _context.PostHairMenus.AddRange(newHairMenus);
+            }
         }
 
         public void DeletePost(Post post)
         {
-            //if (post.PostTags.Any())
-            //    _context.PostTags.RemoveRange(post.PostTags);
+            if (post.PostHairMenus.Any())
+                _context.PostHairMenus.RemoveRange(post.PostHairMenus);
+
+            if (post.PostHairTypes.Any())
+                _context.PostHairTypes.RemoveRange(post.PostHairTypes);
 
             if (post.PostEvaluations.Any())
                 _context.PostEvaluations.RemoveRange(post.PostEvaluations);
