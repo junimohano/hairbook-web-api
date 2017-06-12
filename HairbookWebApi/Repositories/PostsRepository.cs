@@ -21,6 +21,7 @@ namespace HairbookWebApi.Repositories
         public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<Post> result = _context.Posts
+                .Include(x => x.Customer)
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
                 .Include(x => x.PostComments)

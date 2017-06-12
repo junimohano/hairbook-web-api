@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
