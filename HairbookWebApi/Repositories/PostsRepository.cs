@@ -26,7 +26,9 @@ namespace HairbookWebApi.Repositories
                 .Include(x => x.PostEvaluations)
                 .Include(x => x.PostComments)
                 .Include(x => x.PostHairTypes)
+                   .ThenInclude(x => x.HairType)
                 .Include(x => x.PostHairMenus)
+                    .ThenInclude(x=>x.HairMenu)
                 .Include(x => x.PostUploads);
 
             if (count != 0)
