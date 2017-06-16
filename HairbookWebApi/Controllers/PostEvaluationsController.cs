@@ -70,7 +70,7 @@ namespace HairbookWebApi.Controllers
             {
                 model.CreatedDate = new DateTime();
 
-                _unitOfWork.PostEvaluations.Add(model);
+                await _unitOfWork.PostEvaluations.AddAsync(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)

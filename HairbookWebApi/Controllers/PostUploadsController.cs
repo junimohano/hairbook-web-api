@@ -56,7 +56,7 @@ namespace HairbookWebApi.Controllers
                         CreatedDate = new DateTime()
                     };
 
-                    _unitOfWork.PostUploads.Add(postUpload);
+                    await _unitOfWork.PostUploads.AddAsync(postUpload);
                     await _unitOfWork.Complete();
                 }
                 else

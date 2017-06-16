@@ -42,7 +42,12 @@ namespace HairbookWebApi.Controllers
             var model = await _unitOfWork.Users.SingleOrDefaultAsync(x => id == 0 ? x.UserKey == userKey : x.UserId == id);
 
             if (model == null)
-                return NotFound();
+            {
+                return Ok(await Post(new UserDto()
+                {
+                    UserKey = userKey
+                }));
+            }
 
             return Ok(_mapper.Map<User, UserDto>(model));
         }
@@ -63,7 +68,7 @@ namespace HairbookWebApi.Controllers
                 model.UpdatedDate = new DateTime();
 
                 _unitOfWork.Users.Update(model);
-                
+
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -86,7 +91,7 @@ namespace HairbookWebApi.Controllers
             {
                 model.CreatedDate = new DateTime();
 
-                _unitOfWork.Users.Add(model);
+                await _unitOfWork.Users.AddAsync(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)

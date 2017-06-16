@@ -14,8 +14,8 @@ namespace HairbookWebApi.Repositories
         Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate, bool isReadonly = true);
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
 
-        void Add(T entity);
-        void AddRange(IEnumerable<T> entities);
+        Task AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
 
         void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);

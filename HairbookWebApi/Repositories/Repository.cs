@@ -32,10 +32,10 @@ namespace HairbookWebApi.Repositories
             => await _entity.AsNoTracking().AnyAsync(predicate);
 
 
-        public async void Add(T entity)
+        public async Task AddAsync(T entity)
             => await _entity.AddAsync(entity);
 
-        public async void AddRange(IEnumerable<T> entities)
+        public async Task AddRangeAsync(IEnumerable<T> entities)
             => await _entity.AddRangeAsync(entities);
 
 

@@ -84,7 +84,7 @@ namespace HairbookWebApi.Controllers
             {
                 model.CreatedDate = new DateTime();
 
-                _unitOfWork.Salons.Add(model);
+                await _unitOfWork.Salons.AddAsync(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
