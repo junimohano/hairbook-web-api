@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Controllers
 {
@@ -25,9 +27,29 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] int userId = 0)
+        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] int userId = 0, [FromQuery] AccessType accessType = AccessType.Private, [FromQuery] string search = null)
         {
-            var models = await _unitOfWork.Posts.GetPostsAsync(index, count, userId);
+            Expression<Func<Post, bool>> predicate = null;
+            switch (accessType)
+            {
+                case AccessType.Public:
+                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                        predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search);
+                    else
+                        predicate = x => x.AccessType == AccessType.Public;
+                    break;
+                case AccessType.Private:
+                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                        predicate = x => x.CreatedUserId == userId && x.Customer.Name.Contains(search);
+                    else
+                        predicate = x => x.CreatedUserId == userId;
+                    break;
+                case AccessType.OnlyFriends:
+                    //result = result.Where(x=>x.CreatedUserId == _context.UserFriends.Where(x=>x.UserId == userId).Contains(1))
+                    break;
+            }
+
+            var models = await _unitOfWork.Posts.GetPostsAsync(index, count, userId, predicate);
 
             return _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
         }

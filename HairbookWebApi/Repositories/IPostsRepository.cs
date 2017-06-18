@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Models;
+using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Repositories
 {
