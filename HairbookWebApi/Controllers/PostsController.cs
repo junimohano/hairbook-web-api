@@ -8,11 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using HairbookWebApi.Auth;
 using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Controllers
 {
-    //[Authorize]
+    [Authorize(AuthOption.TokenType)]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PostsController : Controller

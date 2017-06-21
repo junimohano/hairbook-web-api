@@ -404,6 +404,14 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("CreatedUserId");
 
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Image");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Password");
+
                     b.Property<int?>("SalonId");
 
                     b.Property<DateTime?>("UpdatedDate");
@@ -412,6 +420,8 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<string>("UserKey")
                         .IsRequired();
+
+                    b.Property<string>("UserName");
 
                     b.HasKey("UserId");
 

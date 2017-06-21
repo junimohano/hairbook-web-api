@@ -1,20 +1,23 @@
 ﻿using AutoMapper;
+using HairbookWebApi.Auth;
 using HairbookWebApi.Database;
 using HairbookWebApi.Mappers;
 using HairbookWebApi.Repositories;
 using HairbookWebApi.Swaggers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.Swagger.Model;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 
 namespace HairbookWebApi
 {
@@ -27,10 +30,13 @@ namespace HairbookWebApi
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-            if (env.IsEnvironment("Development"))
+            if (env.IsDevelopment())
             {
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
+
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
             }
             builder.AddEnvironmentVariables();
 
@@ -42,8 +48,8 @@ namespace HairbookWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting(x => { x.LowercaseUrls = true; });
             services.AddMvc();
+            services.AddRouting(x => { x.LowercaseUrls = true; });
             services.AddAutoMapper(x => x.AddProfile(new MappingProfile()));
 
             // cors
@@ -83,6 +89,14 @@ namespace HairbookWebApi
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Enable the use of an [Authorize("Bearer")] attribute on methods and classes to protect.
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy(AuthOption.TokenType, new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,33 +106,68 @@ namespace HairbookWebApi
             loggerFactory.AddDebug();
 
             DbInitializer.Initialize(context);
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            
             app.UseSwagger();
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUi();
+            
+            // Auth0
+            //var options = new JwtBearerOptions
+            //{
+            //    TokenValidationParameters =
+            //    {
+            //        ValidIssuer = $"https://{Configuration["auth0:domain"]}/",
+            //        ValidAudience = Configuration["auth0:clientId"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(secret)
+            //    }
+            //};
+            //app.UseJwtBearerAuthentication(options);
 
-            // If your client secret is base64 encoded, then uncomment these two lines
-            //var keyAsBase64 = Configuration["auth0:clientSecret"].Replace('_', '/').Replace('-', '+');
-            //var secret = Convert.FromBase64String(keyAsBase64);
-
-            // If your client secret is base64 encoded, then comment out this line, and rather use 2 lines above
-            var secret = Encoding.UTF8.GetBytes(Configuration["auth0:clientSecret"]);
-
-            var options = new JwtBearerOptions
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                TokenValidationParameters =
+                AuthenticationScheme = AuthOption.AuthenticationScheme,
+                AutomaticAuthenticate = true
+            });
+
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                AuthenticationScheme = "Google",
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"],
+                SignInScheme = AuthOption.AuthenticationScheme
+            });
+
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                AuthenticationScheme = "Facebook",
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"],
+                SignInScheme = AuthOption.AuthenticationScheme
+            });
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidIssuer = $"https://{Configuration["auth0:domain"]}/",
-                    ValidAudience = Configuration["auth0:clientId"],
-                    IssuerSigningKey = new SymmetricSecurityKey(secret)
+                    IssuerSigningKey = AuthOption.Key,
+                    ValidAudience = AuthOption.Audience,
+                    ValidIssuer = AuthOption.Issuer,
+                    // When receiving a token, check that we've signed it.
+                    ValidateIssuerSigningKey = true,
+                    // When receiving a token, check that it is still valid.
+                    ValidateLifetime = true,
+                    // This defines the maximum allowable clock skew - i.e. provides a tolerance on the token expiry time 
+                    // when validating the lifetime. As we're creating the tokens locally and validating them on the same 
+                    // machines which should have synchronised time, this can be set to zero. Where external tokens are
+                    // used, some leeway here could be useful.
+                    ClockSkew = TimeSpan.FromMinutes(0)
                 }
-            };
-            app.UseJwtBearerAuthentication(options);
+            });
 
             app.UseCors("AllowAll");
 
             app.UseStaticFiles();
+
+            app.UseApiVersioning();
 
             // It should be after JwtBearerAuth
             app.UseMvc(routes =>
@@ -127,6 +176,8 @@ namespace HairbookWebApi
                 //    name: "default",
                 //    template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
         }
     }
 }

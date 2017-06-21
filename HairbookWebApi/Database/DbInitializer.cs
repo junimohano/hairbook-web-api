@@ -20,12 +20,12 @@ namespace HairbookWebApi.Database
 
             var users = new[]
             {
-                new User{UserKey= "11111111", CreatedDate= DateTime.Now, },
-                new User{UserKey= "222222222", CreatedDate= DateTime.Now, },
-                new User{UserKey= "333333333", CreatedDate= DateTime.Now, },
-                new User{UserKey= "4444444", CreatedDate= DateTime.Now, },
-                new User{UserKey= "5555555", CreatedDate= DateTime.Now, },
-                new User{UserKey= "666666", CreatedDate= DateTime.Now, }
+                new User{UserKey= "11111111", CreatedDate= DateTime.Now, UserName = "a1" },
+                new User{UserKey= "222222222", CreatedDate= DateTime.Now, UserName = "a2" },
+                new User{UserKey= "333333333", CreatedDate= DateTime.Now, UserName = "a3" },
+                new User{UserKey= "4444444", CreatedDate= DateTime.Now, UserName = "a4" },
+                new User{UserKey= "5555555", CreatedDate= DateTime.Now, UserName = "a5" },
+                new User{UserKey= "666666", CreatedDate= DateTime.Now, UserName = "a6" }
             };
             context.Users.AddRange(users);
             context.SaveChanges();
@@ -190,7 +190,7 @@ namespace HairbookWebApi.Database
             };
             context.PostUploads.AddRange(postUploads);
             context.SaveChanges();
-          
+
         }
     }
 }

@@ -172,7 +172,6 @@ namespace HairbookWebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostComment", x => x.PostCommentId);
-                    table.UniqueConstraint("AK_PostComment_PostId_UserId", x => new { x.PostId, x.UserId });
                     table.ForeignKey(
                         name: "FK_PostComment_Post_PostId",
                         column: x => x.PostId,
@@ -251,7 +250,6 @@ namespace HairbookWebApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostCommentTag", x => x.PostCommentTagId);
-                    table.UniqueConstraint("AK_PostCommentTag_PostCommentId_UserId_TagId", x => new { x.PostCommentId, x.UserId, x.TagId });
                     table.ForeignKey(
                         name: "FK_PostCommentTag_PostComment_PostCommentId",
                         column: x => x.PostCommentId,
@@ -292,10 +290,15 @@ namespace HairbookWebApi.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedDate = table.Column<DateTime>(nullable: true),
                     CreatedUserId = table.Column<int>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     SalonId = table.Column<int>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     UpdatedUserId = table.Column<int>(nullable: true),
-                    UserKey = table.Column<string>(nullable: false)
+                    UserKey = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -483,6 +486,11 @@ namespace HairbookWebApi.Migrations
                 column: "CreatedUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostComment_PostId",
+                table: "PostComment",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostComment_UpdatedUserId",
                 table: "PostComment",
                 column: "UpdatedUserId");
@@ -496,6 +504,11 @@ namespace HairbookWebApi.Migrations
                 name: "IX_PostCommentTag_CreatedUserId",
                 table: "PostCommentTag",
                 column: "CreatedUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PostCommentTag_PostCommentId",
+                table: "PostCommentTag",
+                column: "PostCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostCommentTag_TagId",

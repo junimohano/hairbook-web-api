@@ -34,6 +34,8 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.PostId, x.UserId });
             modelBuilder.Entity<PostHairMenu>().HasAlternateKey(x => new { x.PostId, x.PostHairMenuId });
             modelBuilder.Entity<PostHairType>().HasAlternateKey(x => new { x.PostId, x.PostHairTypeId });
+            //modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserName });
+            modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserKey });
 
             // one to many
             modelBuilder.Entity<Customer>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -89,17 +91,6 @@ namespace HairbookWebApi.Database
 
             // default value
             //modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<MemoEvaluation>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<MemoTag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<MemoUpload>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<Post>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<PostEvaluation>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<PostTag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<PostUpload>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<Salon>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<Tag>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<User>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
-            //modelBuilder.Entity<UserFriend>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
         }
     }
 }

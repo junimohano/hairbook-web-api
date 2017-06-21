@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HairbookWebApi.Auth;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
 {
-    //[Authorize]
+    [Authorize(AuthOption.TokenType)]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UserFriendsController : Controller
