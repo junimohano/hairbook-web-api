@@ -149,22 +149,22 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost("GetToken")]
-        public async Task<IActionResult> GetToken([FromBody] UserDto userDto)
+        public async Task<IActionResult> GetToken([FromBody] UserSecretDto userSecretDto)
         {
             User user;
             bool isSuccess;
 
-            if (userDto.UserKey == null)
+            if (userSecretDto.UserKey == null)
             {
-                user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userDto.UserName);
+                user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userSecretDto.UserName);
                 if (user == null)
                     return NotFound();
 
-                isSuccess = user.Password == userDto.Password;
+                isSuccess = user.Password == userSecretDto.Password;
             }
             else
             {
-                user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserKey == userDto.UserKey);
+                user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserKey == userSecretDto.UserKey);
                 if (user == null)
                     return NotFound();
 
