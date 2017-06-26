@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170623230137_Migration2")]
+    partial class Migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -424,14 +425,14 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.Property<string>("UserKey");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("UserKey")
                         .IsRequired();
+
+                    b.Property<string>("UserName");
 
                     b.HasKey("UserId");
 
-                    b.HasAlternateKey("UserName");
+                    b.HasAlternateKey("UserKey");
 
                     b.HasIndex("CreatedUserId");
 

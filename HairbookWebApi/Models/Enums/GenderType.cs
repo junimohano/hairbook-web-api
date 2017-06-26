@@ -7,6 +7,7 @@ namespace HairbookWebApi.Models.Enums
 {
     public enum GenderType
     {
+        Undefined,
         Male,
         Female
     }

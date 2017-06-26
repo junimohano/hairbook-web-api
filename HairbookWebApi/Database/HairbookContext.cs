@@ -29,13 +29,11 @@ namespace HairbookWebApi.Database
             //modelBuilder.Entity<User>().ToTable("User");
 
             //unique
-            modelBuilder.Entity<User>().HasAlternateKey(c => c.UserKey);
             modelBuilder.Entity<UserFriend>().HasAlternateKey(x => new { x.UserId, x.FriendId });
             modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.PostId, x.UserId });
             modelBuilder.Entity<PostHairMenu>().HasAlternateKey(x => new { x.PostId, x.PostHairMenuId });
             modelBuilder.Entity<PostHairType>().HasAlternateKey(x => new { x.PostId, x.PostHairTypeId });
-            //modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserName });
-            modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserKey });
+            modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserName });
 
             // one to many
             modelBuilder.Entity<Customer>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);

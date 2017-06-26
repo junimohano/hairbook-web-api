@@ -19,9 +19,10 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, int userId, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
+        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<Post> result = _context.Posts
+                .Include(x => x.CreatedUser)
                 .Include(x => x.Customer)
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
@@ -37,7 +38,7 @@ namespace HairbookWebApi.Repositories
 
             if (predicate != null)
                 result = result.Where(predicate);
-            
+
             if (orderBy != null)
                 result = result.OrderBy(orderBy);
 

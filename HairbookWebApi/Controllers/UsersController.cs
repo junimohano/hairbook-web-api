@@ -134,7 +134,7 @@ namespace HairbookWebApi.Controllers
                 _unitOfWork.Dispose();
             base.Dispose(disposing);
         }
-        
+
         //public IActionResult GetUserInfo()
         //{
         //    var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -148,6 +148,18 @@ namespace HairbookWebApi.Controllers
             return await _unitOfWork.Users.AnyAsync(x => x.UserKey == userKey);
         }
 
+        [HttpGet("ExistUserName/{userName}")]
+        public async Task<bool> ExistUserName([FromRoute] string userName)
+        {
+            return await _unitOfWork.Users.AnyAsync(x => x.UserName == userName);
+        }
+
+        [HttpGet("GetByUserName/{userName}")]
+        public async Task<User> GetByUserName([FromRoute] string userName)
+        {
+            return await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+        }
+
         [HttpPost("GetToken")]
         public async Task<IActionResult> GetToken([FromBody] UserSecretDto userSecretDto)
         {
@@ -158,7 +170,7 @@ namespace HairbookWebApi.Controllers
             {
                 user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userSecretDto.UserName);
                 if (user == null)
-                    return NotFound();
+                    return NotFound("Username is not found");
 
                 isSuccess = user.Password == userSecretDto.Password;
             }
@@ -166,7 +178,7 @@ namespace HairbookWebApi.Controllers
             {
                 user = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserKey == userSecretDto.UserKey);
                 if (user == null)
-                    return NotFound();
+                    return NotFound("UserKey is not found");
 
                 isSuccess = true;
             }

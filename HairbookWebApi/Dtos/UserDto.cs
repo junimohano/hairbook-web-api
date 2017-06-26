@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Dtos
 {
@@ -14,6 +16,10 @@ namespace HairbookWebApi.Dtos
         public string Email { get; set; }
         public string Image { get; set; }
         public string Name { get; set; }
+
+        public GenderType Gender { get; set; }
+        public DateTime? BirthDay { get; set; }
+        public string Phone { get; set; }
 
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
