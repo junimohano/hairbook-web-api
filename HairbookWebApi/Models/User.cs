@@ -21,7 +21,7 @@ namespace HairbookWebApi.Models
         public string Name { get; set; }
 
         public GenderType Gender { get; set; }
-        public DateTime? BirthDay { get; set; }
+        public DateTime? Birthday { get; set; }
         public string Phone { get; set; }
 
         public int? SalonId { get; set; }

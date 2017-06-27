@@ -28,7 +28,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] AccessType accessType = AccessType.Private, [FromQuery] string search = null)
+        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] AccessType accessType = AccessType.Private, [FromQuery] string search = null)
         {
             Expression<Func<Post, bool>> predicate = null;
             switch (accessType)
@@ -40,10 +40,21 @@ namespace HairbookWebApi.Controllers
                         predicate = x => x.AccessType == AccessType.Public;
                     break;
                 case AccessType.Private:
-                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                        predicate = x => x.CreatedUser.UserName == userName && x.Customer.Name.Contains(search);
+                    // visit other user's home
+                    if (userName != userNameParam)
+                    {
+                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                            predicate = x => x.CreatedUser.UserName == userNameParam && x.Customer.Name.Contains(search) && x.AccessType != AccessType.Private;
+                        else
+                            predicate = x => x.CreatedUser.UserName == userNameParam && x.AccessType != AccessType.Private;
+                    }
                     else
-                        predicate = x => x.CreatedUser.UserName == userName;
+                    {
+                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                            predicate = x => x.CreatedUser.UserName == userName && x.Customer.Name.Contains(search);
+                        else
+                            predicate = x => x.CreatedUser.UserName == userName;
+                    }
                     break;
                 case AccessType.OnlyFriends:
                     //result = result.Where(x=>x.CreatedUserId == _context.UserFriends.Where(x=>x.UserId == userId).Contains(1))
