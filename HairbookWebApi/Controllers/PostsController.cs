@@ -72,7 +72,7 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Posts.FindAsync(id);
+            var model = await _unitOfWork.Posts.GetPostAsync(id);
 
             if (model == null)
                 return NotFound();

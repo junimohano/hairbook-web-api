@@ -49,6 +49,25 @@ namespace HairbookWebApi.Repositories
             return await result.ToListAsync();
         }
 
+        public async Task<Post> GetPostAsync(int postId)
+        {
+            var result = await _context.Posts
+                .AsNoTracking()
+                .Include(x => x.CreatedUser)
+                .Include(x => x.Customer)
+                .Include(x => x.Salon)
+                .Include(x => x.PostEvaluations)
+                .Include(x => x.PostComments)
+                .Include(x => x.PostHairTypes)
+                .ThenInclude(x => x.HairType)
+                .Include(x => x.PostHairMenus)
+                .ThenInclude(x => x.HairMenu)
+                .Include(x => x.PostUploads)
+                .SingleOrDefaultAsync(x => x.PostId == postId);
+                
+            return result;
+        }
+
         public async void AddPost(Post post)
         {
             var model = await _context.Posts.AddAsync(post);
