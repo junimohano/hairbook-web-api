@@ -34,7 +34,7 @@ namespace HairbookWebApi.Database
             {
                 new HairMenu(){ Name = "Cut" },
                 new HairMenu(){ Name = "Color" },
-                new HairMenu(){ Name = "Parm" },
+                new HairMenu(){ Name = "Perm" },
                 new HairMenu(){ Name = "Wb" },
                 new HairMenu(){ Name = "Updo" }
             };
@@ -43,8 +43,17 @@ namespace HairbookWebApi.Database
 
             var hairSubMenus = new[]
             {
+                new HairSubMenu(){ Name = "Root Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Full Color", HairMenuId = 2},
-                new HairSubMenu(){ Name = "Digital Parm", HairMenuId = 3}
+                new HairSubMenu(){ Name = "Balayage Color", HairMenuId = 2},
+                new HairSubMenu(){ Name = "Hilites Color", HairMenuId = 2},
+                new HairSubMenu(){ Name = "Partial Color", HairMenuId = 2},
+                new HairSubMenu(){ Name = "Ombre Color", HairMenuId = 2},
+
+                new HairSubMenu(){ Name = "Cold Perm", HairMenuId = 3},
+                new HairSubMenu(){ Name = "Digital Perm", HairMenuId = 3},
+                new HairSubMenu(){ Name = "Straight Perm", HairMenuId = 3},
+                new HairSubMenu(){ Name = "Partial Perm", HairMenuId = 3},
             };
             context.HairSubMenus.AddRange(hairSubMenus);
             context.SaveChanges();
@@ -58,18 +67,19 @@ namespace HairbookWebApi.Database
                 new HairType(){ Name = "Parmed" },
                 new HairType(){ Name = "Straight" },
                 new HairType(){ Name = "Wavy" },
-                new HairType(){ Name = "Fleezy" }
+                new HairType(){ Name = "Fleezy" },
+                new HairType(){ Name = "High damaged" }
             };
             context.HairTypes.AddRange(hairTypes);
             context.SaveChanges();
 
             var customers = new[]
             {
-                new Customer(){ Name = "Jonh Park", Gender = GenderType.Male, UserId = 1},
-                new Customer(){ Name = "Jenny", Gender = GenderType.Male, UserId = 1},
-                new Customer(){ Name = "Mark Jang", Gender = GenderType.Male, UserId = 1},
-                new Customer(){ Name = "Petric San", Gender = GenderType.Male, UserId = 1},
-                new Customer(){ Name = "Totoro", Gender = GenderType.Male, UserId = 1}
+                new Customer(){ Name = "Jonh Park", Gender = GenderType.Male, CreatedUserId = 1},
+                new Customer(){ Name = "Jenny", Gender = GenderType.Male, CreatedUserId = 1},
+                new Customer(){ Name = "Mark Jang", Gender = GenderType.Male, CreatedUserId = 1},
+                new Customer(){ Name = "Petric San", Gender = GenderType.Male, CreatedUserId = 1},
+                new Customer(){ Name = "Totoro", Gender = GenderType.Male, CreatedUserId = 1}
             };
             context.Customers.AddRange(customers);
             context.SaveChanges();
@@ -100,53 +110,53 @@ namespace HairbookWebApi.Database
 
             var posts = new[]
             {
-                new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test1", SalonId = 1, HairTypeId = 1, HairMemo = "too thin", AccessType = AccessType.Public },
-                new Post(){ CustomerId = 2, Date = DateTime.Now, Memo = "Test2", SalonId = 2, HairTypeId = 2, HairMemo = "Memo 2", AccessType = AccessType.Private },
-                new Post(){ CustomerId = 3, Date = DateTime.Now, Memo = "Test3", SalonId = 1, HairTypeId = 3, HairMemo = "Memo 3", AccessType = AccessType.OnlyFriends },
-                new Post(){ CustomerId = 4, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeId = 4, HairMemo = "Memo 4", AccessType = AccessType.Public },
-                new Post(){ CustomerId = 5, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeId = 4, HairMemo = "Memo 5", AccessType = AccessType.Public },
-                new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test5", SalonId = 1, HairTypeId = 6, HairMemo = "Memo 6", AccessType = AccessType.Public },
+                new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test1", SalonId = 1, HairTypeMemo = "too thin", AccessType = AccessType.Public },
+                new Post(){ CustomerId = 2, Date = DateTime.Now, Memo = "Test2", SalonId = 2, HairTypeMemo = "Memo 2", AccessType = AccessType.Private },
+                new Post(){ CustomerId = 3, Date = DateTime.Now, Memo = "Test3", SalonId = 1, HairTypeMemo = "Memo 3", AccessType = AccessType.OnlyFriends },
+                new Post(){ CustomerId = 4, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeMemo = "Memo 4", AccessType = AccessType.Public },
+                new Post(){ CustomerId = 5, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeMemo = "Memo 5", AccessType = AccessType.Public },
+                new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test5", SalonId = 1, HairTypeMemo = "Memo 6", AccessType = AccessType.Public },
             };
             context.Posts.AddRange(posts);
             context.SaveChanges();
 
             var postComments = new[]
             {
-                new PostComment(){ PostId = 1, UserId = 1, Comment= "Test1" },
-                new PostComment(){ PostId = 1, UserId = 1, Comment= "Test2" },
-                new PostComment(){ PostId = 1, UserId = 1, Comment= "Test3" },
-                new PostComment(){ PostId = 2, UserId = 1, Comment= "Test4" },
-                new PostComment(){ PostId = 3, UserId = 1, Comment= "Test5" },
-                new PostComment(){ PostId = 4, UserId = 1, Comment= "Test6" },
-                new PostComment(){ PostId = 5, UserId = 1, Comment= "Test7" },
+                new PostComment(){ PostId = 1, CreatedUserId = 1, Comment= "Test1" },
+                new PostComment(){ PostId = 1, CreatedUserId = 1, Comment= "Test2" },
+                new PostComment(){ PostId = 1, CreatedUserId = 1, Comment= "Test3" },
+                new PostComment(){ PostId = 2, CreatedUserId = 1, Comment= "Test4" },
+                new PostComment(){ PostId = 3, CreatedUserId = 1, Comment= "Test5" },
+                new PostComment(){ PostId = 4, CreatedUserId = 1, Comment= "Test6" },
+                new PostComment(){ PostId = 5, CreatedUserId = 1, Comment= "Test7" },
             };
             context.PostComments.AddRange(postComments);
             context.SaveChanges();
 
             var postCommentTags = new[]
         {
-                new PostCommentTag(){ PostCommentId = 1, UserId = 1, TagId = 1},
-                new PostCommentTag(){ PostCommentId = 2, UserId = 1, TagId = 2},
-                new PostCommentTag(){ PostCommentId = 3, UserId = 1, TagId = 3},
-                new PostCommentTag(){ PostCommentId = 4, UserId = 4, TagId = 4},
-                new PostCommentTag(){ PostCommentId = 5, UserId = 1, TagId = 5},
-                new PostCommentTag(){ PostCommentId = 6, UserId = 1, TagId = 6},
-                new PostCommentTag(){ PostCommentId = 7, UserId = 1, TagId = 7},
-                new PostCommentTag(){ PostCommentId = 1, UserId = 2, TagId = 8},
-                new PostCommentTag(){ PostCommentId = 1, UserId = 3, TagId = 9},
+                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 1, TagId = 1},
+                new PostCommentTag(){ PostCommentId = 2, CreatedUserId = 1, TagId = 2},
+                new PostCommentTag(){ PostCommentId = 3, CreatedUserId = 1, TagId = 3},
+                new PostCommentTag(){ PostCommentId = 4, CreatedUserId = 4, TagId = 4},
+                new PostCommentTag(){ PostCommentId = 5, CreatedUserId = 1, TagId = 5},
+                new PostCommentTag(){ PostCommentId = 6, CreatedUserId = 1, TagId = 6},
+                new PostCommentTag(){ PostCommentId = 7, CreatedUserId = 1, TagId = 7},
+                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 2, TagId = 8},
+                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 3, TagId = 9},
             };
             context.PostCommentTags.AddRange(postCommentTags);
             context.SaveChanges();
 
             var postEvaluations = new[]
             {
-                new PostEvaluation(){ PostId = 1, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 1, UserId = 2, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 1, UserId = 3, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 2, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 3, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 4, UserId = 1, EvaluationType= EvaluationType.Like },
-                new PostEvaluation(){ PostId = 5, UserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 1, CreatedUserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 1, CreatedUserId = 2, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 1, CreatedUserId = 3, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 2, CreatedUserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 3, CreatedUserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 4, CreatedUserId = 1, EvaluationType= EvaluationType.Like },
+                new PostEvaluation(){ PostId = 5, CreatedUserId = 1, EvaluationType= EvaluationType.Like },
             };
             context.PostEvaluations.AddRange(postEvaluations);
             context.SaveChanges();

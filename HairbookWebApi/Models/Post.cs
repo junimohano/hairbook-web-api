@@ -31,9 +31,7 @@ namespace HairbookWebApi.Models
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
         
-        public int? HairTypeId { get; set; }
-        public HairType HairType { get; set; }
-        public string HairMemo { get; set; }
+        public string HairTypeMemo { get; set; }
 
         public AccessType AccessType { get; set; }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Models.Enums;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace HairbookWebApi.Repositories
 {
@@ -21,17 +22,7 @@ namespace HairbookWebApi.Repositories
 
         public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
         {
-            IQueryable<Post> result = _context.Posts
-                .Include(x => x.CreatedUser)
-                .Include(x => x.Customer)
-                .Include(x => x.Salon)
-                .Include(x => x.PostEvaluations)
-                .Include(x => x.PostComments)
-                .Include(x => x.PostHairTypes)
-                    .ThenInclude(x => x.HairType)
-                .Include(x => x.PostHairMenus)
-                    .ThenInclude(x => x.HairMenu)
-                .Include(x => x.PostUploads);
+            IQueryable<Post> result = GetPost();
 
             if (isReadonly)
                 result = result.AsNoTracking();
@@ -51,21 +42,29 @@ namespace HairbookWebApi.Repositories
 
         public async Task<Post> GetPostAsync(int postId)
         {
-            var result = await _context.Posts
-                .AsNoTracking()
+            var result = await GetPost()
+                            .AsNoTracking()
+                            .SingleOrDefaultAsync(x => x.PostId == postId);
+
+            return result;
+        }
+
+        private IIncludableQueryable<Post, IEnumerable<PostUpload>> GetPost()
+        {
+            return _context.Posts
                 .Include(x => x.CreatedUser)
                 .Include(x => x.Customer)
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
                 .Include(x => x.PostComments)
+                    .ThenInclude(x => x.CreatedUser)
                 .Include(x => x.PostHairTypes)
-                .ThenInclude(x => x.HairType)
+                    .ThenInclude(x => x.HairType)
                 .Include(x => x.PostHairMenus)
-                .ThenInclude(x => x.HairMenu)
-                .Include(x => x.PostUploads)
-                .SingleOrDefaultAsync(x => x.PostId == postId);
-                
-            return result;
+                    .ThenInclude(x => x.HairMenu)
+                .Include(x => x.PostHairMenus)
+                    .ThenInclude(x => x.HairSubMenu)
+                .Include(x => x.PostUploads);
         }
 
         public async void AddPost(Post post)
@@ -135,6 +134,9 @@ namespace HairbookWebApi.Repositories
 
             if (post.PostUploads.Any())
                 _context.PostUploads.RemoveRange(post.PostUploads);
+
+            if (post.PostComments.Any())
+                _context.PostComments.RemoveRange(post.PostComments);
 
             _context.Posts.Remove(post);
         }

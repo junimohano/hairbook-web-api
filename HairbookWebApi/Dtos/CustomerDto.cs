@@ -16,8 +16,5 @@ namespace HairbookWebApi.Dtos
         public GenderType Gender { get; set; }
         public DateTime? BirthDay { get; set; }
         public string Phone { get; set; }
-
-        public int UserId { get; set; }
-        public UserDto User { get; set; }
     }
 }

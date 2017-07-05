@@ -30,7 +30,7 @@ namespace HairbookWebApi.Database
 
             //unique
             modelBuilder.Entity<UserFriend>().HasAlternateKey(x => new { x.UserId, x.FriendId });
-            modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.PostId, x.UserId });
+            modelBuilder.Entity<PostEvaluation>().HasAlternateKey(x => new { x.PostId, x.CreatedUserId });
             modelBuilder.Entity<PostHairMenu>().HasAlternateKey(x => new { x.PostId, x.PostHairMenuId });
             modelBuilder.Entity<PostHairType>().HasAlternateKey(x => new { x.PostId, x.PostHairTypeId });
             modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserName });
@@ -44,15 +44,12 @@ namespace HairbookWebApi.Database
 
             modelBuilder.Entity<PostComment>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostComment>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<PostComment>().HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PostCommentTag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostCommentTag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<PostCommentTag>().HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<PostEvaluation>().HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PostHairMenu>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostHairMenu>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);

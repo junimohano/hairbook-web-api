@@ -10,10 +10,7 @@ namespace HairbookWebApi.Dtos
 
         public int PostCommentId { get; set; }
         public PostCommentDto PostComment { get; set; }
-
-        public int UserId { get; set; }
-        public UserDto User { get; set; }
-
+        
         public int TagId { get; set; }
         public TagDto Tag { get; set; }
     }

@@ -14,6 +14,7 @@ namespace HairbookWebApi.Repositories
         public IPostsRepository Posts { get; }
         public IPostEvaluationsRepository PostEvaluations { get; }
         public IPostUploadsRepository PostUploads { get; }
+        public IPostCommentsRepository PostComments { get; }
         
         public UnitOfWork(HairbookContext context)
         {
@@ -24,6 +25,7 @@ namespace HairbookWebApi.Repositories
             Posts = new PostsRepository(_context);
             PostEvaluations = new PostEvaluationsRepository(_context);
             PostUploads = new PostUploadsRepository(_context);
+            PostComments = new PostCommentsRepository(_context);
         }
 
         public async Task<int> Complete()

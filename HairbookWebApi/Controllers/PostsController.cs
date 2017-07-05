@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Auth;
@@ -63,7 +64,15 @@ namespace HairbookWebApi.Controllers
 
             var models = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate);
 
-            return _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
+            // Comment only 5
+            var modelDtos = _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
+            foreach (var modelDto in modelDtos)
+            {
+                modelDto.TotalPostComments = modelDto.PostComments.Count();
+                modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
+            }
+
+            return modelDtos;
         }
 
         [HttpGet("{id}")]
@@ -77,7 +86,12 @@ namespace HairbookWebApi.Controllers
             if (model == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<Post, PostDto>(model));
+            // Comment only 5
+            var modelDto = _mapper.Map<Post, PostDto>(model);
+            modelDto.TotalPostComments = modelDto.PostComments.Count();
+            modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
+
+            return Ok(modelDto);
         }
 
         [HttpPut("{id}")]

@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170630010321_Migration7")]
+    partial class Migration7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -38,11 +39,15 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("CustomerId");
 
                     b.HasIndex("CreatedUserId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customer");
                 });
@@ -142,6 +147,8 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("PostCommentId");
 
                     b.HasIndex("CreatedUserId");
@@ -149,6 +156,8 @@ namespace HairbookWebApi.Migrations
                     b.HasIndex("PostId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostComment");
                 });
@@ -170,6 +179,8 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("PostCommentTagId");
 
                     b.HasIndex("CreatedUserId");
@@ -179,6 +190,8 @@ namespace HairbookWebApi.Migrations
                     b.HasIndex("TagId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostCommentTag");
                 });
@@ -190,8 +203,7 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int?>("CreatedUserId")
-                        .IsRequired();
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<int>("EvaluationType");
 
@@ -201,13 +213,17 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<int?>("UpdatedUserId");
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("PostEvaluationId");
 
-                    b.HasAlternateKey("PostId", "CreatedUserId");
+                    b.HasAlternateKey("PostId", "UserId");
 
                     b.HasIndex("CreatedUserId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PostEvaluation");
                 });
@@ -464,6 +480,11 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.HairSubMenu", b =>
@@ -508,6 +529,10 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostCommentTag", b =>
@@ -529,6 +554,10 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostEvaluation", b =>
@@ -545,6 +574,10 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostHairMenu", b =>

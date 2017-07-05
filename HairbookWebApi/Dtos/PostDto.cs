@@ -19,9 +19,7 @@ namespace HairbookWebApi.Dtos
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
         
-        public int? HairTypeId { get; set; }
-        public HairTypeDto HairType { get; set; }
-        public string HairMemo { get; set; }
+        public string HairTypeMemo { get; set; }
 
         public AccessType AccessType { get; set; }
 
@@ -31,6 +29,7 @@ namespace HairbookWebApi.Dtos
         public IEnumerable<PostCommentDto> PostComments { get; set; }
         public IEnumerable<PostUploadDto> PostUploads { get; set; }
 
+        public int TotalPostComments { get; set; }
         // todo: draw functions
     }
 }
