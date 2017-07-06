@@ -8,6 +8,6 @@ namespace HairbookWebApi.Repositories
 {
     public interface IUserFriendsRepository : IRepository<UserFriend>
     {
-        Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, object>> orderBy = null, bool isReadonly = true);
+        Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true);
     }
 }

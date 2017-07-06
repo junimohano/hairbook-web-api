@@ -18,7 +18,7 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
         
-        public async Task<IEnumerable<User>> GetUsersAsync(int index, int count, Expression<Func<User, bool>> predicate = null, Expression<Func<User, object>> orderBy = null, bool isReadonly = true)
+        public async Task<IEnumerable<User>> GetUsersAsync(int index, int count, Expression<Func<User, bool>> predicate = null, Expression<Func<User, int>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<User> result = _context.Users
                                 .Include(x => x.Salon)

@@ -18,7 +18,7 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, object>> orderBy = null, bool isReadonly = true)
+        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<UserFriend> result = _context.UserFriends
                                             .Include(x => x.Friend)

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Auth;
@@ -30,9 +31,9 @@ namespace HairbookWebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<PostCommentDto>> Get([FromQuery] int postId, [FromQuery] int index = 0, [FromQuery] int count = 10)
         {
-            var models = await _unitOfWork.PostComments.GetPostCommentsAsync(index, count, x => x.PostId == postId, x=>x.PostCommentId);
+            var models = await _unitOfWork.PostComments.GetPostCommentsAsync(index, count, x => x.PostId == postId, x => x.PostCommentId);
 
-            return _mapper.Map<IEnumerable<PostComment>, IEnumerable<PostCommentDto>>(models);
+            return _mapper.Map<IEnumerable<PostComment>, IEnumerable<PostCommentDto>>(models.Reverse());
         }
 
         [HttpGet("{id}")]

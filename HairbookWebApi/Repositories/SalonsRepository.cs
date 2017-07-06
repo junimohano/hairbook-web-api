@@ -18,7 +18,7 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Salon>> GetSalonsAsync(int index, int count, Expression<Func<Salon, bool>> predicate = null, Expression<Func<Salon, object>> orderBy = null, bool isReadonly = true)
+        public async Task<IEnumerable<Salon>> GetSalonsAsync(int index, int count, Expression<Func<Salon, bool>> predicate = null, Expression<Func<Salon, int>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<Salon> result = _context.Salons;
 

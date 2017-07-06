@@ -20,7 +20,7 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, object>> orderBy = null, bool isReadonly = true)
+        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, int>> orderByDescending = null, bool isReadonly = true)
         {
             IQueryable<Post> result = GetPost();
 
@@ -30,9 +30,9 @@ namespace HairbookWebApi.Repositories
             if (predicate != null)
                 result = result.Where(predicate);
 
-            if (orderBy != null)
-                result = result.OrderBy(orderBy);
-
+            if (orderByDescending != null)
+                result = result.OrderByDescending(orderByDescending);
+            
             if (count != 0)
                 result = result.Skip(index)
                              .Take(count);

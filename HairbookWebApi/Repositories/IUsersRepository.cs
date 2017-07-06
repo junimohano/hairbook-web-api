@@ -9,6 +9,6 @@ namespace HairbookWebApi.Repositories
 {
     public interface IUsersRepository : IRepository<User>
     {
-        Task<IEnumerable<User>> GetUsersAsync(int index, int count, Expression<Func<User, bool>> predicate = null, Expression<Func<User, object>> orderBy = null, bool isReadonly = true);
+        Task<IEnumerable<User>> GetUsersAsync(int index, int count, Expression<Func<User, bool>> predicate = null, Expression<Func<User, int>> orderBy = null, bool isReadonly = true);
     }
 }

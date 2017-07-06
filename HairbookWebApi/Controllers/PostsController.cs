@@ -62,9 +62,9 @@ namespace HairbookWebApi.Controllers
                     break;
             }
 
-            var models = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate);
+            var models = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate, x => x.PostId);
 
-            // Comment only 5
+            // Comment only 3
             var modelDtos = _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
             foreach (var modelDto in modelDtos)
             {
@@ -86,7 +86,7 @@ namespace HairbookWebApi.Controllers
             if (model == null)
                 return NotFound();
 
-            // Comment only 5
+            // Comment only 3
             var modelDto = _mapper.Map<Post, PostDto>(model);
             modelDto.TotalPostComments = modelDto.PostComments.Count();
             modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
