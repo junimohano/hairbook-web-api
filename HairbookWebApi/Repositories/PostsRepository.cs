@@ -32,7 +32,7 @@ namespace HairbookWebApi.Repositories
 
             if (orderByDescending != null)
                 result = result.OrderByDescending(orderByDescending);
-            
+
             if (count != 0)
                 result = result.Skip(index)
                              .Take(count);
@@ -143,12 +143,19 @@ namespace HairbookWebApi.Repositories
 
         public async Task<IEnumerable<HairMenu>> GetMenusAsync()
         {
-            return await _context.HairMenus.ToListAsync();
+            return await _context.HairMenus
+                        .Include(x=>x.HairSubMenus)
+                        .ToListAsync();
         }
 
         public async Task<IEnumerable<HairType>> GetHairTypesAsync()
         {
             return await _context.HairTypes.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Customer>> GetCustomersAsync(int userId)
+        {
+            return await _context.Customers.Where(x => x.CreatedUserId == userId).ToListAsync();
         }
     }
 }

@@ -167,8 +167,8 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        [Route("Menus")]
-        public async Task<IActionResult> GetMenus()
+        [Route("HairMenus")]
+        public async Task<IActionResult> GetHairMenus()
         {
             var model = await _unitOfWork.Posts.GetMenusAsync();
 
@@ -188,6 +188,18 @@ namespace HairbookWebApi.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<IEnumerable<HairType>, IEnumerable<HairTypeDto>>(model));
+        }
+
+        [HttpGet]
+        [Route("Customers/{userId}")]
+        public async Task<IActionResult> GetCustomers([FromRoute] int userId)
+        {
+            var model = await _unitOfWork.Posts.GetCustomersAsync(userId);
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerDto>>(model));
         }
 
         protected override void Dispose(bool disposing)
