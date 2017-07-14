@@ -59,6 +59,8 @@ namespace HairbookWebApi.Controllers
 
                     await _unitOfWork.PostUploads.AddAsync(postUpload);
                     await _unitOfWork.Complete();
+
+                    return Ok(postUpload);
                 }
                 else
                 {
@@ -70,8 +72,6 @@ namespace HairbookWebApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-
-            return Ok();
         }
 
         [HttpDelete("{id}")]
