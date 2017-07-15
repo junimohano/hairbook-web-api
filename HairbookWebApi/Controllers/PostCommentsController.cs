@@ -63,7 +63,7 @@ namespace HairbookWebApi.Controllers
 
             try
             {
-                model.UpdatedDate = new DateTime();
+                model.UpdatedDate = DateTime.Now;
 
                 _unitOfWork.PostComments.Update(model);
                 await _unitOfWork.Complete();
@@ -86,7 +86,7 @@ namespace HairbookWebApi.Controllers
 
             try
             {
-                model.CreatedDate = new DateTime();
+                model.CreatedDate = DateTime.Now;
 
                 await _unitOfWork.PostComments.AddAsync(model);
                 await _unitOfWork.Complete();

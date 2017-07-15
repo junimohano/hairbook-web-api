@@ -69,12 +69,21 @@ namespace HairbookWebApi.Repositories
 
         public async void AddPost(Post post)
         {
+            if (post.CustomerId == 0)
+            {
+                post.Customer.CreatedDate = post.CreatedDate;
+                post.Customer.CreatedUserId = post.CreatedUserId;
+            }
+
             var model = await _context.Posts.AddAsync(post);
 
             if (post.PostHairTypes.Any())
             {
-                foreach (var hairType in post.PostHairTypes)
+                foreach (var hairType in post.PostHairTypes) { 
                     hairType.PostId = model.Entity.PostId;
+                    hairType.CreatedUserId = post.CreatedUserId;
+                    hairType.CreatedDate = post.CreatedDate;
+                }
 
                 await _context.PostHairTypes.AddRangeAsync(post.PostHairTypes);
             }
@@ -82,7 +91,11 @@ namespace HairbookWebApi.Repositories
             if (post.PostHairMenus.Any())
             {
                 foreach (var hairMenu in post.PostHairMenus)
+                {
                     hairMenu.PostId = model.Entity.PostId;
+                    hairMenu.CreatedUserId = post.CreatedUserId;
+                    hairMenu.CreatedDate = post.CreatedDate;
+                }
 
                 await _context.PostHairMenus.AddRangeAsync(post.PostHairMenus);
             }
@@ -96,12 +109,20 @@ namespace HairbookWebApi.Repositories
             if (post.PostHairTypes.Any())
             {
                 var updateHairTypes = post.PostHairTypes.Where(x => x.PostHairTypeId != 0).ToList();
+                foreach (var hairType in updateHairTypes)
+                {
+                    hairType.UpdatedDate = post.UpdatedDate;
+                    hairType.UpdatedUserId = post.UpdatedUserId;
+                }
                 if (updateHairTypes.Any())
                     _context.PostHairTypes.UpdateRange(updateHairTypes);
 
                 var newHairTypes = post.PostHairTypes.Where(x => x.PostHairTypeId == 0).ToList();
-                foreach (var hairType in newHairTypes)
+                foreach (var hairType in newHairTypes) { 
                     hairType.PostId = model.Entity.PostId;
+                    hairType.CreatedDate = post.CreatedDate;
+                    hairType.CreatedUserId = post.CreatedUserId;
+                }
                 if (newHairTypes.Any())
                     _context.PostHairTypes.AddRange(newHairTypes);
             }
@@ -110,12 +131,21 @@ namespace HairbookWebApi.Repositories
             if (post.PostHairMenus.Any())
             {
                 var updateHairMenus = post.PostHairMenus.Where(x => x.PostHairMenuId != 0).ToList();
+                foreach (var hairMenu in updateHairMenus)
+                {
+                    hairMenu.UpdatedDate = post.UpdatedDate;
+                    hairMenu.UpdatedUserId = post.UpdatedUserId;
+                }
                 if (updateHairMenus.Any())
                     _context.PostHairMenus.UpdateRange(updateHairMenus);
 
                 var newHairMenus = post.PostHairMenus.Where(x => x.PostHairMenuId == 0).ToList();
                 foreach (var hairMenu in newHairMenus)
+                {
                     hairMenu.PostId = model.Entity.PostId;
+                    hairMenu.CreatedDate = post.CreatedDate;
+                    hairMenu.CreatedUserId = post.CreatedUserId;
+                }
                 if (newHairMenus.Any())
                     _context.PostHairMenus.AddRange(newHairMenus);
             }
@@ -144,7 +174,7 @@ namespace HairbookWebApi.Repositories
         public async Task<IEnumerable<HairMenu>> GetMenusAsync()
         {
             return await _context.HairMenus
-                        .Include(x=>x.HairSubMenus)
+                        .Include(x => x.HairSubMenus)
                         .ToListAsync();
         }
 
