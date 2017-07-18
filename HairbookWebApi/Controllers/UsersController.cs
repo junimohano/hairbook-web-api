@@ -9,9 +9,12 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace HairbookWebApi.Controllers
 {
@@ -22,11 +25,13 @@ namespace HairbookWebApi.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IHostingEnvironment _environment;
 
-        public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
+        public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IHostingEnvironment environment)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _environment = environment;
         }
 
         [Authorize(AuthOption.TokenType)]
@@ -222,5 +227,55 @@ namespace HairbookWebApi.Controllers
             });
             return handler.WriteToken(securityToken);
         }
+
+        [HttpPost("PostUserImage/{userId}")]
+        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromRoute] int userId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _unitOfWork.Users.FindAsync(userId);
+            if (user == null)
+                return BadRequest();
+
+            try
+            {
+                var uploadPath = Path.Combine("uploads", "users", $"{DateTime.Now.Ticks}_{new FileInfo(uploadedFile.FileName).Name}");
+
+                if (uploadedFile.Length > 0)
+                {
+                    if (user.Image != null)
+                    {
+                        var fileInfo = new FileInfo(Path.Combine(_environment.WebRootPath, user.Image));
+                        if (fileInfo.Exists)
+                            fileInfo.Delete();
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(_environment.WebRootPath, uploadPath), FileMode.Create))
+                    {
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+
+                    user.Image = uploadPath;
+                    user.UpdatedDate = DateTime.Now;
+                    user.UpdatedUserId = user.CreatedUserId;
+
+                    _unitOfWork.Users.Update(user);
+                    await _unitOfWork.Complete();
+
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

@@ -30,9 +30,8 @@ namespace HairbookWebApi.Controllers
             _environment = environment;
         }
 
-        [HttpPost]
-        //[Route("Upload")]
-        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromQuery] int postId)
+        [HttpPost("{postId}")]
+        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromRoute] int postId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -42,7 +41,7 @@ namespace HairbookWebApi.Controllers
 
             try
             {
-                var uplaodPath = Path.Combine("uploads", $"{DateTime.Now.Ticks}_{new FileInfo(uploadedFile.FileName).Name}");
+                var uplaodPath = Path.Combine("uploads", "posts", $"{DateTime.Now.Ticks}_{new FileInfo(uploadedFile.FileName).Name}");
 
                 if (uploadedFile.Length > 0)
                 {
