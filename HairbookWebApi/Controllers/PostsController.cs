@@ -117,7 +117,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return NoContent();
+            return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<Post, PostDto>(model));
         }
 
         [HttpPost]
@@ -166,8 +166,7 @@ namespace HairbookWebApi.Controllers
             return Ok(_mapper.Map<Post, PostDto>(model));
         }
 
-        [HttpGet]
-        [Route("HairMenus")]
+        [HttpGet("HairMenus")]
         public async Task<IActionResult> GetHairMenus()
         {
             var model = await _unitOfWork.Posts.GetMenusAsync();
@@ -178,8 +177,7 @@ namespace HairbookWebApi.Controllers
             return Ok(_mapper.Map<IEnumerable<HairMenu>, IEnumerable<HairMenuDto>>(model));
         }
 
-        [HttpGet]
-        [Route("HairTypes")]
+        [HttpGet("HairTypes")]
         public async Task<IActionResult> GetHairTypes()
         {
             var model = await _unitOfWork.Posts.GetHairTypesAsync();

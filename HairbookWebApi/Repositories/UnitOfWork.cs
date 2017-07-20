@@ -1,5 +1,6 @@
 ﻿using HairbookWebApi.Database;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HairbookWebApi.Repositories
 {
@@ -16,13 +17,13 @@ namespace HairbookWebApi.Repositories
         public IPostUploadsRepository PostUploads { get; }
         public IPostCommentsRepository PostComments { get; }
         
-        public UnitOfWork(HairbookContext context)
+        public UnitOfWork(HairbookContext context, IHostingEnvironment environment)
         {
             _context = context;
             Users = new UsersRepository(_context);
             UserFriends = new UserFriendsRepository(_context);
             Salons = new SalonsRepository(_context);
-            Posts = new PostsRepository(_context);
+            Posts = new PostsRepository(_context, environment);
             PostEvaluations = new PostEvaluationsRepository(_context);
             PostUploads = new PostUploadsRepository(_context);
             PostComments = new PostCommentsRepository(_context);

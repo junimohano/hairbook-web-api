@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using HairbookWebApi.Auth;
+using HairbookWebApi.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
@@ -31,7 +32,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost("{postId}")]
-        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromRoute] int postId)
+        public async Task<IActionResult> Post([FromRoute] int postId, IFormFile uploadedFile, string memo, UploadCategoryType uploadCategoryType, UploadFileType uploadFileType, int userId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -53,7 +54,11 @@ namespace HairbookWebApi.Controllers
                     {
                         PostId = postId,
                         Path = uplaodPath,
-                        CreatedDate = new DateTime()
+                        Memo = memo,
+                        UploadCategoryType = uploadCategoryType,
+                        UploadFileType = uploadFileType,
+                        CreatedDate = DateTime.Now,
+                        CreatedUserId = userId
                     };
 
                     await _unitOfWork.PostUploads.AddAsync(postUpload);
@@ -98,6 +103,34 @@ namespace HairbookWebApi.Controllers
             }
 
             return Ok(_mapper.Map<PostUpload, PostUploadDto>(model));
+        }
+
+        [HttpPut("{postUploadId}")]
+        public async Task<IActionResult> Put([FromRoute] int postUploadId, string memo, UploadCategoryType uploadCategoryType, int userId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var postUpload = await _unitOfWork.PostUploads.FindAsync(postUploadId);
+            if (postUpload == null)
+                return BadRequest();
+
+            try
+            {
+                postUpload.Memo = memo;
+                postUpload.UploadCategoryType = uploadCategoryType;
+                postUpload.UpdatedDate = DateTime.Now;
+                postUpload.UpdatedUserId = userId;
+
+                _unitOfWork.PostUploads.Update(postUpload);
+                await _unitOfWork.Complete();
+
+                return Ok(postUpload);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         protected override void Dispose(bool disposing)
