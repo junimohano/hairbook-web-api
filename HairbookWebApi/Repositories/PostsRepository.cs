@@ -26,7 +26,7 @@ namespace HairbookWebApi.Repositories
 
         public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, int>> orderByDescending = null, bool isReadonly = true)
         {
-            IQueryable<Post> result = GetPost();
+            IQueryable<Post> result = GetPosts();
 
             if (isReadonly)
                 result = result.AsNoTracking();
@@ -46,14 +46,14 @@ namespace HairbookWebApi.Repositories
 
         public async Task<Post> GetPostAsync(int postId)
         {
-            var result = await GetPost()
+            var result = await GetPosts()
                             .AsNoTracking()
                             .SingleOrDefaultAsync(x => x.PostId == postId);
 
             return result;
         }
 
-        private IIncludableQueryable<Post, IEnumerable<PostUpload>> GetPost()
+        private IIncludableQueryable<Post, IEnumerable<PostUpload>> GetPosts()
         {
             return _context.Posts
                 .Include(x => x.CreatedUser)

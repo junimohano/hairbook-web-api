@@ -30,52 +30,28 @@ namespace HairbookWebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Search, [FromQuery] string search = null)
         {
-           var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(userId, index, count, friendSearchType, search);
+            Expression<Func<UserFriend, bool>> predicate = null;
+            switch (friendSearchType)
+            {
+                case FriendSearchType.Followers:
+                    if (!string.IsNullOrEmpty(search))
+                        predicate = x => x.FriendId == userId && x.Friend.UserName.Contains(search);
+                    else
+                        predicate = x => x.FriendId == userId;
+                    break;
+                case FriendSearchType.Following:
+                    if (!string.IsNullOrEmpty(search))
+                        predicate = x => x.CreatedUserId == userId && x.Friend.UserName.Contains(search);
+                    else
+                        predicate = x => x.CreatedUserId == userId;
+                    break;
+            }
+
+            var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(index, count, predicate, x => x.UserFriendId);
 
             return _mapper.Map<IEnumerable<UserFriend>, IEnumerable<UserFriendDto>>(models);
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var model = await _unitOfWork.UserFriends.SingleOrDefaultAsync(x => x.UserFriendId == id);
-
-            if (model == null)
-                return NotFound();
-
-            return Ok(_mapper.Map<UserFriend, UserFriendDto>(model));
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UserFriendDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (id != dto.UserFriendId)
-                return BadRequest();
-
-            var model = _mapper.Map<UserFriendDto, UserFriend>(dto);
-
-            try
-            {
-                model.UpdatedDate = DateTime.Now;
-
-                _unitOfWork.UserFriends.Update(model);
-
-                await _unitOfWork.Complete();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
-            return NoContent();
-        }
-
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserFriendDto dto)
         {

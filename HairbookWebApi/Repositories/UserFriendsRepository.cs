@@ -7,6 +7,7 @@ using HairbookWebApi.Database;
 using HairbookWebApi.Models;
 using HairbookWebApi.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace HairbookWebApi.Repositories
 {
@@ -19,12 +20,9 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int userId, int index, int count, FriendSearchType friendSearchType, string search, Expression < Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
+        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
         {
-            // todo : here !!
-            IQueryable<UserFriend> result = _context.UserFriends
-                .Include(x => x.CreatedUser);
-                                            //.Include(x => x.Friend);
+            IQueryable<UserFriend> result = GetUserFriends();
 
             if (count != 0)
                 result = result.Skip(index)
@@ -37,9 +35,25 @@ namespace HairbookWebApi.Repositories
                 result = result.Where(predicate);
 
             if (orderBy != null)
-                result = result.OrderBy(orderBy);
+                result = result.OrderByDescending(orderBy);
 
             return await result.ToListAsync();
+        }
+
+        public async Task<UserFriend> GetUserFriendAsync(int userFriendId)
+        {
+            var result = await GetUserFriends()
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.UserFriendId == userFriendId);
+
+            return result;
+        }
+
+        private IIncludableQueryable<UserFriend, User> GetUserFriends()
+        {
+            return _context.UserFriends
+                .Include(x => x.CreatedUser)
+                .Include(x => x.Friend);
         }
     }
 }
