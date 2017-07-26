@@ -9,6 +9,12 @@ namespace HairbookWebApi.Models
     [Table(nameof(User))]
     public class User : Base
     {
+        public User()
+        {
+            Following = new List<UserFriend>();
+            Followers = new List<UserFriend>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
@@ -23,8 +29,12 @@ namespace HairbookWebApi.Models
         public GenderType Gender { get; set; }
         public DateTime? Birthday { get; set; }
         public string Phone { get; set; }
+        public string Provider { get; set; }
 
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
+
+        public IEnumerable<UserFriend> Following { get; set; }
+        public IEnumerable<UserFriend> Followers { get; set; }
     }
 }

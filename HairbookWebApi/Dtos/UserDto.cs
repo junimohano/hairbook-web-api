@@ -20,8 +20,12 @@ namespace HairbookWebApi.Dtos
         public GenderType Gender { get; set; }
         public DateTime? Birthday { get; set; }
         public string Phone { get; set; }
+        public string Provider { get; set; }
 
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
+
+        public IEnumerable<UserFriendDto> Following { get; set; }
+        public IEnumerable<UserFriendDto> Followers { get; set; }
     }
 }

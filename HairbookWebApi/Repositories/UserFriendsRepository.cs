@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Database;
 using HairbookWebApi.Models;
+using HairbookWebApi.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace HairbookWebApi.Repositories
@@ -18,11 +19,12 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
+        public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int userId, int index, int count, FriendSearchType friendSearchType, string search, Expression < Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
         {
+            // todo : here !!
             IQueryable<UserFriend> result = _context.UserFriends
-                                            .Include(x => x.Friend)
-                                            .Include(x => x.User);
+                .Include(x => x.CreatedUser);
+                                            //.Include(x => x.Friend);
 
             if (count != 0)
                 result = result.Skip(index)

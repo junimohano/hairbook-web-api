@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170726035518_Migration11")]
+    partial class Migration11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -432,22 +433,21 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int?>("CreatedUserId")
-                        .IsRequired();
-
-                    b.Property<int>("FriendId");
+                    b.Property<int?>("CreatedUserId");
 
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.Property<int?>("UpdatedUserId");
 
-                    b.HasKey("UserFriendId");
+                    b.Property<int?>("UserId");
 
-                    b.HasAlternateKey("FriendId", "CreatedUserId");
+                    b.HasKey("UserFriendId");
 
                     b.HasIndex("CreatedUserId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserFriend");
                 });
@@ -654,13 +654,13 @@ namespace HairbookWebApi.Migrations
                         .HasForeignKey("CreatedUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HairbookWebApi.Models.User", "Friend")
-                        .WithMany("Followers")
-                        .HasForeignKey("FriendId");
-
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User")
+                        .WithMany("Followers")
+                        .HasForeignKey("UserId");
                 });
         }
     }

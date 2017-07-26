@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Dtos
 {
@@ -7,13 +8,7 @@ namespace HairbookWebApi.Dtos
     {
         public int UserFriendId { get; set; }
 
-        public int UserId { get; set; }
-        public UserDto User { get; set; }
-
         public int FriendId { get; set; }
         public UserDto Friend { get; set; }
-
-        public bool IsFriend { get; set; }
-
     }
 }

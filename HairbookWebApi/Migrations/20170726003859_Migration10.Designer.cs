@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170726003859_Migration10")]
+    partial class Migration10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -432,22 +433,27 @@ namespace HairbookWebApi.Migrations
 
                     b.Property<DateTime?>("CreatedDate");
 
-                    b.Property<int?>("CreatedUserId")
-                        .IsRequired();
+                    b.Property<int?>("CreatedUserId");
 
-                    b.Property<int>("FriendId");
+                    b.Property<int>("FriendType");
 
                     b.Property<DateTime?>("UpdatedDate");
 
                     b.Property<int?>("UpdatedUserId");
 
+                    b.Property<int>("UserOneId");
+
+                    b.Property<int>("UserTwoId");
+
                     b.HasKey("UserFriendId");
 
-                    b.HasAlternateKey("FriendId", "CreatedUserId");
+                    b.HasAlternateKey("UserOneId", "UserTwoId");
 
                     b.HasIndex("CreatedUserId");
 
                     b.HasIndex("UpdatedUserId");
+
+                    b.HasIndex("UserTwoId");
 
                     b.ToTable("UserFriend");
                 });
@@ -650,17 +656,20 @@ namespace HairbookWebApi.Migrations
             modelBuilder.Entity("HairbookWebApi.Models.UserFriend", b =>
                 {
                     b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
-                        .WithMany("Following")
-                        .HasForeignKey("CreatedUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HairbookWebApi.Models.User", "Friend")
-                        .WithMany("Followers")
-                        .HasForeignKey("FriendId");
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
 
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "UserOne")
+                        .WithMany()
+                        .HasForeignKey("UserOneId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "UserTwo")
+                        .WithMany()
+                        .HasForeignKey("UserTwoId");
                 });
         }
     }

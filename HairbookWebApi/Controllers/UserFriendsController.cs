@@ -5,8 +5,10 @@ using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Auth;
+using HairbookWebApi.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
@@ -26,9 +28,9 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
+        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Search, [FromQuery] string search = null)
         {
-            var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(index, count);
+           var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(userId, index, count, friendSearchType, search);
 
             return _mapper.Map<IEnumerable<UserFriend>, IEnumerable<UserFriendDto>>(models);
         }
@@ -39,7 +41,7 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.UserFriends.SingleOrDefaultAsync(x => x.UserId == id);
+            var model = await _unitOfWork.UserFriends.SingleOrDefaultAsync(x => x.UserFriendId == id);
 
             if (model == null)
                 return NotFound();
@@ -53,7 +55,7 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (id != dto.UserId)
+            if (id != dto.UserFriendId)
                 return BadRequest();
 
             var model = _mapper.Map<UserFriendDto, UserFriend>(dto);
