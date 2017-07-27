@@ -28,7 +28,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Search, [FromQuery] string search = null)
+        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Following, [FromQuery] string search = null)
         {
             Expression<Func<UserFriend, bool>> predicate = null;
             switch (friendSearchType)

@@ -72,7 +72,9 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<User>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserFriend>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<UserFriend>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend).WithMany().OnDelete(DeleteBehavior.Restrict);
 
             // many to many
             modelBuilder.Entity<HairSubMenu>().HasOne(x => x.HairMenu).WithMany(y => y.HairSubMenus).HasForeignKey(z => z.HairMenuId).OnDelete(DeleteBehavior.Cascade);
@@ -81,8 +83,6 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.Post).WithMany(y => y.PostEvaluations).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostComment>().HasOne(x => x.Post).WithMany(y => y.PostComments).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostUpload>().HasOne(x => x.Post).WithMany(y => y.PostUploads).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserFriend>().HasOne(x => x.CreatedUser).WithMany(y => y.Following).HasForeignKey(z => z.CreatedUserId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend).WithMany(y => y.Followers).HasForeignKey(z => z.FriendId).OnDelete(DeleteBehavior.Restrict);
 
             // default value
             //modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);

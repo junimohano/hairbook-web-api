@@ -55,5 +55,20 @@ namespace HairbookWebApi.Repositories
                 .Include(x => x.CreatedUser)
                 .Include(x => x.Friend);
         }
+
+        public int GetTotalUserFollowing(int userId)
+        {
+            return GetUserFriends()
+                .AsNoTracking()
+                .Count(x => x.CreatedUserId == userId);
+        }
+
+        public int GetTotalUserFollowers(int userId)
+        {
+            return GetUserFriends()
+                .AsNoTracking()
+                .Count(x => x.FriendId == userId);
+        }
+
     }
 }

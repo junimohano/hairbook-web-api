@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170726162149_Migration16")]
+    partial class Migration16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

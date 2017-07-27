@@ -25,7 +25,8 @@ namespace HairbookWebApi.Dtos
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
 
-        public IEnumerable<UserFriendDto> Following { get; set; }
-        public IEnumerable<UserFriendDto> Followers { get; set; }
+        public int TotalUserFollowing { get; set; }
+        public int TotalUserFollowers { get; set; }
+        public int TotalUserPosts{ get; set; }
     }
 }

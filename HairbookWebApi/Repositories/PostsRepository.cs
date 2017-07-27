@@ -200,5 +200,12 @@ namespace HairbookWebApi.Repositories
         {
             return await _context.Customers.Where(x => x.CreatedUserId == userId).ToListAsync();
         }
+
+        public int GetTotalUserPosts(int userId)
+        {
+            return _context.Posts
+                .AsNoTracking()
+                .Count(x => x.CreatedUserId == userId);
+        }
     }
 }

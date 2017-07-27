@@ -10,9 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using HairbookWebApi.Models.Enums;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -39,7 +42,7 @@ namespace HairbookWebApi.Controllers
         public async Task<IEnumerable<UserDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
         {
             var models = await _unitOfWork.Users.GetUsersAsync(index, count);
-
+            
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(models);
         }
 
@@ -50,11 +53,11 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserId == id);
+            var model = await _unitOfWork.Users.FindAsync(id);
 
             if (model == null)
                 return NotFound();
-
+            
             return Ok(_mapper.Map<User, UserDto>(model));
         }
 
@@ -160,9 +163,16 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet("GetByUserName/{userName}")]
-        public async Task<User> GetByUserName([FromRoute] string userName)
+        public async Task<UserDto> GetByUserName([FromRoute] string userName)
         {
-            return await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            var model = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            
+            var userDto = _mapper.Map<User, UserDto>(model);
+            userDto.TotalUserFollowers = _unitOfWork.UserFriends.GetTotalUserFollowers(userDto.UserId);
+            userDto.TotalUserFollowing = _unitOfWork.UserFriends.GetTotalUserFollowing(userDto.UserId);
+            userDto.TotalUserPosts = _unitOfWork.Posts.GetTotalUserPosts(userDto.UserId);
+
+            return userDto;
         }
 
         [HttpPost("GetToken")]
@@ -276,6 +286,6 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        
     }
 }

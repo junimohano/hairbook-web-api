@@ -19,5 +19,7 @@ namespace HairbookWebApi.Repositories
         Task<IEnumerable<HairMenu>> GetMenusAsync();
         Task<IEnumerable<HairType>> GetHairTypesAsync();
         Task<IEnumerable<Customer>> GetCustomersAsync(int userId);
+
+        int GetTotalUserPosts(int userId);
     }
 }
