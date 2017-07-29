@@ -64,6 +64,9 @@ namespace HairbookWebApi.Mappers
 
             CreateMap<UserFriend, UserFriendDto>();
             CreateMap<UserFriendDto, UserFriend>();
+
+            CreateMap<UserFavorite, UserFavoriteDto>();
+            CreateMap<UserFavoriteDto, UserFavorite>();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace HairbookWebApi.Database
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
+        public DbSet<UserFavorite> UserFavorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +35,7 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostHairMenu>().HasAlternateKey(x => new { x.PostId, x.PostHairMenuId });
             modelBuilder.Entity<PostHairType>().HasAlternateKey(x => new { x.PostId, x.PostHairTypeId });
             modelBuilder.Entity<User>().HasAlternateKey(x => new { x.UserName });
+            modelBuilder.Entity<UserFavorite>().HasAlternateKey(x => new { x.PostId, x.CreatedUserId });
 
             // one to many
             modelBuilder.Entity<Customer>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
@@ -76,6 +78,9 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<UserFriend>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend).WithMany().OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<UserFavorite>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserFavorite>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
+
             // many to many
             modelBuilder.Entity<HairSubMenu>().HasOne(x => x.HairMenu).WithMany(y => y.HairSubMenus).HasForeignKey(z => z.HairMenuId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostHairMenu>().HasOne(x => x.Post).WithMany(y => y.PostHairMenus).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
@@ -83,6 +88,7 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.Post).WithMany(y => y.PostEvaluations).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostComment>().HasOne(x => x.Post).WithMany(y => y.PostComments).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostUpload>().HasOne(x => x.Post).WithMany(y => y.PostUploads).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserFavorite>().HasOne(x => x.Post).WithMany(y => y.UserFavorites).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
 
             // default value
             //modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);
