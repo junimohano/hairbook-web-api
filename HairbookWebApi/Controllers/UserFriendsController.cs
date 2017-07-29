@@ -34,13 +34,13 @@ namespace HairbookWebApi.Controllers
             switch (friendSearchType)
             {
                 case FriendSearchType.Followers:
-                    if (!string.IsNullOrEmpty(search))
-                        predicate = x => x.FriendId == userId && x.Friend.UserName.Contains(search);
+                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                        predicate = x => x.FriendId == userId && x.CreatedUser.UserName.Contains(search);
                     else
                         predicate = x => x.FriendId == userId;
                     break;
                 case FriendSearchType.Following:
-                    if (!string.IsNullOrEmpty(search))
+                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
                         predicate = x => x.CreatedUserId == userId && x.Friend.UserName.Contains(search);
                     else
                         predicate = x => x.CreatedUserId == userId;

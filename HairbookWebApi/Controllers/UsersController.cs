@@ -39,10 +39,14 @@ namespace HairbookWebApi.Controllers
 
         [Authorize(AuthOption.TokenType)]
         [HttpGet]
-        public async Task<IEnumerable<UserDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10)
+        public async Task<IEnumerable<UserDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string search = null)
         {
-            var models = await _unitOfWork.Users.GetUsersAsync(index, count);
-            
+            Expression<Func<User, bool>> predicate = null;
+            if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                predicate = x => x.UserName.Contains(search);
+
+            var models = await _unitOfWork.Users.GetUsersAsync(index, count, predicate, x => x.UserId);
+
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(models);
         }
 
@@ -57,7 +61,7 @@ namespace HairbookWebApi.Controllers
 
             if (model == null)
                 return NotFound();
-            
+
             return Ok(_mapper.Map<User, UserDto>(model));
         }
 
@@ -166,7 +170,7 @@ namespace HairbookWebApi.Controllers
         public async Task<UserDto> GetByUserName([FromRoute] string userName)
         {
             var model = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userName);
-            
+
             var userDto = _mapper.Map<User, UserDto>(model);
             userDto.TotalUserFollowers = _unitOfWork.UserFriends.GetTotalUserFollowers(userDto.UserId);
             userDto.TotalUserFollowing = _unitOfWork.UserFriends.GetTotalUserFollowing(userDto.UserId);
@@ -286,6 +290,6 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
     }
 }

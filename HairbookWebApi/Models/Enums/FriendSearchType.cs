@@ -8,6 +8,7 @@ namespace HairbookWebApi.Models.Enums
     public enum FriendSearchType
     {
         Followers,
-        Following
+        Following,
+        Search
     }
 }
