@@ -2,7 +2,7 @@
 {
     public enum AccessType
     {
-        OnlyMe,
-        Public
+        Public,
+        OnlyMe
     }
 }

@@ -42,7 +42,7 @@ namespace HairbookWebApi.Controllers
                         predicate = x => x.AccessType == AccessType.Public;
                     break;
 
-                case PostSearchType.ExplorersMeAndFollowing:
+                case PostSearchType.ExplorersFollowingOnly:
                     var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
                     if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
                         predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);

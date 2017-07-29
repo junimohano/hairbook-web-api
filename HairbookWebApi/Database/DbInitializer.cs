@@ -46,7 +46,7 @@ namespace HairbookWebApi.Database
                 new HairSubMenu(){ Name = "Root Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Full Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Balayage Color", HairMenuId = 2},
-                new HairSubMenu(){ Name = "Hilites Color", HairMenuId = 2},
+                new HairSubMenu(){ Name = "Highlights Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Partial Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Ombre Color", HairMenuId = 2},
 

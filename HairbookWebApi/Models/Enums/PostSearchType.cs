@@ -3,7 +3,7 @@
     public enum PostSearchType
     {
         ExplorersAll,
-        ExplorersMeAndFollowing,
+        ExplorersFollowingOnly,
         Users
     }
 }
