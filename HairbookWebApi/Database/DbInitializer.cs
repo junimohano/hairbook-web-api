@@ -111,8 +111,8 @@ namespace HairbookWebApi.Database
             var posts = new[]
             {
                 new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test1", SalonId = 1, HairTypeMemo = "too thin", AccessType = AccessType.Public },
-                new Post(){ CustomerId = 2, Date = DateTime.Now, Memo = "Test2", SalonId = 2, HairTypeMemo = "Memo 2", AccessType = AccessType.Private },
-                new Post(){ CustomerId = 3, Date = DateTime.Now, Memo = "Test3", SalonId = 1, HairTypeMemo = "Memo 3", AccessType = AccessType.OnlyFriends },
+                new Post(){ CustomerId = 2, Date = DateTime.Now, Memo = "Test2", SalonId = 2, HairTypeMemo = "Memo 2", AccessType = AccessType.OnlyMe },
+                new Post(){ CustomerId = 3, Date = DateTime.Now, Memo = "Test3", SalonId = 1, HairTypeMemo = "Memo 3", AccessType = AccessType.OnlyMe },
                 new Post(){ CustomerId = 4, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeMemo = "Memo 4", AccessType = AccessType.Public },
                 new Post(){ CustomerId = 5, Date = DateTime.Now, Memo = "Test4", SalonId = 2, HairTypeMemo = "Memo 5", AccessType = AccessType.Public },
                 new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test5", SalonId = 1, HairTypeMemo = "Memo 6", AccessType = AccessType.Public },

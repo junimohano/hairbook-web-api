@@ -29,26 +29,36 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] AccessType accessType = AccessType.Private, [FromQuery] string search = null)
+        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] PostSearchType postSearchType = PostSearchType.Users, [FromQuery] string search = null)
         {
             Expression<Func<Post, bool>> predicate = null;
-            switch (accessType)
+
+            switch (postSearchType)
             {
-                case AccessType.Public:
+                case PostSearchType.ExplorersAll:
                     if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
                         predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search);
                     else
                         predicate = x => x.AccessType == AccessType.Public;
                     break;
-                case AccessType.Private:
+
+                case PostSearchType.ExplorersMeAndFollowing:
+                    var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
+                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                        predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                    else
+                        predicate = x => x.AccessType == AccessType.Public && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                    break;
+                case PostSearchType.Users:
                     // visit other user's home
                     if (userName != userNameParam)
                     {
                         if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                            predicate = x => x.CreatedUser.UserName == userNameParam && x.Customer.Name.Contains(search) && x.AccessType != AccessType.Private;
+                            predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam && x.Customer.Name.Contains(search);
                         else
-                            predicate = x => x.CreatedUser.UserName == userNameParam && x.AccessType != AccessType.Private;
+                            predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam;
                     }
+                    // user's home
                     else
                     {
                         if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
@@ -56,9 +66,6 @@ namespace HairbookWebApi.Controllers
                         else
                             predicate = x => x.CreatedUser.UserName == userName;
                     }
-                    break;
-                case AccessType.OnlyFriends:
-                    //result = result.Where(x=>x.CreatedUserId == _context.UserFriends.Where(x=>x.UserId == userId).Contains(1))
                     break;
             }
 
