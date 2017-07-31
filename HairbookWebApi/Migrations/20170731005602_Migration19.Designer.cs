@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170731005602_Migration19")]
+    partial class Migration19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -210,33 +211,6 @@ namespace HairbookWebApi.Migrations
                     b.HasIndex("UpdatedUserId");
 
                     b.ToTable("PostEvaluation");
-                });
-
-            modelBuilder.Entity("HairbookWebApi.Models.PostFavorite", b =>
-                {
-                    b.Property<int>("PostFavoriteId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedDate");
-
-                    b.Property<int?>("CreatedUserId")
-                        .IsRequired();
-
-                    b.Property<int>("PostId");
-
-                    b.Property<DateTime?>("UpdatedDate");
-
-                    b.Property<int?>("UpdatedUserId");
-
-                    b.HasKey("PostFavoriteId");
-
-                    b.HasAlternateKey("PostId", "CreatedUserId");
-
-                    b.HasIndex("CreatedUserId");
-
-                    b.HasIndex("UpdatedUserId");
-
-                    b.ToTable("PostFavorite");
                 });
 
             modelBuilder.Entity("HairbookWebApi.Models.PostHairMenu", b =>
@@ -452,6 +426,33 @@ namespace HairbookWebApi.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("HairbookWebApi.Models.UserFavorite", b =>
+                {
+                    b.Property<int>("UserFavoriteId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreatedDate");
+
+                    b.Property<int?>("CreatedUserId")
+                        .IsRequired();
+
+                    b.Property<int>("PostId");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.Property<int?>("UpdatedUserId");
+
+                    b.HasKey("UserFavoriteId");
+
+                    b.HasAlternateKey("PostId", "CreatedUserId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("UserFavorite");
+                });
+
             modelBuilder.Entity("HairbookWebApi.Models.UserFriend", b =>
                 {
                     b.Property<int>("UserFriendId")
@@ -571,23 +572,6 @@ namespace HairbookWebApi.Migrations
                         .HasForeignKey("UpdatedUserId");
                 });
 
-            modelBuilder.Entity("HairbookWebApi.Models.PostFavorite", b =>
-                {
-                    b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
-                        .WithMany("UserFavorites")
-                        .HasForeignKey("CreatedUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HairbookWebApi.Models.Post", "Post")
-                        .WithMany("PostFavorites")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedUserId");
-                });
-
             modelBuilder.Entity("HairbookWebApi.Models.PostHairMenu", b =>
                 {
                     b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
@@ -685,6 +669,23 @@ namespace HairbookWebApi.Migrations
                     b.HasOne("HairbookWebApi.Models.Salon", "Salon")
                         .WithMany()
                         .HasForeignKey("SalonId");
+
+                    b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+                });
+
+            modelBuilder.Entity("HairbookWebApi.Models.UserFavorite", b =>
+                {
+                    b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("CreatedUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HairbookWebApi.Models.Post", "Post")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")
                         .WithMany()

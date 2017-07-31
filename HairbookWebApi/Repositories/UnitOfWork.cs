@@ -16,7 +16,7 @@ namespace HairbookWebApi.Repositories
         public IPostEvaluationsRepository PostEvaluations { get; }
         public IPostUploadsRepository PostUploads { get; }
         public IPostCommentsRepository PostComments { get; }
-        public IUserFavoritesRepository UserFavorites { get; }
+        public IPostFavoritesRepository PostFavorites { get; }
         
         public UnitOfWork(HairbookContext context, IHostingEnvironment environment)
         {
@@ -28,7 +28,7 @@ namespace HairbookWebApi.Repositories
             PostEvaluations = new PostEvaluationsRepository(_context);
             PostUploads = new PostUploadsRepository(_context);
             PostComments = new PostCommentsRepository(_context);
-            UserFavorites = new UserFavoritesRepository(_context);
+            PostFavorites = new PostFavoritesRepository(_context);
         }
 
         public async Task<int> Complete()

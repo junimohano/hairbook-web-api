@@ -16,7 +16,7 @@ namespace HairbookWebApi.Models
             PostEvaluations = new List<PostEvaluation>();
             PostComments = new List<PostComment>();
             PostUploads = new List<PostUpload>();
-            UserFavorites = new List<UserFavorite>();
+            PostFavorites = new List<PostFavorite>();
         }
 
         [Key]
@@ -41,7 +41,7 @@ namespace HairbookWebApi.Models
         public IEnumerable<PostEvaluation> PostEvaluations { get; set; }
         public IEnumerable<PostComment> PostComments { get; set; }
         public IEnumerable<PostUpload> PostUploads { get; set; }
-        public IEnumerable<UserFavorite> UserFavorites { get; set; }
+        public IEnumerable<PostFavorite> PostFavorites { get; set; }
 
         // todo: draw functions
     }

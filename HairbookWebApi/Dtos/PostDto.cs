@@ -28,7 +28,7 @@ namespace HairbookWebApi.Dtos
         public IEnumerable<PostEvaluationDto> PostEvaluations { get; set; }
         public IEnumerable<PostCommentDto> PostComments { get; set; }
         public IEnumerable<PostUploadDto> PostUploads { get; set; }
-        public IEnumerable<UserFavoriteDto> UserFavorites { get; set; }
+        public IEnumerable<PostFavoriteDto> PostFavorites { get; set; }
 
         public int TotalPostComments { get; set; }
         // todo: draw functions

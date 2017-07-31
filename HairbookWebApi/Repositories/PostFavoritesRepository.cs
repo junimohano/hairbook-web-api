@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace HairbookWebApi.Repositories
 {
-    public class UserFavoritesRepository : Repository<UserFavorite>, IUserFavoritesRepository
+    public class PostFavoritesRepository : Repository<PostFavorite>, IPostFavoritesRepository
     {
         private readonly HairbookContext _context;
 
-        public UserFavoritesRepository(HairbookContext context) : base(context)
+        public PostFavoritesRepository(HairbookContext context) : base(context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<UserFavorite>> GetUserFavoritesAsync(int index, int count, Expression<Func<UserFavorite, bool>> predicate = null, Expression<Func<UserFavorite, int>> orderByDescending = null, bool isReadonly = true)
+        public async Task<IEnumerable<PostFavorite>> GetPostFavoritesAsync(int index, int count, Expression<Func<PostFavorite, bool>> predicate = null, Expression<Func<PostFavorite, int>> orderByDescending = null, bool isReadonly = true)
         {
-            IQueryable<UserFavorite> result = GetUserFavorites();
+            IQueryable<PostFavorite> result = GetPostFavorites();
 
             if (isReadonly)
                 result = result.AsNoTracking();
@@ -39,7 +39,7 @@ namespace HairbookWebApi.Repositories
             return await result.ToListAsync();
         }
 
-        private IIncludableQueryable<UserFavorite, Post> GetUserFavorites()
+        private IIncludableQueryable<PostFavorite, Post> GetPostFavorites()
         {
             return _context.UserFavorites
                 .Include(x => x.CreatedUser)

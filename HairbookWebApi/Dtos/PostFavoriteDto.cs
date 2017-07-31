@@ -6,9 +6,9 @@ using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Dtos
 {
-    public class UserFavoriteDto : BaseDto
+    public class PostFavoriteDto : BaseDto
     {
-        public int UserFavoriteId { get; set; }
+        public int PostFavoriteId { get; set; }
 
         public int PostId { get; set; }
         public PostDto Post { get; set; }

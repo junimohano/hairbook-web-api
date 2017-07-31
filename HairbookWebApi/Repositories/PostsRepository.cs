@@ -53,7 +53,7 @@ namespace HairbookWebApi.Repositories
             return result;
         }
 
-        private IIncludableQueryable<Post, IEnumerable<PostUpload>> GetPosts()
+        private IIncludableQueryable<Post, IEnumerable<PostFavorite>> GetPosts()
         {
             return _context.Posts
                 .Include(x => x.CreatedUser)
@@ -68,7 +68,8 @@ namespace HairbookWebApi.Repositories
                     .ThenInclude(x => x.HairMenu)
                 .Include(x => x.PostHairMenus)
                     .ThenInclude(x => x.HairSubMenu)
-                .Include(x => x.PostUploads);
+                .Include(x => x.PostUploads)
+                .Include(x => x.PostFavorites);
         }
 
         public async void AddPost(Post post)
@@ -130,7 +131,7 @@ namespace HairbookWebApi.Repositories
                 if (newHairTypes.Any())
                     _context.PostHairTypes.AddRange(newHairTypes);
             }
-            
+
             if (post.PostHairMenus.Any())
             {
                 var updateHairMenus = post.PostHairMenus.Where(x => x.PostHairMenuId != 0).ToList();

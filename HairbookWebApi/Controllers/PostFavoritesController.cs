@@ -16,38 +16,38 @@ namespace HairbookWebApi.Controllers
     [Authorize(AuthOption.TokenType)]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserFavoritesController : Controller
+    public class PostFavoritesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserFavoritesController(IUnitOfWork unitOfWork, IMapper mapper)
+        public PostFavoritesController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserFavoriteDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10)
+        public async Task<IEnumerable<PostFavoriteDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10)
         {
-            var models = await _unitOfWork.UserFavorites.GetUserFavoritesAsync(index, count, x => x.CreatedUserId == userId, x => x.UserFavoriteId);
+            var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, x => x.CreatedUserId == userId, x => x.PostFavoriteId);
 
-            return _mapper.Map<IEnumerable<UserFavorite>, IEnumerable<UserFavoriteDto>>(models);
+            return _mapper.Map<IEnumerable<PostFavorite>, IEnumerable<PostFavoriteDto>>(models);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserFavoriteDto dto)
+        public async Task<IActionResult> Post([FromBody] PostFavoriteDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = _mapper.Map<UserFavoriteDto, UserFavorite>(dto);
+            var model = _mapper.Map<PostFavoriteDto, PostFavorite>(dto);
 
             try
             {
                 model.CreatedDate = DateTime.Now;
 
-                await _unitOfWork.UserFavorites.AddAsync(model);
+                await _unitOfWork.PostFavorites.AddAsync(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -55,7 +55,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<UserFavorite, UserFavoriteDto>(model));
+            return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<PostFavorite, PostFavoriteDto>(model));
         }
 
         [HttpDelete("{id}")]
@@ -64,13 +64,13 @@ namespace HairbookWebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.UserFavorites.FindAsync(id);
+            var model = await _unitOfWork.PostFavorites.FindAsync(id);
             if (model == null)
                 return NotFound();
 
             try
             {
-                _unitOfWork.UserFavorites.Delete(model);
+                _unitOfWork.PostFavorites.Delete(model);
                 await _unitOfWork.Complete();
             }
             catch (Exception e)
@@ -78,7 +78,7 @@ namespace HairbookWebApi.Controllers
                 return BadRequest(e.Message);
             }
 
-            return Ok(_mapper.Map<UserFavorite, UserFavoriteDto>(model));
+            return Ok(_mapper.Map<PostFavorite, PostFavoriteDto>(model));
         }
 
         protected override void Dispose(bool disposing)

@@ -9,6 +9,11 @@ namespace HairbookWebApi.Models
     [Table(nameof(User))]
     public class User : Base
     {
+        public User()
+        {
+            UserFavorites = new List<PostFavorite>();
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
@@ -27,5 +32,7 @@ namespace HairbookWebApi.Models
 
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
+
+        public IEnumerable<PostFavorite> UserFavorites { get; set; }
     }
 }

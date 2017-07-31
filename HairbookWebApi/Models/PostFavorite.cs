@@ -6,12 +6,12 @@ using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Models
 {
-    [Table(nameof(UserFavorite))]
-    public class UserFavorite : Base
+    [Table(nameof(PostFavorite))]
+    public class PostFavorite : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserFavoriteId { get; set; }
+        public int PostFavoriteId { get; set; }
 
         public int PostId { get; set; }
         public Post Post { get; set; }
