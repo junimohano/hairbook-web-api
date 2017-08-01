@@ -62,7 +62,9 @@ namespace HairbookWebApi.Mappers
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
 
-            CreateMap<UserFriend, UserFriendDto>();
+            CreateMap<UserFriend, UserFriendDto>()
+                .ForMember(x => x.CreatedUser, opt => opt.Ignore())
+                .ForMember(x => x.Friend, opt => opt.Ignore());
             CreateMap<UserFriendDto, UserFriend>();
 
             CreateMap<PostFavorite, PostFavoriteDto>()

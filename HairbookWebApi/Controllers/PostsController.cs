@@ -29,7 +29,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<PostDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] PostSearchType postSearchType = PostSearchType.Users, [FromQuery] string search = null)
+        public async Task<IEnumerable<PostDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] PostSearchType postSearchType = PostSearchType.Users, [FromQuery] string search = null)
         {
             Expression<Func<Post, bool>> predicate = null;
 
@@ -77,13 +77,18 @@ namespace HairbookWebApi.Controllers
             {
                 modelDto.TotalPostComments = modelDto.PostComments.Count();
                 modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
+
+                modelDto.IsEvaluation = modelDto.PostEvaluations.Any(x => x.CreatedUserId == userId);
+                modelDto.IsFavorite = modelDto.PostFavorites.Any(x => x.CreatedUserId == userId);
+                modelDto.PostEvaluations = modelDto.PostEvaluations.Take(0);
+                modelDto.PostFavorites = modelDto.PostFavorites.Take(0);
             }
 
             return modelDtos;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id)
+        public async Task<IActionResult> Get([FromRoute] int id, [FromQuery] int userId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -97,6 +102,11 @@ namespace HairbookWebApi.Controllers
             var modelDto = _mapper.Map<Post, PostDto>(model);
             modelDto.TotalPostComments = modelDto.PostComments.Count();
             modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
+
+            modelDto.IsEvaluation = modelDto.PostEvaluations.Any(x => x.CreatedUserId == userId);
+            modelDto.IsFavorite = modelDto.PostFavorites.Any(x => x.CreatedUserId == userId);
+            modelDto.PostEvaluations = modelDto.PostEvaluations.Take(0);
+            modelDto.PostFavorites = modelDto.PostFavorites.Take(0);
 
             return Ok(modelDto);
         }

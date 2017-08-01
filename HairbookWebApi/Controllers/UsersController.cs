@@ -39,7 +39,7 @@ namespace HairbookWebApi.Controllers
 
         [Authorize(AuthOption.TokenType)]
         [HttpGet]
-        public async Task<IEnumerable<UserDto>> Get([FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string search = null)
+        public async Task<IEnumerable<UserDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string search = null)
         {
             Expression<Func<User, bool>> predicate = null;
             if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
@@ -47,7 +47,16 @@ namespace HairbookWebApi.Controllers
 
             var models = await _unitOfWork.Users.GetUsersAsync(index, count, predicate, x => x.UserId);
 
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(models);
+            var modelDtos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(models);
+
+            foreach (var modelDto in modelDtos)
+            {
+                modelDto.IsFollowing = modelDto.Userfollowers.Any(x => x.CreatedUserId == userId && x.FriendId == modelDto.UserId);
+                modelDto.UserFollowing = modelDto.UserFollowing.Take(0);
+                modelDto.Userfollowers = modelDto.Userfollowers.Take(0);
+            }
+
+            return modelDtos;
         }
 
         [Authorize(AuthOption.TokenType)]
@@ -167,14 +176,17 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet("GetByUserName/{userName}")]
-        public async Task<UserDto> GetByUserName([FromRoute] string userName)
+        public async Task<UserDto> GetByUserName([FromRoute] string userName, [FromQuery] int userId)
         {
-            var model = await _unitOfWork.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+            var model = await _unitOfWork.Users.GetUserAsync(userName);
 
             var userDto = _mapper.Map<User, UserDto>(model);
             userDto.TotalUserFollowers = _unitOfWork.UserFriends.GetTotalUserFollowers(userDto.UserId);
             userDto.TotalUserFollowing = _unitOfWork.UserFriends.GetTotalUserFollowing(userDto.UserId);
             userDto.TotalUserPosts = _unitOfWork.Posts.GetTotalUserPosts(userDto.UserId);
+            userDto.IsFollowing = userDto.Userfollowers.Any(x => x.CreatedUserId == userId && x.FriendId == userDto.UserId);
+            userDto.Userfollowers = userDto.Userfollowers.Take(0);
+            userDto.UserFollowing = userDto.UserFollowing.Take(0);
 
             return userDto;
         }

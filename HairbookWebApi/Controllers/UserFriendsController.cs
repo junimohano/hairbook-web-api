@@ -5,6 +5,7 @@ using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using HairbookWebApi.Auth;
@@ -28,9 +29,10 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserFriendDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Following, [FromQuery] string search = null)
+        public async Task<IEnumerable<UserDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] FriendSearchType friendSearchType = FriendSearchType.Following, [FromQuery] string search = null)
         {
             Expression<Func<UserFriend, bool>> predicate = null;
+            var isFollowers = false;
             switch (friendSearchType)
             {
                 case FriendSearchType.Followers:
@@ -38,6 +40,8 @@ namespace HairbookWebApi.Controllers
                         predicate = x => x.FriendId == userId && x.CreatedUser.UserName.Contains(search);
                     else
                         predicate = x => x.FriendId == userId;
+
+                    isFollowers = true;
                     break;
                 case FriendSearchType.Following:
                     if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
@@ -48,10 +52,26 @@ namespace HairbookWebApi.Controllers
             }
 
             var models = await _unitOfWork.UserFriends.GetUserFriendsAsync(index, count, predicate, x => x.UserFriendId);
+            var user = await _unitOfWork.Users.GetUserAsync(userId);
 
-            return _mapper.Map<IEnumerable<UserFriend>, IEnumerable<UserFriendDto>>(models);
+            IEnumerable<User> users;
+            if (isFollowers)
+                users = models.Select(x => x.CreatedUser);
+            else
+                users = models.Select(x => x.Friend);
+
+            var userDtos = _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
+            
+            foreach (var modelDto in userDtos)
+            {
+                modelDto.IsFollowing = user.UserFollowing.Any(x => x.CreatedUserId == userId && x.FriendId == modelDto.UserId);
+                modelDto.UserFollowing = modelDto.UserFollowing?.Take(0);
+                modelDto.Userfollowers = modelDto.Userfollowers?.Take(0);
+            }
+
+            return userDtos;
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserFriendDto dto)
         {
@@ -75,13 +95,13 @@ namespace HairbookWebApi.Controllers
             return CreatedAtAction("Get", new { id = model.UserFriendId }, _mapper.Map<UserFriend, UserFriendDto>(model));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int userId, [FromQuery] int friendId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.UserFriends.FindAsync(id);
+            var model = await _unitOfWork.UserFriends.SingleOrDefaultAsync(x => x.CreatedUserId == userId && x.FriendId == friendId);
             if (model == null)
                 return NotFound();
 

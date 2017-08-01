@@ -23,11 +23,7 @@ namespace HairbookWebApi.Repositories
         public async Task<IEnumerable<UserFriend>> GetUserFriendsAsync(int index, int count, Expression<Func<UserFriend, bool>> predicate = null, Expression<Func<UserFriend, int>> orderBy = null, bool isReadonly = true)
         {
             IQueryable<UserFriend> result = GetUserFriends();
-
-            if (count != 0)
-                result = result.Skip(index)
-                             .Take(count);
-
+            
             if (isReadonly)
                 result = result.AsNoTracking();
 
@@ -36,6 +32,10 @@ namespace HairbookWebApi.Repositories
 
             if (orderBy != null)
                 result = result.OrderByDescending(orderBy);
+
+            if (count != 0)
+                result = result.Skip(index)
+                    .Take(count);
 
             return await result.ToListAsync();
         }

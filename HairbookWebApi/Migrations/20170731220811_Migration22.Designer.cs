@@ -9,9 +9,10 @@ using HairbookWebApi.Models.Enums;
 namespace HairbookWebApi.Migrations
 {
     [DbContext(typeof(HairbookContext))]
-    partial class HairbookContextModelSnapshot : ModelSnapshot
+    [Migration("20170731220811_Migration22")]
+    partial class Migration22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -694,12 +695,12 @@ namespace HairbookWebApi.Migrations
             modelBuilder.Entity("HairbookWebApi.Models.UserFriend", b =>
                 {
                     b.HasOne("HairbookWebApi.Models.User", "CreatedUser")
-                        .WithMany("UserFollowing")
+                        .WithMany("UserFriends")
                         .HasForeignKey("CreatedUserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HairbookWebApi.Models.User", "Friend")
-                        .WithMany("Userfollowers")
+                        .WithMany()
                         .HasForeignKey("FriendId");
 
                     b.HasOne("HairbookWebApi.Models.User", "UpdatedUser")

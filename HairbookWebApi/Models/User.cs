@@ -11,7 +11,7 @@ namespace HairbookWebApi.Models
     {
         public User()
         {
-            UserFavorites = new List<PostFavorite>();
+            PostFavorites = new List<PostFavorite>();
         }
 
         [Key]
@@ -33,6 +33,8 @@ namespace HairbookWebApi.Models
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
 
-        public IEnumerable<PostFavorite> UserFavorites { get; set; }
+        public IEnumerable<PostFavorite> PostFavorites { get; set; }
+        public IEnumerable<UserFriend> UserFollowing { get; set; }
+        public IEnumerable<UserFriend> Userfollowers { get; set; }
     }
 }

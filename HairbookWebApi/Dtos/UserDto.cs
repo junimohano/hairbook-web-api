@@ -25,10 +25,13 @@ namespace HairbookWebApi.Dtos
         public int? SalonId { get; set; }
         public SalonDto Salon { get; set; }
 
-        public IEnumerable<PostFavoriteDto> UserFavorites { get; set; }
+        public IEnumerable<PostFavoriteDto> PostFavorites { get; set; }
+        public IEnumerable<UserFriendDto> UserFollowing { get; set; }
+        public IEnumerable<UserFriendDto> Userfollowers { get; set; }
 
         public int TotalUserFollowing { get; set; }
         public int TotalUserFollowers { get; set; }
         public int TotalUserPosts{ get; set; }
+        public bool IsFollowing { get; set; }
     }
 }

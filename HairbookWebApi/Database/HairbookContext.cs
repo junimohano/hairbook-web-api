@@ -89,7 +89,9 @@ namespace HairbookWebApi.Database
             modelBuilder.Entity<PostComment>().HasOne(x => x.Post).WithMany(y => y.PostComments).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostUpload>().HasOne(x => x.Post).WithMany(y => y.PostUploads).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<PostFavorite>().HasOne(x => x.Post).WithMany(y => y.PostFavorites).HasForeignKey(z => z.PostId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<PostFavorite>().HasOne(x => x.CreatedUser).WithMany(y => y.UserFavorites).HasForeignKey(z => z.CreatedUserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PostFavorite>().HasOne(x => x.CreatedUser).WithMany(y => y.PostFavorites).HasForeignKey(z => z.CreatedUserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserFriend>().HasOne(x => x.CreatedUser).WithMany(y => y.UserFollowing).HasForeignKey(z => z.CreatedUserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserFriend>().HasOne(x => x.Friend).WithMany(y => y.Userfollowers).HasForeignKey(z => z.FriendId).OnDelete(DeleteBehavior.Restrict);
 
             // default value
             //modelBuilder.Entity<Memo>().Property(s => s.CreatedDate).HasDefaultValue(DateTime.Now);

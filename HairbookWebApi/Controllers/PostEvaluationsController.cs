@@ -82,13 +82,13 @@ namespace HairbookWebApi.Controllers
             return CreatedAtAction("Get", new { id = model.PostId }, _mapper.Map<PostEvaluation, PostEvaluationDto>(model));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] int postId, [FromQuery] int userId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await _unitOfWork.PostEvaluations.FindAsync(id);
+            var model = await _unitOfWork.PostEvaluations.SingleOrDefaultAsync(x => x.PostId == postId && x.CreatedUserId == userId);
             if (model == null)
                 return NotFound();
 
