@@ -26,13 +26,19 @@ namespace HairbookWebApi.Controllers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        [HttpGet]
-        public async Task<IEnumerable<PostFavoriteDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10)
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
-            var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, x => x.CreatedUserId == userId, x => x.PostFavoriteId);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            return _mapper.Map<IEnumerable<PostFavorite>, IEnumerable<PostFavoriteDto>>(models);
+            var model = await _unitOfWork.PostFavorites.FindAsync(id);
+
+            if (model == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<PostFavorite, PostFavoriteDto>(model));
         }
 
         [HttpPost]
