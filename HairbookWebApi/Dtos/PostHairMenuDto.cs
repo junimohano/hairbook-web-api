@@ -18,6 +18,7 @@ namespace HairbookWebApi.Dtos
         public HairSubMenuDto HairSubMenu { get; set; }
 
         public string Memo { get; set; }
+        public string IsMemo { get; set; }
         public byte[] Drawing { get; set; }
 
     }

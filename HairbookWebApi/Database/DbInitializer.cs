@@ -49,11 +49,13 @@ namespace HairbookWebApi.Database
                 new HairSubMenu(){ Name = "Highlights Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Partial Color", HairMenuId = 2},
                 new HairSubMenu(){ Name = "Ombre Color", HairMenuId = 2},
+                new HairSubMenu(){ Name = "Others", HairMenuId = 2},
 
                 new HairSubMenu(){ Name = "Cold Perm", HairMenuId = 3},
                 new HairSubMenu(){ Name = "Digital Perm", HairMenuId = 3},
                 new HairSubMenu(){ Name = "Straight Perm", HairMenuId = 3},
                 new HairSubMenu(){ Name = "Partial Perm", HairMenuId = 3},
+                new HairSubMenu(){ Name = "Others", HairMenuId = 3}
             };
             context.HairSubMenus.AddRange(hairSubMenus);
             context.SaveChanges();

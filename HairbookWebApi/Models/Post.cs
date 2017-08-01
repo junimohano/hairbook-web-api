@@ -28,11 +28,13 @@ namespace HairbookWebApi.Models
 
         public DateTime Date { get; set; }
         public string Memo { get; set; }
+        public bool IsMemo { get; set; }
 
         public int? SalonId { get; set; }
         public Salon Salon { get; set; }
         
         public string HairTypeMemo { get; set; }
+        public bool IsHairTypeMemo { get; set; }
 
         public AccessType AccessType { get; set; }
 

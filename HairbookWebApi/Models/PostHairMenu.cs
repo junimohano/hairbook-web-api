@@ -22,6 +22,7 @@ namespace HairbookWebApi.Models
         public HairSubMenu HairSubMenu { get; set; }
 
         public string Memo { get; set; }
+        public string IsMemo { get; set; }
         public byte[] Drawing { get; set; }
 
     }
