@@ -31,48 +31,64 @@ namespace HairbookWebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<PostDto>> Get([FromQuery] int userId, [FromQuery] int index = 0, [FromQuery] int count = 10, [FromQuery] string userName = "", [FromQuery] string userNameParam = "", [FromQuery] PostSearchType postSearchType = PostSearchType.Users, [FromQuery] string search = null)
         {
-            Expression<Func<Post, bool>> predicate = null;
+            IEnumerable<Post> posts;
 
-            switch (postSearchType)
+            if (postSearchType == PostSearchType.Favorite)
             {
-                case PostSearchType.ExplorersAll:
-                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                        predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search);
-                    else
-                        predicate = x => x.AccessType == AccessType.Public;
-                    break;
+                Expression<Func<PostFavorite, bool>> predicate = null;
+                var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
+                if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.Public && x.Post.CreatedUserId == userId) && x.Post.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                else
+                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.Public && x.Post.CreatedUserId == userId) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
 
-                case PostSearchType.ExplorersFollowingOnly:
-                    var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
-                    if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                        predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
-                    else
-                        predicate = x => x.AccessType == AccessType.Public && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
-                    break;
-                case PostSearchType.Users:
-                    // visit other user's home
-                    if (userName != userNameParam)
-                    {
-                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                            predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam && x.Customer.Name.Contains(search);
-                        else
-                            predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam;
-                    }
-                    // user's home
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                            predicate = x => x.CreatedUser.UserName == userName && x.Customer.Name.Contains(search);
-                        else
-                            predicate = x => x.CreatedUser.UserName == userName;
-                    }
-                    break;
+                var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, predicate, x => x.PostId);
+                posts = models.Select(x => x.Post);
             }
+            else
+            {
+                Expression<Func<Post, bool>> predicate = null;
+                switch (postSearchType)
+                {
+                    case PostSearchType.ExplorersAll:
+                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                            predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search);
+                        else
+                            predicate = x => x.AccessType == AccessType.Public;
+                        break;
 
-            var models = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate, x => x.PostId);
+                    case PostSearchType.ExplorersFollowingOnly:
+                        var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
+                        if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                            predicate = x => x.AccessType == AccessType.Public && x.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                        else
+                            predicate = x => x.AccessType == AccessType.Public && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                        break;
+                    case PostSearchType.Users:
+                        // visit other user's home
+                        if (userName != userNameParam)
+                        {
+                            if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                                predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam && x.Customer.Name.Contains(search);
+                            else
+                                predicate = x => x.AccessType == AccessType.Public && x.CreatedUser.UserName == userNameParam;
+                        }
+                        // user's home
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
+                                predicate = x => x.CreatedUser.UserName == userName && x.Customer.Name.Contains(search);
+                            else
+                                predicate = x => x.CreatedUser.UserName == userName;
+                        }
+                        break;
+                }
 
+                posts = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate, x => x.PostId);
+            }
+            
             // Comment only 3
-            var modelDtos = _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(models);
+            var modelDtos = _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(posts);
             foreach (var modelDto in modelDtos)
             {
                 modelDto.TotalPostComments = modelDto.PostComments.Count();

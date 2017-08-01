@@ -30,9 +30,6 @@ namespace HairbookWebApi.Mappers
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
 
-            CreateMap<PostComment, PostCommentDto>();
-            CreateMap<PostCommentDto, PostComment>();
-
             CreateMap<PostComment, PostCommentDto>()
                 .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostCommentDto, PostComment>();
@@ -53,13 +50,18 @@ namespace HairbookWebApi.Mappers
                 .ForMember(x => x.Post, opt => opt.Ignore());
             CreateMap<PostUploadDto, PostUpload>();
 
+            CreateMap<PostFavorite, PostFavoriteDto>()
+                .ForMember(x => x.Post, opt => opt.Ignore());
+            CreateMap<PostFavoriteDto, PostFavorite>();
+
             CreateMap<Salon, SalonDto>();
             CreateMap<SalonDto, Salon>();
 
             CreateMap<Tag, TagDto>();
             CreateMap<TagDto, Tag>();
 
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>()
+                .ForMember(x => x.PostFavorites, opt => opt.Ignore());
             CreateMap<UserDto, User>();
 
             CreateMap<UserFriend, UserFriendDto>()
@@ -67,9 +69,6 @@ namespace HairbookWebApi.Mappers
                 .ForMember(x => x.Friend, opt => opt.Ignore());
             CreateMap<UserFriendDto, UserFriend>();
 
-            CreateMap<PostFavorite, PostFavoriteDto>()
-                .ForMember(x => x.Post, opt => opt.Ignore());
-            CreateMap<PostFavoriteDto, PostFavorite>();
         }
     }
 }

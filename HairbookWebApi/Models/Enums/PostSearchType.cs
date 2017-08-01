@@ -4,6 +4,7 @@
     {
         ExplorersAll,
         ExplorersFollowingOnly,
-        Users
+        Users,
+        Favorite
     }
 }

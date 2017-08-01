@@ -39,11 +39,21 @@ namespace HairbookWebApi.Repositories
             return await result.ToListAsync();
         }
 
-        private IIncludableQueryable<PostFavorite, Post> GetPostFavorites()
+        private IIncludableQueryable<PostFavorite, IEnumerable<PostFavorite>> GetPostFavorites()
         {
             return _context.UserFavorites
                 .Include(x => x.CreatedUser)
-                .Include(x => x.Post);
+                .Include(x => x.Post).ThenInclude(x => x.CreatedUser)
+                .Include(x => x.Post).ThenInclude(x => x.Customer)
+                .Include(x => x.Post).ThenInclude(x => x.Salon)
+                .Include(x => x.Post).ThenInclude(x => x.PostEvaluations)
+                .Include(x => x.Post).ThenInclude(x => x.PostComments).ThenInclude(x => x.CreatedUser)
+                .Include(x => x.Post).ThenInclude(x => x.PostHairTypes).ThenInclude(x => x.HairType)
+                .Include(x => x.Post).ThenInclude(x => x.PostHairMenus).ThenInclude(x => x.HairMenu)
+                .Include(x => x.Post).ThenInclude(x => x.PostHairMenus).ThenInclude(x => x.HairSubMenu)
+                .Include(x => x.Post).ThenInclude(x => x.PostUploads)
+                .Include(x => x.Post).ThenInclude(x => x.PostFavorites);
         }
+
     }
 }

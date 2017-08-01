@@ -60,14 +60,10 @@ namespace HairbookWebApi.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.Salon)
                 .Include(x => x.PostEvaluations)
-                .Include(x => x.PostComments)
-                    .ThenInclude(x => x.CreatedUser)
-                .Include(x => x.PostHairTypes)
-                    .ThenInclude(x => x.HairType)
-                .Include(x => x.PostHairMenus)
-                    .ThenInclude(x => x.HairMenu)
-                .Include(x => x.PostHairMenus)
-                    .ThenInclude(x => x.HairSubMenu)
+                .Include(x => x.PostComments).ThenInclude(x => x.CreatedUser)
+                .Include(x => x.PostHairTypes).ThenInclude(x => x.HairType)
+                .Include(x => x.PostHairMenus).ThenInclude(x => x.HairMenu)
+                .Include(x => x.PostHairMenus).ThenInclude(x => x.HairSubMenu)
                 .Include(x => x.PostUploads)
                 .Include(x => x.PostFavorites);
         }
