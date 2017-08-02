@@ -4,6 +4,8 @@ using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
 using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,9 +17,6 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using HairbookWebApi.Models.Enums;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 namespace HairbookWebApi.Controllers
 {
