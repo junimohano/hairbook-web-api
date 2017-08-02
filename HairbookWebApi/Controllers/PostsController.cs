@@ -14,6 +14,7 @@ using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Controllers
 {
+    [Produces("application/json")]
     [Authorize(AuthOption.TokenType)]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
@@ -198,7 +199,7 @@ namespace HairbookWebApi.Controllers
 
             return Ok(_mapper.Map<Post, PostDto>(model));
         }
-
+        
         [HttpGet("HairMenus")]
         public async Task<IActionResult> GetHairMenus()
         {
@@ -209,7 +210,7 @@ namespace HairbookWebApi.Controllers
 
             return Ok(_mapper.Map<IEnumerable<HairMenu>, IEnumerable<HairMenuDto>>(model));
         }
-
+        
         [HttpGet("HairTypes")]
         public async Task<IActionResult> GetHairTypes()
         {
@@ -221,8 +222,7 @@ namespace HairbookWebApi.Controllers
             return Ok(_mapper.Map<IEnumerable<HairType>, IEnumerable<HairTypeDto>>(model));
         }
 
-        [HttpGet]
-        [Route("Customers/{userId}")]
+        [HttpGet("Customers/{userId}")]
         public async Task<IActionResult> GetCustomers([FromRoute] int userId)
         {
             var model = await _unitOfWork.Posts.GetCustomersAsync(userId);

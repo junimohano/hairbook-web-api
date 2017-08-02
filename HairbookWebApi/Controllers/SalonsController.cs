@@ -1,16 +1,17 @@
 using AutoMapper;
+using HairbookWebApi.Auth;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
 using HairbookWebApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HairbookWebApi.Auth;
-using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
 {
+    [Produces("application/json")]
     [Authorize(AuthOption.TokenType)]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]

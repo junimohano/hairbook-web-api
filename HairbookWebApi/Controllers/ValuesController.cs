@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HairbookWebApi.Controllers
 {
+    [Produces("application/json")]
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ValuesController : Controller

@@ -175,6 +175,7 @@ namespace HairbookWebApi.Controllers
             return await _unitOfWork.Users.AnyAsync(x => x.UserName == userName);
         }
 
+        [Authorize(AuthOption.TokenType)]
         [HttpGet("GetByUserName/{userName}")]
         public async Task<UserDto> GetByUserName([FromRoute] string userName, [FromQuery] int userId)
         {
