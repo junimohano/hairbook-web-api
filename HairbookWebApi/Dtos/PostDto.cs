@@ -33,7 +33,8 @@ namespace HairbookWebApi.Dtos
         public IEnumerable<PostFavoriteDto> PostFavorites { get; set; }
 
         public int TotalPostComments { get; set; }
-        // todo: here change evaluation and favorite
+        public int TotalPostEvaluations { get; set; }
+
         public bool IsEvaluation { get; set; }
         public bool IsFavorite { get; set; }
         // todo: draw functions

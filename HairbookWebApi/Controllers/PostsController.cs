@@ -95,6 +95,7 @@ namespace HairbookWebApi.Controllers
                 modelDto.TotalPostComments = modelDto.PostComments.Count();
                 modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
 
+                modelDto.TotalPostEvaluations = modelDto.PostEvaluations.Count();
                 modelDto.IsEvaluation = modelDto.PostEvaluations.Any(x => x.CreatedUserId == userId);
                 modelDto.IsFavorite = modelDto.PostFavorites.Any(x => x.CreatedUserId == userId);
                 modelDto.PostEvaluations = modelDto.PostEvaluations.Take(0);
@@ -120,6 +121,7 @@ namespace HairbookWebApi.Controllers
             modelDto.TotalPostComments = modelDto.PostComments.Count();
             modelDto.PostComments = modelDto.PostComments.Skip(modelDto.TotalPostComments - 3).Take(3);
 
+            modelDto.TotalPostEvaluations = modelDto.PostEvaluations.Count();
             modelDto.IsEvaluation = modelDto.PostEvaluations.Any(x => x.CreatedUserId == userId);
             modelDto.IsFavorite = modelDto.PostFavorites.Any(x => x.CreatedUserId == userId);
             modelDto.PostEvaluations = modelDto.PostEvaluations.Take(0);
