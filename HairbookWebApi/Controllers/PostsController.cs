@@ -37,11 +37,10 @@ namespace HairbookWebApi.Controllers
             if (postSearchType == PostSearchType.Favorite)
             {
                 Expression<Func<PostFavorite, bool>> predicate = null;
-                var userFriends = await _unitOfWork.UserFriends.WhereAsync(x => x.CreatedUser.UserName == userName);
                 if (!string.IsNullOrEmpty(search) && search != "undefined" && search != "null")
-                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.OnlyMe && x.Post.CreatedUserId == userId) && x.Post.Customer.Name.Contains(search) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.OnlyMe && x.Post.CreatedUserId == userId) && x.CreatedUserId == userId && x.Post.Customer.Name.Contains(search);
                 else
-                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.OnlyMe && x.Post.CreatedUserId == userId) && (userFriends.Any(x1 => x1.FriendId == x.CreatedUserId) || x.CreatedUser.UserName == userName);
+                    predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.OnlyMe && x.Post.CreatedUserId == userId) && x.CreatedUserId == userId;
 
                 var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, predicate, x => x.PostId);
                 posts = models.Select(x => x.Post);
