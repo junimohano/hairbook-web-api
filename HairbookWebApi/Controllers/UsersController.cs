@@ -17,6 +17,8 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using HairbookWebApi.Models.Enums;
+using ImageSharp;
 
 namespace HairbookWebApi.Controllers
 {
@@ -255,7 +257,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost("PostUserImage/{userId}")]
-        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromRoute] int userId)
+        public async Task<IActionResult> Post(IFormFile uploadedFile, [FromRoute] int userId, UploadFileRotation uploadFileRotation = UploadFileRotation.Rotation0)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -277,10 +279,19 @@ namespace HairbookWebApi.Controllers
                             fileInfo.Delete();
                     }
 
-                    using (var fileStream = new FileStream(Path.Combine(_environment.WebRootPath, uploadPath), FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
+                    var ms = new MemoryStream();
+                    await uploadedFile.CopyToAsync(ms);
+                    var image = Image.Load(ms.ToArray());
+
+                    if (uploadFileRotation != UploadFileRotation.Rotation0)
+                        image.Rotate((int)uploadFileRotation);
+
+                    image.Save(Path.Combine(_environment.WebRootPath, uploadPath));
+
+                    //using (var fileStream = new FileStream(Path.Combine(_environment.WebRootPath, uploadPath), FileMode.Create))
+                    //{
+                    //    await uploadedFile.CopyToAsync(fileStream);
+                    //}
 
                     user.Image = uploadPath;
                     user.UpdatedDate = DateTime.Now;

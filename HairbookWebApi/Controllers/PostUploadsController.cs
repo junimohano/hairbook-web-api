@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using ImageSharp;
 
 namespace HairbookWebApi.Controllers
 {
@@ -33,7 +34,7 @@ namespace HairbookWebApi.Controllers
         }
 
         [HttpPost("{postId}")]
-        public async Task<IActionResult> Post([FromRoute] int postId, IFormFile uploadedFile, string memo, UploadCategoryType uploadCategoryType, UploadFileType uploadFileType, int userId)
+        public async Task<IActionResult> Post([FromRoute] int postId, IFormFile uploadedFile, int userId, string memo, UploadCategoryType uploadCategoryType, UploadFileType uploadFileType, UploadFileRotation uploadFileRotation = UploadFileRotation.Rotation0)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -47,10 +48,15 @@ namespace HairbookWebApi.Controllers
 
                 if (uploadedFile.Length > 0)
                 {
-                    using (var fileStream = new FileStream(Path.Combine(_environment.WebRootPath, uplaodPath), FileMode.Create))
-                    {
-                        await uploadedFile.CopyToAsync(fileStream);
-                    }
+                    var ms = new MemoryStream();
+                    await uploadedFile.CopyToAsync(ms);
+                    var image = Image.Load(ms.ToArray());
+
+                    if(uploadFileRotation != UploadFileRotation.Rotation0)
+                        image.Rotate((int)uploadFileRotation);
+                    
+                    image.Save(Path.Combine(_environment.WebRootPath, uplaodPath));
+
                     var postUpload = new PostUpload()
                     {
                         PostId = postId,

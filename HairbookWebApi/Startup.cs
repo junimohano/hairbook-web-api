@@ -167,7 +167,7 @@ namespace HairbookWebApi
 
             app.UseStaticFiles();
 
-            app.UseApiVersioning();
+            //app.UseApiVersioning();
 
             // It should be after JwtBearerAuth
             app.UseMvc(routes =>
