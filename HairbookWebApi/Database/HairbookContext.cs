@@ -17,10 +17,8 @@ namespace HairbookWebApi.Database
         public DbSet<PostHairMenu> PostHairMenus { get; set; }
         public DbSet<PostHairType> PostHairTypes { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
-        public DbSet<PostCommentTag> PostCommentTags { get; set; }
         public DbSet<PostUpload> PostUploads { get; set; }
         public DbSet<Salon> Salons { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserFriend> UserFriends { get; set; }
         public DbSet<PostFavorite> UserFavorites { get; set; }
@@ -46,10 +44,7 @@ namespace HairbookWebApi.Database
 
             modelBuilder.Entity<PostComment>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostComment>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<PostCommentTag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<PostCommentTag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
+            
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostEvaluation>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 
@@ -64,10 +59,7 @@ namespace HairbookWebApi.Database
 
             modelBuilder.Entity<Salon>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Salon>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Tag>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Tag>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
-
+            
             modelBuilder.Entity<PostUpload>().HasOne(x => x.CreatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<PostUpload>().HasOne(x => x.UpdatedUser).WithMany().OnDelete(DeleteBehavior.Restrict);
 

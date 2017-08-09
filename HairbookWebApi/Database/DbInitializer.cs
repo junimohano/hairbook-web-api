@@ -93,23 +93,7 @@ namespace HairbookWebApi.Database
             };
             context.Salons.AddRange(salons);
             context.SaveChanges();
-
-            var tags = new[]
-            {
-                new Tag(){ TagName = "Tag1" },
-                new Tag(){ TagName = "Tag2" },
-                new Tag(){ TagName = "Tag3" },
-                new Tag(){ TagName = "Tag4" },
-                new Tag(){ TagName = "Tag5" },
-                new Tag(){ TagName = "Tag6" },
-                new Tag(){ TagName = "Tag7" },
-                new Tag(){ TagName = "Tag8" },
-                new Tag(){ TagName = "Tag9" },
-                new Tag(){ TagName = "Tag10" },
-            };
-            context.Tags.AddRange(tags);
-            context.SaveChanges();
-
+            
             var posts = new[]
             {
                 new Post(){ CustomerId = 1, Date = DateTime.Now, Memo = "Test1", SalonId = 1, HairTypeMemo = "too thin", AccessType = AccessType.Public },
@@ -134,22 +118,7 @@ namespace HairbookWebApi.Database
             };
             context.PostComments.AddRange(postComments);
             context.SaveChanges();
-
-            var postCommentTags = new[]
-        {
-                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 1, TagId = 1},
-                new PostCommentTag(){ PostCommentId = 2, CreatedUserId = 1, TagId = 2},
-                new PostCommentTag(){ PostCommentId = 3, CreatedUserId = 1, TagId = 3},
-                new PostCommentTag(){ PostCommentId = 4, CreatedUserId = 4, TagId = 4},
-                new PostCommentTag(){ PostCommentId = 5, CreatedUserId = 1, TagId = 5},
-                new PostCommentTag(){ PostCommentId = 6, CreatedUserId = 1, TagId = 6},
-                new PostCommentTag(){ PostCommentId = 7, CreatedUserId = 1, TagId = 7},
-                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 2, TagId = 8},
-                new PostCommentTag(){ PostCommentId = 1, CreatedUserId = 3, TagId = 9},
-            };
-            context.PostCommentTags.AddRange(postCommentTags);
-            context.SaveChanges();
-
+            
             var postEvaluations = new[]
             {
                 new PostEvaluation(){ PostId = 1, CreatedUserId = 1, EvaluationType= EvaluationType.Like },

@@ -10,7 +10,5 @@ namespace HairbookWebApi.Dtos
         public PostDto Post { get; set; }
 
         public string Comment { get; set; }
-
-        public IEnumerable<TagDto> Tags { get; set; }
     }
 }

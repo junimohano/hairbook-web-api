@@ -15,7 +15,5 @@ namespace HairbookWebApi.Models
         public Post Post { get; set; }
         
         public string Comment { get; set; }
-
-        public IEnumerable<Tag> Tags { get; set; }
     }
 }

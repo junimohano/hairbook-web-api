@@ -10,6 +10,8 @@ namespace HairbookWebApi.Dtos
     {
         public int PostId { get; set; }
 
+        public string Title { get; set; }
+
         public int CustomerId { get; set; }
         public CustomerDto Customer { get; set; }
 

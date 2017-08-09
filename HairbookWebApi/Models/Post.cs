@@ -23,6 +23,8 @@ namespace HairbookWebApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PostId { get; set; }
 
+        public string Title { get; set; }
+
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
