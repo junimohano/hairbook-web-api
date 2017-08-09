@@ -19,7 +19,7 @@ namespace HairbookWebApi.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<PostFavorite>> GetPostFavoritesAsync(int index, int count, Expression<Func<PostFavorite, bool>> predicate = null, Expression<Func<PostFavorite, int>> orderByDescending = null, bool isReadonly = true)
+        public async Task<IEnumerable<PostFavorite>> GetPostFavoritesAsync(int index, int count, Expression<Func<PostFavorite, bool>> predicate = null, Expression<Func<PostFavorite, DateTime>> orderByDescending1 = null, Expression<Func<PostFavorite, int>> orderByDescending2 = null, bool isReadonly = true)
         {
             IQueryable<PostFavorite> result = GetPostFavorites();
 
@@ -29,8 +29,10 @@ namespace HairbookWebApi.Repositories
             if (predicate != null)
                 result = result.Where(predicate);
 
-            if (orderByDescending != null)
-                result = result.OrderByDescending(orderByDescending);
+            if (orderByDescending1 != null && orderByDescending2 != null)
+                result = result.OrderByDescending(orderByDescending1).ThenByDescending(orderByDescending2);
+            else if (orderByDescending1 != null)
+                result = result.OrderByDescending(orderByDescending1);
 
             if (count != 0)
                 result = result.Skip(index)
@@ -38,7 +40,7 @@ namespace HairbookWebApi.Repositories
 
             return await result.ToListAsync();
         }
-
+        
         private IIncludableQueryable<PostFavorite, IEnumerable<PostFavorite>> GetPostFavorites()
         {
             return _context.UserFavorites
@@ -54,6 +56,6 @@ namespace HairbookWebApi.Repositories
                 .Include(x => x.Post).ThenInclude(x => x.PostUploads)
                 .Include(x => x.Post).ThenInclude(x => x.PostFavorites);
         }
-
+        
     }
 }

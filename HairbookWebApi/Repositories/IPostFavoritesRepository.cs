@@ -9,6 +9,6 @@ namespace HairbookWebApi.Repositories
 {
     public interface IPostFavoritesRepository : IRepository<PostFavorite>
     {
-        Task<IEnumerable<PostFavorite>> GetPostFavoritesAsync(int index, int count, Expression<Func<PostFavorite, bool>> predicate = null, Expression<Func<PostFavorite, int>> orderByDescending = null, bool isReadonly = true);
+        Task<IEnumerable<PostFavorite>> GetPostFavoritesAsync(int index, int count, Expression<Func<PostFavorite, bool>> predicate = null, Expression<Func<PostFavorite, DateTime>> orderByDescending1 = null, Expression<Func<PostFavorite, int>> orderByDescending2 = null, bool isReadonly = true);
     }
 }

@@ -1,16 +1,17 @@
 using AutoMapper;
+using HairbookWebApi.Auth;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
+using HairbookWebApi.Models.Enums;
 using HairbookWebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using HairbookWebApi.Auth;
-using HairbookWebApi.Models.Enums;
 
 namespace HairbookWebApi.Controllers
 {
@@ -42,7 +43,7 @@ namespace HairbookWebApi.Controllers
                 else
                     predicate = x => (x.Post.AccessType == AccessType.Public || x.Post.AccessType == AccessType.OnlyMe && x.Post.CreatedUserId == userId) && x.CreatedUserId == userId;
 
-                var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, predicate, x => x.PostId);
+                var models = await _unitOfWork.PostFavorites.GetPostFavoritesAsync(index, count, predicate, x => x.Post.Date, x => x.PostId);
                 posts = models.Select(x => x.Post);
             }
             else
@@ -104,9 +105,9 @@ namespace HairbookWebApi.Controllers
                         break;
                 }
 
-                posts = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate, x => x.PostId);
+                posts = await _unitOfWork.Posts.GetPostsAsync(index, count, predicate, x => x.Date, x => x.PostId);
             }
-            
+
             // Comment only 3
             var modelDtos = _mapper.Map<IEnumerable<Post>, IEnumerable<PostDto>>(posts);
             foreach (var modelDto in modelDtos)
@@ -220,7 +221,7 @@ namespace HairbookWebApi.Controllers
 
             return Ok(_mapper.Map<Post, PostDto>(model));
         }
-        
+
         [HttpGet("HairMenus")]
         public async Task<IActionResult> GetHairMenus()
         {
@@ -231,7 +232,7 @@ namespace HairbookWebApi.Controllers
 
             return Ok(_mapper.Map<IEnumerable<HairMenu>, IEnumerable<HairMenuDto>>(model));
         }
-        
+
         [HttpGet("HairTypes")]
         public async Task<IActionResult> GetHairTypes()
         {

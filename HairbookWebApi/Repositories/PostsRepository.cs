@@ -1,15 +1,14 @@
 ﻿using HairbookWebApi.Database;
 using HairbookWebApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using HairbookWebApi.Models.Enums;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace HairbookWebApi.Repositories
 {
@@ -24,7 +23,7 @@ namespace HairbookWebApi.Repositories
             _environment = environment;
         }
 
-        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, int>> orderByDescending = null, bool isReadonly = true)
+        public async Task<ICollection<Post>> GetPostsAsync(int index, int count, Expression<Func<Post, bool>> predicate = null, Expression<Func<Post, DateTime>> orderByDescending1 = null, Expression<Func<Post, int>> orderByDescending2 = null, bool isReadonly = true)
         {
             IQueryable<Post> result = GetPosts();
 
@@ -34,12 +33,14 @@ namespace HairbookWebApi.Repositories
             if (predicate != null)
                 result = result.Where(predicate);
 
-            if (orderByDescending != null)
-                result = result.OrderByDescending(orderByDescending);
+            if (orderByDescending1 != null && orderByDescending2 != null)
+                result = result.OrderByDescending(orderByDescending1).ThenByDescending(orderByDescending2);
+            else if (orderByDescending1 != null)
+                result = result.OrderByDescending(orderByDescending1);
 
             if (count != 0)
                 result = result.Skip(index)
-                             .Take(count);
+                    .Take(count);
 
             return await result.ToListAsync();
         }
