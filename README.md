@@ -1,2 +1,10 @@
 # hairbook-web-api
-restful api for an application of hairbook
+Asp.Net Core WebApi Restful for an application of hairbook.
+
+- Entity Framework Core
+- Auto Mapper
+- Dtos
+- Repository Patterns
+- Swagger
+- JWT Bearer Authentication
+- Application Insights
