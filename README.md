@@ -5,7 +5,7 @@ http://hairbookwebapi.azurewebsites.net/api/v1/values
 
 - Entity Framework Core
 - Auto Mapper
-- Dtos
+- Data Transfer Object
 - Repository Patterns
 - Swagger
 - JWT Bearer Authentication
