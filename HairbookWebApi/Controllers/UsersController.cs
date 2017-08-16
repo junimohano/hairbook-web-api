@@ -2,7 +2,9 @@ using AutoMapper;
 using HairbookWebApi.Auth;
 using HairbookWebApi.Dtos;
 using HairbookWebApi.Models;
+using HairbookWebApi.Models.Enums;
 using HairbookWebApi.Repositories;
+using ImageSharp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,8 +19,6 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using HairbookWebApi.Models.Enums;
-using ImageSharp;
 
 namespace HairbookWebApi.Controllers
 {

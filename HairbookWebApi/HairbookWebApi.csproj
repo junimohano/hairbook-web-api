@@ -1,47 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/51886058-653a-48b4-9ad1-242bee81f6d5/resourcegroups/HairbookGroup/providers/microsoft.insights/components/HairbookInsights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/51886058-653a-48b4-9ad1-242bee81f6d5/resourcegroups/HairbookGroup/providers/microsoft.insights/components/HairbookInsights</ApplicationInsightsAnnotationResourceId>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
     <UserSecretsId>729a3b56-519d-4ad1-9602-951f99cad2ce</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="wwwroot\uploads\posts\636324232474535016_download.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324232546772032_3c7d3bb65e1a6e2a34a3faed5a665f1d.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324634446580830_5dc3bd98b4482e93ee99c7d54d7bcff8.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324634521366194_a970d88c0f6d3134f84e99427fcb0ca4.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324634734101147_Quick-Last-minute-Hairstyles-For-Working-Women0041-1.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324635695961081_989b4fd57f9c9b80cce80c457da0ae1c.jpg" />
-    <Content Include="wwwroot\uploads\posts\636324635749501488_cd264af1dda2815467b6e55ee51657aa.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355080714365370_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355740542066314_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355742133906110_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355742916270996_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355745854674070_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355746228060530_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355747223335045_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355749121372530_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355749125995861_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355750061704185_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355750065867141_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355858840859563_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355858844797577_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355859391396184_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355859394478038_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355860834288796_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355860837432172_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355862041901175_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355862045196720_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636355931324918868_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636356777651261639_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636356779422225320_Image_333c9eb.jpg" />
-    <Content Include="wwwroot\uploads\posts\636356785936975775_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636359170376902345_Image_b0efc0b.jpg" />
-    <Content Include="wwwroot\uploads\posts\636359171628539046_Image_333c9eb.jpg" />
-  </ItemGroup>
 
   <!--<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile></DocumentationFile>
@@ -59,24 +24,25 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00175" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="1.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="1.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="2.0.0" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="1.2.1" />-->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
     <PackageReference Include="Swashbuckle" Version="6.0.0-beta902" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
@@ -89,5 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\uploads\users\" />
+    <Folder Include="wwwroot\uploads\posts\" />
   </ItemGroup>
 </Project>
