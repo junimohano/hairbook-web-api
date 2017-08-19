@@ -82,7 +82,7 @@ namespace HairbookWebApi
             });
 
             //services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
-            services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContextPool<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //#if DEBUG
             //#else
             //#endif
