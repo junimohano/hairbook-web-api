@@ -80,12 +80,13 @@ namespace HairbookWebApi
                 options.DescribeAllEnumsAsStrings();
                 options.OperationFilter<FileUploadOperation>(); //Register File Upload Operation Filter
             });
-
+            
+#if DEBUG
             //services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
+            services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+#else
             services.AddDbContextPool<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //#if DEBUG
-            //#else
-            //#endif
+#endif
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -135,17 +136,17 @@ namespace HairbookWebApi
                     };
                 });
 
-                // Auth0
-                //var options = new JwtBearerOptions
-                //{
-                //    TokenValidationParameters =
-                //    {
-                //        ValidIssuer = $"https://{Configuration["auth0:domain"]}/",
-                //        ValidAudience = Configuration["auth0:clientId"],
-                //        IssuerSigningKey = new SymmetricSecurityKey(secret)
-                //    }
-                //};
-                //app.UseJwtBearerAuthentication(options);
+            // Auth0
+            //var options = new JwtBearerOptions
+            //{
+            //    TokenValidationParameters =
+            //    {
+            //        ValidIssuer = $"https://{Configuration["auth0:domain"]}/",
+            //        ValidAudience = Configuration["auth0:clientId"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(secret)
+            //    }
+            //};
+            //app.UseJwtBearerAuthentication(options);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
