@@ -68,12 +68,13 @@ namespace HairbookWebApi
                 options.OperationFilter<FileUploadOperation>(); //Register File Upload Operation Filter
             });
             
-#if DEBUG
-            //services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
             services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-#else
-            services.AddDbContextPool<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-#endif
+            //#if DEBUG
+            //            services.AddDbContext<HairbookContext>(x => x.UseInMemoryDatabase());
+            //            services.AddDbContext<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //#else
+            //            services.AddDbContextPool<HairbookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //#endif
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
