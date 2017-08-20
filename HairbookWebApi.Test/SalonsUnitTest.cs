@@ -1,6 +1,6 @@
-using System;
 using FluentAssertions;
 using HairbookWebApi.Dtos;
+using HairbookWebApi.Test.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
@@ -8,10 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using HairbookWebApi.Models;
-using HairbookWebApi.Repositories;
-using HairbookWebApi.Test.Core;
-using Moq;
 using Xunit;
 
 namespace HairbookWebApi.Test
